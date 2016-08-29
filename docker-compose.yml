@@ -1,0 +1,31 @@
+mysql:
+  image: mysql
+  container_name: database
+  ports:
+
+    - 3306:3306
+
+  environment:
+    MYSQL_DATABASE: zoefin
+    MYSQL_ROOT_PASSWORD: z03f1n
+
+php:
+  image: php:fpm-alpine
+  container_name: php
+  volumes:
+    - .:/var/www/laravel
+  entrypoint:
+    - php-fpm
+
+nginx:
+  image: nginx:alpine
+  container_name: nginx
+  volumes_from:
+    - php
+  volumes:
+    - ./build/nginx.conf:/etc/nginx/conf.d/default.conf
+  links:
+    - php
+  ports:
+    - 80:80
+
