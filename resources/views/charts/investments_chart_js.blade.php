@@ -30,7 +30,7 @@
                         labels: dataLabels,
                         datasets: [
                             {
-                                
+
                                 backgroundColor: colors,
                                 borderColor: colors,
                                 borderWidth: 1,
