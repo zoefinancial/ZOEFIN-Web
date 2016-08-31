@@ -22,7 +22,7 @@ $(document).ready(
             }
 
             var ctx = $("#{{ $canvas_id }}").get(0).getContext("2d");
-
+            $("#{{ $canvas_id }}_loading").get(0).className="hidden";
             var chartData = {
                 labels: dataLabels,
                     datasets: [
@@ -53,9 +53,25 @@ $(document).ready(
                     options: {
                         barShowStroke: true,
                         scaleBeginAtZero : false,
-                        scaleOverride: true,
                         responsive: true,
                         barBeginAtOrigin: true,
+                        scales: {
+                            yAxes: [
+                                {
+                                    ticks: {
+                                        callback: function(label, index, labels) {
+                                            return '$' + label.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+                                            //return label/1000 + 'k'
+                                        }
+                                    },
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'USD'
+                                        //labelString: '1k = $1000'
+                                    }
+                                }
+                            ]
+                        },
                         legend: {
                             display: false
                         }

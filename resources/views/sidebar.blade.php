@@ -30,7 +30,7 @@
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
-            <li class="header">HEADER</li>
+            <!-- <li class="header">HEADER</li> -->
             <!-- Optionally, you can add icons to the links -->
             <li class="active"><a href="#"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
             <li><a href="#"><i class="fa fa-signal"></i><span>Investments</span></a></li>

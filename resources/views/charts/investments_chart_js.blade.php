@@ -43,6 +43,8 @@
 
                     var pieChartCanvas = $("#{{ $pie_canvas_id }}").get(0).getContext("2d");
 
+                    $("#{{ $pie_canvas_id }}_loading").get(0).className="hidden";
+
                     var pieChart = new Chart(pieChartCanvas, {
                         type:'pie',
                         data : pieChartData,

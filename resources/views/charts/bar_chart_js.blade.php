@@ -47,6 +47,8 @@ count++;
 }
 
 var ctx = $("#{{ $canvas_id }}").get(0).getContext("2d");
+
+$("#{{ $canvas_id }}_loading").get(0).className ="hidden";
 // var ctxTemp = document.getElementById("graphTest").getContext("2d");
 var chartData = {
 labels: dataLabels,
@@ -59,6 +61,7 @@ data : chartData,
 options: {
 barShowStroke: true,
 scaleBeginAtZero : false,
+scaleLabel : "<%= value + ' + two = ' + (Number(value) + 2)   %>",
 scaleOverride: true,
 responsive: true,
 barBeginAtOrigin: true,
