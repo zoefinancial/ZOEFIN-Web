@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a26e1794-ce03-4030-b64d-d75214c23689" name="Default" comment="Functional changes:&#10;-Hide loading icon on chart toolbox&#10;&#10;Visual changes:&#10;-Sidebar header hidden&#10;-Top menu buttons hidden&#10;-Loading icon on chart toolbox&#10;-yAxis legend test">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+    <list default="true" id="a26e1794-ce03-4030-b64d-d75214c23689" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/charts/bar_chart_js.blade.php" afterPath="$PROJECT_DIR$/resources/views/charts/bar_chart_js.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/charts/chart.blade.php" afterPath="$PROJECT_DIR$/resources/views/charts/chart.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/charts/invesments_chart.blade.php" afterPath="$PROJECT_DIR$/resources/views/charts/invesments_chart.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/charts/investments_chart_js.blade.php" afterPath="$PROJECT_DIR$/resources/views/charts/investments_chart_js.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/charts/net_worth_barchart_js.blade.php" afterPath="$PROJECT_DIR$/resources/views/charts/net_worth_barchart_js.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/header.blade.php" afterPath="$PROJECT_DIR$/resources/views/header.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/sidebar.blade.php" afterPath="$PROJECT_DIR$/resources/views/sidebar.blade.php" />
     </list>
     <ignored path="ZOEFIN-Web.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -82,13 +76,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="invesments_chart.blade.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="invesments_chart.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/charts/invesments_chart.blade.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="60">
-              <caret line="4" column="40" selection-start-line="4" selection-start-column="40" selection-end-line="4" selection-end-column="40" />
+              <caret line="4" column="85" selection-start-line="4" selection-start-column="57" selection-end-line="4" selection-end-column="85" />
               <folding>
-                <element signature="e#740#786#0#HTML" expanded="true" />
+                <element signature="e#741#787#0#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -104,11 +98,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="chart.blade.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="chart.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/charts/chart.blade.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="60">
-              <caret line="4" column="85" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="85" />
+              <caret line="4" column="80" selection-start-line="4" selection-start-column="80" selection-end-line="4" selection-end-column="80" />
               <folding />
             </state>
           </provider>
@@ -168,11 +162,11 @@
         <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/resources/views/header.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/sidebar.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/charts/chart.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/charts/bar_chart_js.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/charts/net_worth_barchart_js.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/charts/investments_chart_js.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/charts/invesments_chart.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/charts/chart.blade.php" />
       </list>
     </option>
   </component>
@@ -363,12 +357,20 @@
       <updated>1471989815743</updated>
       <workItem from="1471989818771" duration="3000" />
       <workItem from="1471989859293" duration="36868000" />
-      <workItem from="1472658097554" duration="3739000" />
+      <workItem from="1472658097554" duration="4050000" />
     </task>
+    <task id="LOCAL-00001" summary="Functional changes:&#10;-Hide loading icon on chart toolbox&#10;&#10;Visual changes:&#10;-Sidebar header hidden&#10;-Top menu buttons hidden&#10;-Loading icon on chart toolbox&#10;-yAxis legend test">
+      <created>1472663027282</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1472663027282</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="40610000" />
+    <option name="totallyTimeSpent" value="40921000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="6" y="23" width="1360" height="736" extended-state="6" />
@@ -377,7 +379,7 @@
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22989377" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32847896" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32847896" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -631,11 +633,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/charts/bar_chart_js.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/charts/investments_chart_js.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="50" column="36" selection-start-line="50" selection-start-column="36" selection-end-line="50" selection-end-column="36" />
+        <state relative-caret-position="270">
+          <caret line="45" column="81" selection-start-line="45" selection-start-column="81" selection-end-line="45" selection-end-column="81" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/charts/invesments_chart.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="85" selection-start-line="4" selection-start-column="57" selection-end-line="4" selection-end-column="85" />
+          <folding>
+            <element signature="e#741#787#0#HTML" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -647,10 +659,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/charts/investments_chart_js.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/charts/bar_chart_js.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="45" column="81" selection-start-line="45" selection-start-column="81" selection-end-line="45" selection-end-column="81" />
+        <state relative-caret-position="236">
+          <caret line="50" column="36" selection-start-line="50" selection-start-column="36" selection-end-line="50" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/charts/net_worth_barchart.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="3" selection-end-column="8" />
           <folding />
         </state>
       </provider>
@@ -666,26 +686,8 @@
     <entry file="file://$PROJECT_DIR$/resources/views/charts/chart.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
-          <caret line="4" column="85" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="85" />
+          <caret line="4" column="80" selection-start-line="4" selection-start-column="80" selection-end-line="4" selection-end-column="80" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/charts/net_worth_barchart.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="3" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/charts/invesments_chart.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="40" selection-start-line="4" selection-start-column="40" selection-end-line="4" selection-end-column="40" />
-          <folding>
-            <element signature="e#740#786#0#HTML" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
