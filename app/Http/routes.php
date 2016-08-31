@@ -27,7 +27,15 @@ Route::get('/dashboard',
 Route::get('/user/net_worth',
     ['middleware' => 'auth',
         function () {
-            return response()->json(['Assets' => '817000', 'Liabilities' => '226600','Net Worth'=>'590400']);
+            return response()->json(Auth::user()->getNetWorth());
+        }
+    ]
+);
+
+Route::get('/user/detailed/net_worth',
+    ['middleware' => 'auth',
+        function () {
+            return response()->json( Auth::user()->getDetailedNetWorth());
         }
     ]
 );
@@ -35,34 +43,7 @@ Route::get('/user/net_worth',
 Route::get('/user/cash_flow',
     ['middleware' => 'auth',
         function () {
-            return response()->json(
-                [
-                    'Income after tax' => [
-                        '2012' => 130000,
-                        '2013' => 135000,
-                        '2014' => 150000,
-                        '2015' => 155000,
-                        '2016' => 165000,
-                        '2017' => 175000
-                    ],
-                    'Expenses' => [
-                        '2012' => 120000,
-                        '2013' => 120000,
-                        '2014' => 125000,
-                        '2015' => 140000,
-                        '2016' => 145000,
-                        '2017' => 150000,
-                    ],
-                    'Savings' => [
-                        '2012' => 10000,
-                        '2013' => 15000,
-                        '2014' => 25000,
-                        '2015' => 15000,
-                        '2016' => 20000,
-                        '2017' => 25000,
-                    ]
-                ]
-            );
+            return response()->json(Auth::user()->getCashFlow());
         }
     ]
 );
@@ -70,20 +51,7 @@ Route::get('/user/cash_flow',
 Route::get('/user/investments',
     ['middleware' => 'auth',
         function () {
-            return response()->json(
-                [
-                    'Investments'=>[
-                        '401k'=>'40000',
-                        'IRA'=>'50000',
-                        'JPM Funds'=>'20000',
-                        'E-Trade'=>'15000'
-                    ],
-                    'Taxes Related Info'=>[
-                        'Taxable'=>'90000',
-                        'Tax Defered'=>'35000'
-                    ]
-                ]
-            );
+            return response()->json(Auth::user()->getInvestments());
         }
     ]
 );

@@ -4,8 +4,8 @@
     <div class="row">
         <div class="col-lg-8 col-md-12">
         <!-- NET WORTH CHART -->
-            {{-- @include('charts.net_worth_barchart',['url'=>'/user/net_worth','canvas_id'=>'netWorthChart']) --}}
-            @include('charts.net_worth_barchart',['box_title'=>'Net Worth','url'=>'/user/net_worth','canvas_id'=>'netWorthChart'])
+            @include('charts.net_worth_barchart',['box_title'=>'Net Worth','url'=>'/user/detailed/net_worth','canvas_id'=>'netWorthChart'])
+            {{-- @include('charts.net_worth_barchart',['box_title'=>'Net Worth','url'=>'/user/detailed/net_worth','canvas_id'=>'netWorthChart']) --}}
         <!-- /.box -->
         </div>
         <div class="col-lg-4 col-md-6">
