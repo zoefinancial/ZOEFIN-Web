@@ -105,6 +105,11 @@ class User extends Authenticatable
                 'Total'=>'0',
                 'Liabilities'=>'40000',
                 'Net Worth'=>'0'
+            ],
+            'Credit card'=>[
+                'Total'=>'0',
+                'Liabilities'=>'20000',
+                'Net Worth'=>'0'
             ]
         );
     }

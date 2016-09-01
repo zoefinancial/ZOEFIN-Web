@@ -21,7 +21,9 @@ var colors=['rgba(75, 192, 192, 0.5)',
 'rgba(54, 162, 235, 0.5)',
 'rgba(255, 206, 86, 0.5)',
 'rgba(153, 102, 255, 0.5)',
-'rgba(255, 159, 64, 0.5)'];
+'rgba(255, 159, 64, 0.5)',
+'rgba(0,0,0, 0.5)',
+];
 
 for (name in entry) {
 var data=[];
@@ -35,9 +37,9 @@ dataLabels.push(year);
 }
 var dataset={
 label: name,
-backgroundColor: colors[count%6],
-borderColor: colors[count%6],
-pointColor: colors[count%6],
+backgroundColor: colors[count%7],
+borderColor: colors[count%7],
+pointColor: colors[count%7],
 pointStrokeColor: "#c1c7d1",
 pointHighlightFill: "#fff",
 pointHighlightStroke: "rgba(220,220,220,1)",
