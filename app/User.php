@@ -77,37 +77,37 @@ class User extends Authenticatable
     function getDetailedNetWorth(){
         return array(
             'Home'=>[
-                'Total'=>'700000',
+                'Assets'=>'700000',
                 'Liabilities'=>'480000',
                 'Net Worth'=>'220000'
             ],
             'Retirement Savings'=>[
-                'Total'=>'182000',
+                'Assets'=>'182000',
                 'Liabilities'=>'0',
                 'Net Worth'=>'142000'
             ],
             'Brokerage Investments'=>[
-                'Total'=>'55000',
+                'Assets'=>'55000',
                 'Liabilities'=>'0',
                 'Net Worth'=>'55000'
             ],
             'Car'=>[
-                'Total'=>'20000',
+                'Assets'=>'20000',
                 'Liabilities'=>'15000',
                 'Net Worth'=>'5000'
             ],
             'Cash'=>[
-                'Total'=>'30000',
+                'Assets'=>'30000',
                 'Liabilities'=>'0',
                 'Net Worth'=>'10000'
             ],
             'Student Loan'=>[
-                'Total'=>'0',
+                'Assets'=>'0',
                 'Liabilities'=>'40000',
                 'Net Worth'=>'0'
             ],
             'Credit card'=>[
-                'Total'=>'0',
+                'Assets'=>'0',
                 'Liabilities'=>'20000',
                 'Net Worth'=>'0'
             ]
