@@ -1,4 +1,7 @@
-<div class="box box-success">
+@php
+    $s=(isset($style) ? $style : '');
+@endphp
+<div class="box box-success" style="{{ $s }}">
     <div class="box-header with-border">
         <h3 class="box-title">{{ $box_title }}</h3>
         <div class="box-tools pull-right">
@@ -10,7 +13,7 @@
     </div>
     <div class="box-body">
         <div class="chart">
-            <canvas id="{{ $canvas_id }}" style="padding-left:10px; padding-right:10px;">
+            <canvas id="{{ $canvas_id }}" style="padding-left:10px; padding-right:10px; height: 400px;">
             </canvas>
         </div>
     </div>

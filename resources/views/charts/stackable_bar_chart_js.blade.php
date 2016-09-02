@@ -63,20 +63,28 @@
                     scaleOverride: true,
                     responsive: true,
                     barBeginAtOrigin: true,
+                    height: 400,
                     legend: {
                         display: false
-                    },scales:{
+                    },
+                    scales: {
+                        xAxes: [{
+                            stacked: true,
+                            scaleLabel: {
+                                display: true,
+                            },
+                            gridLines:{
+                                display:false
+                            }
+                        }],
                         yAxes: [{
+                            stacked: true,
                             labelString: '1K = $1.000 1M = 1.000.000',
                             ticks: {
                                 callback: function(label, index, labels) {
                                     return humanReadableMoney(label);
                                 }
-                            },gridLines:{
-                                display:false
-                            }
-                        }],
-                        xAxes:[{
+                            },
                             gridLines:{
                                 display:false
                             }

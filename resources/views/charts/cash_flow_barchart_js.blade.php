@@ -52,7 +52,7 @@
                 datasets: dataSets
             };
 
-            var barChart = new Chart(ctx, {
+            new Chart(ctx, {
                 type:'bar',
                 data : chartData,
                 options: {

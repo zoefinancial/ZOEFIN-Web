@@ -13,10 +13,9 @@
                 object_row=ajaxData[row];
 
                 $("#{{ $canvas_id }}").append('<tr><td>'+row+'</td>' +
-                        '<td>'+humanReadableMoney(object_row['Coverage'],0)+'</td>' +
-                        '<td>'+object_row['Type']+'</td>' +
-                        '<td>'+object_row['Years coverage']+'</td>' +
-                        '<td>$'+object_row['Annual Payment']+'</td>' +
+                        '<td>'+object_row['Marginal Tax Rate']+'</td>' +
+                        '<td>'+object_row['Effective Tax Rate']+'</td>' +
+                        '<td>'+humanReadableMoney(object_row['Tax Amount'],0)+'</td>' +
                         '</tr>');
             }
         });

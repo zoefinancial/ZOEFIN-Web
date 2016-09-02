@@ -1,4 +1,7 @@
 @include('charts.chart',['box_title'=>$box_title])
 @push('scripts')
-    @include('charts.bar_chart_js',['url'=>$url,'canvas_id'=>$canvas_id])
+    @php
+        $js_s = isset($js) ? $js : 'charts.bar_chart_js';
+    @endphp
+    @include($js_s,['url'=>$url,'canvas_id'=>$canvas_id])
 @endpush

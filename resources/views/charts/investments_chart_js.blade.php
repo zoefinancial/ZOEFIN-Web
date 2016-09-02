@@ -87,7 +87,7 @@
 
                     var barChartCanvas = $("#{{ $bar_canvas_id }}").get(0).getContext("2d");
 
-                    var barChart = new Chart(barChartCanvas, {
+                    new Chart(barChartCanvas, {
                         type:'bar',
                         data : barChartData,
                         options: {
@@ -98,6 +98,20 @@
                             barBeginAtOrigin: true,
                             legend: {
                                 display: false
+                            },
+                            scales: {
+                                yAxes: [
+                                    {
+                                        ticks: {
+                                           callback: function(label, index, labels) {
+                                                  return humanReadableMoney(label);
+                                            }
+                                        },
+                                        scaleLabel: {
+                                            display: true
+                                        }
+                                   }
+                                ]
                             }
                         }
                     });

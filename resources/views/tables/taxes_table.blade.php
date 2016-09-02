@@ -13,11 +13,10 @@
             <table id="{{ $canvas_id }}" class="table table-striped table-hover" cellspacing="0" width="100%" class="">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Coverage <br/>($ Millions)</th>
-                    <th>Type</th>
-                    <th>Years coverage</th>
-                    <th>Annual Payment</th>
+                    <th>Year</th>
+                    <th title="Percentage taken from your next dollar of taxable income. Why it matters? You need to know it to calculate what amount of your raise or bonus you’ll get to keep after taxes or whether it is worthwhile to contribute more to your tax-advantaged accounts">Marginal Tax Rate</th>
+                    <th title="Total Tax Paid / Taxable Income. Why it matters?	Typically a more accurate reflection of what your overall tax bill than its marginal tax rate.">Effective Tax Rate</th>
+                    <th>Tax Amount</th>
                 </tr>
                 </thead>
             </table>
@@ -26,5 +25,11 @@
 </div>
 
 @push('scripts')
-    @include('tables.insurance_table_js',['canvas_id'=>$canvas_id])
+    @include('tables.taxes_table_js',['canvas_id'=>$canvas_id])
+<script>
+    $( function() {
+        $( document ).tooltip();
+    } );
+    $({selector}).tooltip({html: true});
+</script>
 @endpush

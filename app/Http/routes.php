@@ -19,7 +19,24 @@ Route::get('/', function () {
 Route::get('/dashboard',
     ['middleware' => 'auth',
         function () {
-            return view('dashboard',["page_title"=>"Zoe Financial Dashboard"]);
+            return view('dashboard',["page_title"=>"Zoe Financial Dashboard","side_bar_active_item"=>'dashboard']);
+        }
+    ]
+);
+
+Route::get('/insurance',
+    ['middleware' => 'auth',
+        function () {
+            return view('insurance',["page_title"=>"Insurance",'side_bar_active_item'=>'insurance']);
+        }
+    ]
+);
+
+
+Route::get('/user/insurance/prediction',
+    ['middleware' => 'auth',
+        function () {
+            return response()->json(Auth::user()->getInsurancePrediction());
         }
     ]
 );
@@ -52,6 +69,14 @@ Route::get('/user/cash_flow',
     ['middleware' => 'auth',
         function () {
             return response()->json(Auth::user()->getCashFlow());
+        }
+    ]
+);
+
+Route::get('/user/taxes',
+    ['middleware' => 'auth',
+        function () {
+            return response()->json(Auth::user()->getTaxesInformation());
         }
     ]
 );

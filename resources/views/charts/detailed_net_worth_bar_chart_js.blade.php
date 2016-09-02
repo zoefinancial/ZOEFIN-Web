@@ -56,18 +56,28 @@
                 datasets: dataSets
             };
 
-            var barChart = new Chart(ctx, {
+            new Chart(ctx, {
                 type:'bar',
                 data : chartData,
                 options: {
                     scales: {
                         xAxes: [{
-                            stacked: true
+                            stacked: true,
+                            scaleLabel: {
+                                display: true,
+
+                            }
                         }],
                         yAxes: [{
-                            stacked: true
+                            stacked: true,
+                            labelString: '1K = $1.000 1M = 1.000.000',
+                            ticks: {
+                                callback: function(label, index, labels) {
+                                    return humanReadableMoney(label);
+                                }
+                            },
                         }]
-                    }
+                    },
                 }
 
             });
