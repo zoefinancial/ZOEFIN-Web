@@ -74,6 +74,23 @@ class User extends Authenticatable
         );
     }
 
+    function getInsuranceSummary(){
+        return array(
+            'Current Insurance Coverage (John)'=>[
+                'Coverage'=>'2000000',
+                'Type'=>'Term insurance',
+                'Years coverage'=>'20',
+                'Annual Payment'=>'1500'
+            ],
+            'Current Insurance Coverage (Melissa)'=>[
+                'Coverage'=>'2000000',
+                'Type'=>'Term insurance',
+                'Years coverage'=>'20',
+                'Annual Payment'=>'1500'
+            ]
+        );
+    }
+
     function getDetailedNetWorth(){
         return array(
             'Home'=>[

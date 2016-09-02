@@ -1,3 +1,4 @@
+<script>
 $(document).ready(
     function() {
         $.ajax(
@@ -7,14 +8,12 @@ $(document).ready(
         ).then(function(ajaxData) {
             var entry;
             var name;
-            var count;
 
             var dataLabels=[];
             var dataValues=[];
 
             entry = ajaxData;
 
-            count = 0;
 
             for (name in entry) {
                 dataLabels.push(name);
@@ -82,3 +81,4 @@ $(document).ready(
         );
     }
 );
+</script>

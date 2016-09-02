@@ -19,7 +19,7 @@ Route::get('/', function () {
 Route::get('/dashboard',
     ['middleware' => 'auth',
         function () {
-            return view('charts',["page_title"=>"Zoe Financial Dashboard"]);
+            return view('dashboard',["page_title"=>"Zoe Financial Dashboard"]);
         }
     ]
 );
@@ -28,6 +28,14 @@ Route::get('/user/net_worth',
     ['middleware' => 'auth',
         function () {
             return response()->json(Auth::user()->getNetWorth());
+        }
+    ]
+);
+
+Route::get('/user/insurance/summary',
+    ['middleware' => 'auth',
+        function () {
+            return response()->json(Auth::user()->getInsuranceSummary());
         }
     ]
 );

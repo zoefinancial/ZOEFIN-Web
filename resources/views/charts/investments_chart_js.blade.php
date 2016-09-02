@@ -1,11 +1,10 @@
-
+<script>
     $(document).ready(
             function() {
                 $.ajax({
                     url: "{{ $url }}"
                 }).then(function(ajaxData) {
                     var entry;
-                    var count;
 
                     var name;
 
@@ -105,3 +104,4 @@
                 });
             }
     );
+</script>

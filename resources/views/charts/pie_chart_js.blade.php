@@ -1,3 +1,4 @@
+<script>
 $(document).ready(
     function() {
         $.ajax({
@@ -7,7 +8,6 @@ $(document).ready(
                 var year;
                 var count;
 
-                var level2;
                 var name;
 
                 var dataSets=[];
@@ -71,3 +71,4 @@ $(document).ready(
             });
         }
     );
+</script>
