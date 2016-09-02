@@ -18,7 +18,7 @@
         </div>
         <div class="col-lg-8 col-md-12">
             <!-- INSURANCE TABLE -->
-            @include('tables.insurance_table',['box_title'=>'Insurance Summary','canvas_id'=>'insurance_summary_table','url'=>'/user/insurance/summary'])
+            @include('tables.insurance_table',['box_title'=>'Current Insurance Summary','canvas_id'=>'insurance_summary_table','url'=>'/user/insurance/summary'])
         </div>
     </div> <!-- /row -->
 @endsection

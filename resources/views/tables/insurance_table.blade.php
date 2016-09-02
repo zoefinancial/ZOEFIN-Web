@@ -14,7 +14,7 @@
                 <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Coverage</th>
+                    <th>Coverage <br/>($ Millions)</th>
                     <th>Type</th>
                     <th>Years coverage</th>
                     <th>Annual Payment</th>

@@ -7,18 +7,18 @@
             $("#{{ $canvas_id }}_loading").get(0).className = "hidden";
 
             var row;
-            var index;
-
-            var table = $("#{{ $canvas_id }}").get(0);
+            var object_row;
 
             for ( row in ajaxData){
+                object_row=ajaxData[row];
 
                 $("#{{ $canvas_id }}").append('<tr><td>'+row+'</td>' +
-                        '<td>'+ajaxData[row]['Coverage']+'</td>' +
-                        '<td>'+ajaxData[row]['Type']+'</td>' +
-                        '<td>'+ajaxData[row]['Years coverage']+'</td>' +
-                        '<td>'+ajaxData[row]['Annual Payment']+'</td>' +
+                        '<td>'+humanReadableMoney(object_row['Coverage'],0)+'</td>' +
+                        '<td>'+object_row['Type']+'</td>' +
+                        '<td>'+object_row['Years coverage']+'</td>' +
+                        '<td>$'+object_row['Annual Payment']+'</td>' +
                         '</tr>');
+                //num.toFixed(2);
             }
         });
     } );
