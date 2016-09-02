@@ -67,6 +67,15 @@ $(document).ready(
                                         display: true,
                                         labelString: 'USD'
                                         //labelString: '1k = $1000'
+                                    },
+                                    gridLines:{
+                                        display:false
+                                    }
+                                }
+                            ],xAxes:[
+                                {
+                                    gridLines:{
+                                        display:false
                                     }
                                 }
                             ]

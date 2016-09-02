@@ -66,6 +66,9 @@
                             scaleLabel: {
                                 display: true,
 
+                            },
+                            gridLines:{
+                                display:false
                             }
                         }],
                         yAxes: [{
@@ -76,8 +79,11 @@
                                     return humanReadableMoney(label);
                                 }
                             },
+                            gridLines:{
+                                display:false
+                            }
                         }]
-                    },
+                    }
                 }
 
             });

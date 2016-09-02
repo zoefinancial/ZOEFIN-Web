@@ -1,6 +1,6 @@
 <div class="box box-success">
     <div class="box-header with-border">
-        <h3 class="box-title">{{ $box_title }}</h3>
+        <h3 class="box-title"><a href="/insurance">{{ $box_title }}</a></h3>
         <div class="box-tools pull-right">
             <i id="{{ $canvas_id }}_loading" class="fa fa-spinner fa-pulse fa-fw"></i>
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
