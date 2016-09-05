@@ -16,6 +16,10 @@ Route::get('/', function () {
     return redirect('dashboard');
 });
 
+/*
+ * Side Menu options
+ * */
+
 Route::get('/dashboard',
     ['middleware' => 'auth',
         function () {
@@ -32,11 +36,22 @@ Route::get('/insurance',
     ]
 );
 
-
-Route::get('/user/insurance/prediction',
+Route::get('/taxes',
     ['middleware' => 'auth',
         function () {
-            return response()->json(Auth::user()->getInsurancePrediction());
+            return view('taxes',["page_title"=>"Taxes",'side_bar_active_item'=>'taxes']);
+        }
+    ]
+);
+
+/*
+ * Web Services
+ * */
+
+Route::get('/user/insurance/prediction/{id}',
+    ['middleware' => 'auth',
+        function ($id) {
+            return response()->json(Auth::user()->getInsurancePrediction($id));
         }
     ]
 );
@@ -57,7 +72,7 @@ Route::get('/user/insurance/summary',
     ]
 );
 
-Route::get('/user/detailed/net_worth',
+Route::get('/user/net_worth/detailed',
     ['middleware' => 'auth',
         function () {
             return response()->json( Auth::user()->getDetailedNetWorth());
@@ -73,10 +88,18 @@ Route::get('/user/cash_flow',
     ]
 );
 
-Route::get('/user/taxes',
+Route::get('/user/taxes/summary',
     ['middleware' => 'auth',
         function () {
             return response()->json(Auth::user()->getTaxesInformation());
+        }
+    ]
+);
+
+Route::get('/user/taxes/detailed/{year}',
+    ['middleware' => 'auth',
+        function ($year) {
+            return response()->json(Auth::user()->getDetailedTaxes($year));
         }
     ]
 );
@@ -89,6 +112,9 @@ Route::get('/user/investments',
     ]
 );
 
+/*
+ * Authentication
+ * */
 
 Route::auth();
 

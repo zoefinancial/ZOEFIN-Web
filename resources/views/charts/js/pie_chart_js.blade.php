@@ -54,7 +54,7 @@ $(document).ready(
                     datasets: dataSets
                 };
 
-                var barChart = new Chart(ctx, {
+                new Chart(ctx, {
                     type:'pie',
                     data : chartData,
                     options: {

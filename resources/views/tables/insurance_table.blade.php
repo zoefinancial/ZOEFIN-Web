@@ -26,5 +26,5 @@
 </div>
 
 @push('scripts')
-    @include('tables.insurance_table_js',['canvas_id'=>$canvas_id])
+    @include('tables.js.insurance_table_js',['canvas_id'=>$canvas_id])
 @endpush

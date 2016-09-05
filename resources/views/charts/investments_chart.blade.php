@@ -25,5 +25,5 @@
 </div>
 
 @push('scripts')
-    @include('charts.investments_chart_js',['url'=>'/user/investments','pie_canvas_id'=>'investments_pie_chart','bar_canvas_id'=>'investments_bar_chart'])
+    @include('charts.js.investments_chart_js',['url'=>'/user/investments','pie_canvas_id'=>'investments_pie_chart','bar_canvas_id'=>'investments_bar_chart'])
 @endpush

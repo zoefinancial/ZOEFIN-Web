@@ -83,6 +83,10 @@ class User extends Authenticatable
         );
     }
 
+    function getFamilyMembers(){
+        return array('1'=>['id'=>'1','name'=>'John'],'2'=>['id'=>'2','name'=>'Melissa']);
+    }
+
     /**
      * Function to retrieve the Insurance Summary data
      */
@@ -103,11 +107,22 @@ class User extends Authenticatable
         );
     }
 
-    function getInsurancePrediction(){
+    function getInsurancePrediction($id)
+    {
+        $family_resources = 257000;
+        if ($id == '1') {
+            $family_need = 2882164;
+
+        } else if ($id == '2') {
+            $family_need = 2149032;
+        } else {
+            return null;
+        }
+        $total = $family_need - $family_resources;
         return array(
-            'Total Family Would Need'=>['Total Family Would Need'=>'4601884','Family Resources'=>'0'],
-            'Available Resources'=>['Total Family Would Need'=>'0','Family Resources'=>'257000'],
-            'Insurance Need'=>['Total Family Would Need'=>'0','Family Resources'=>'4344884']
+            'Total Family Would Need' => ['Total Family Would Need' => $family_need, 'Family Resources' => '0'],
+            'Available Resources' => ['Total Family Would Need' => '0', 'Family Resources' => $family_resources],
+            'Insurance Need' => ['Total Family Would Need' => '0', 'Family Resources' => $total]
         );
     }
 
@@ -156,9 +171,18 @@ class User extends Authenticatable
 
     function getTaxesInformation(){
         return array(
-            '2014'=>['Marginal Tax Rate'=>'25%','Effective Tax Rate'=>'20%','Tax Amount'=>'30000'],
-            '2015'=>['Marginal Tax Rate'=>'26%','Effective Tax Rate'=>'22%','Tax Amount'=>'35000'],
-            '2016'=>['Marginal Tax Rate'=>'27%','Effective Tax Rate'=>'24%','Tax Amount'=>'40000']
+            '2014'=>['Marginal Tax Rate'=>'25%','Effective Tax Rate'=>'20%','Taxes Paid'=>'30000'],
+            '2015'=>['Marginal Tax Rate'=>'26%','Effective Tax Rate'=>'22%','Taxes Paid'=>'35000'],
+            '2016'=>['Marginal Tax Rate'=>'27%','Effective Tax Rate'=>'24%','Taxes Paid'=>'40000','Estimated'=>'true']
         );
+    }
+
+    function getDetailedTaxes($year){
+        if($year==2015){
+            return array(['Tax Type'=>'Federal','Marginal Tax Rate'=>'28%','Effective Tax Rate'=>'18%','Tax Amount'=>'44123'],
+                ['Tax Type'=>'Social Security','Marginal Tax Rate'=>'1.45%','Effective Tax Rate'=>'6,7%','Tax Amount'=>'16715'],
+                ['Tax Type'=>'State','Marginal Tax Rate'=>'6,7%','Effective Tax Rate'=>'6,3%','Tax Amount'=>'15664'],
+                ['Tax Type'=>'Local','Marginal Tax Rate'=>'0%','Effective Tax Rate'=>'0%','Tax Amount'=>'0']);
+        }
     }
 }

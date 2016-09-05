@@ -6,7 +6,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>{{ $page_title or "Zoe Financial Dashboard" }}</title>
+    <title>{{ $page_title or "Dashboard" }}</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.2 -->
     <link href="{{ asset("/bower_components/AdminLTE/bootstrap/css/bootstrap.min.css") }}" rel="stylesheet" type="text/css" />
@@ -41,18 +41,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                {{ $page_title or "Zoe Financial" }}
-                <small>{{ $page_description or null }}</small>
-            </h1>
-            <!-- You can dynamically generate breadcrumbs here -->
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                <li class="active">Here</li>
-            </ol>
-        </section>
+
 
         <!-- Main content -->
         <section class="content">
@@ -83,7 +72,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
-
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 @yield('javascript')
+<script>
+    $( function() {
+        $( document ).tooltip();
+    } );
+</script>
 </body>
 </html>

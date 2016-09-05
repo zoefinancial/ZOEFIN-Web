@@ -41,7 +41,7 @@
             <!-- Optionally, you can add icons to the links -->
             <li class="{{ $dasboard_active }}"><a href="/dashboard"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
             <li class="{{ $investments_active }}"><a href="#"><i class="fa fa-signal"></i><span>Investments</span></a></li>
-            <li class="{{ $taxes_active }}"><a href="#"><i class="fa fa-pencil-square-o"></i><span>Taxes</span></a></li>
+            <li class="{{ $taxes_active }}"><a href="taxes"><i class="fa fa-pencil-square-o"></i><span>Taxes</span></a></li>
             <li class="{{ $budgeting_active }}"><a href="#"><i class="fa fa-usd "></i><span>Budgeting</span></a></li>
             <li class="{{ $insurance_active }}"><a href="/insurance"><i class="fa fa-umbrella"></i><span>Insurance</span></a></li>
         </ul><!-- /.sidebar-menu -->
