@@ -35,7 +35,7 @@ function humanReadableMoney(s){
     }
     return null;
 }
-
+/**/
 Array.prototype.contains = function(obj) {
     var i = this.length;
     while (i--) {
