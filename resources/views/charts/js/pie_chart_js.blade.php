@@ -5,12 +5,11 @@ $(document).ready(
             url: "{{ $url }}"
             }).then(function(ajaxData) {
                 var entry;
-                var year;
                 var count;
 
                 var name;
 
-                var dataSets=[];
+                var dataValues=[];
                 var dataLabels=[];
 
                 entry = ajaxData;
@@ -23,51 +22,52 @@ $(document).ready(
                 'rgba(153, 102, 255, 0.5)',
                 'rgba(255, 159, 64, 0.5)'];
 
-                for (name in entry) {
-                    var data=[];
-                    var values = entry[name];
+            for (name in entry) {
+                dataLabels.push(name);
+                dataValues.push(entry[name]);
+            }
 
-                    for (year in values){
-                        data.push(values[year]);
-                        if(count==0){
-                            dataLabels.push(year);
+                var pieChartData = {
+                    labels: dataLabels,
+                    datasets: [
+                        {
+                            backgroundColor: colors,
+                            borderColor: colors,
+                            borderWidth: 1,
+                            highlightFill: "rgba(220,220,0,1)",
+                            highlightStroke: "rgba(0,220,220,1)",
+                            data: dataValues
                         }
-                    }
-                    var dataset={
-                        label: name,
-                        backgroundColor: colors[count%6],
-                        borderColor: colors[count%6],
-                        pointColor: colors[count%6],
-                        pointStrokeColor: "#c1c7d1",
-                        pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: data
-                    };
-                    dataSets.push(dataset);
-                    count++;
-                }
+                    ]
+                };
 
                 var ctx = $("#{{ $canvas_id }}").get(0).getContext("2d");
 
-                var chartData = {
-                    labels: dataLabels,
-                    datasets: dataSets
-                };
 
                 new Chart(ctx, {
                     type:'pie',
-                    data : chartData,
+                    data : pieChartData,
                     options: {
+                        tooltips: {
+                            callbacks: {
+                                label: function(tooltipItem, data) {
+                                    var datasetLabel = data.labels[tooltipItem.index] || 'Other';
+                                    var value=data.datasets[0].data[tooltipItem.index];
+                                    return  datasetLabel + ' : '+humanReadableMoney(value);
+                                }
+                            }
+                        },
                         barShowStroke: true,
                         scaleBeginAtZero : false,
                         scaleOverride: true,
                         responsive: true,
                         barBeginAtOrigin: true,
                         legend: {
-                            display: false
+                            display: true
                         }
                     }
                 });
+                $("#{{ $canvas_id }}_loading").get(0).className="hidden";
             });
         }
     );

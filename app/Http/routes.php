@@ -96,6 +96,14 @@ Route::get('/user/taxes/summary',
     ]
 );
 
+Route::get('/user/taxes/total/{year}',
+    ['middleware' => 'auth',
+        function ($year) {
+            return response()->json(Auth::user()->getTotalTaxes($year));
+        }
+    ]
+);
+
 Route::get('/user/taxes/detailed/{year}',
     ['middleware' => 'auth',
         function ($year) {

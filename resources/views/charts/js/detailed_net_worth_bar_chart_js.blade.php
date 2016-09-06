@@ -60,6 +60,16 @@
                 type:'bar',
                 data : chartData,
                 options: {
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || 'Other';
+                                //var label = data.labels[tooltipItem.index];
+                                var value=data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                                return  datasetLabel +' : '+ humanReadableMoney(value,2);
+                            }
+                        }
+                    },
                     scales: {
                         xAxes: [{
                             stacked: true,

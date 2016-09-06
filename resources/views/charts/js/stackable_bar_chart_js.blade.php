@@ -59,6 +59,15 @@
             type:'bar',
             data : chartData,
             options: {
+                tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || 'Other';
+                            var value=data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                            return  datasetLabel +' : '+ humanReadableMoney(value);
+                        }
+                    }
+                },
                 scales: {
                     xAxes: [{
                         stacked: true,
@@ -71,7 +80,7 @@
                     }],
                     yAxes: [{
                         stacked: true,
-                        labelString: '1K = $1.000 1M = 1.000.000',
+                        labelString: '1K = $1,000 1M = 1,000,000',
                         ticks: {
                             callback: function(label, index, labels) {
                                 return humanReadableMoney(label);

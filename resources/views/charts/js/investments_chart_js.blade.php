@@ -44,7 +44,7 @@
 
                     $("#{{ $pie_canvas_id }}_loading").get(0).className="hidden";
 
-                    var pieChart = new Chart(pieChartCanvas, {
+                    new Chart(pieChartCanvas, {
                         type:'pie',
                         data : pieChartData,
                         options: {
@@ -91,6 +91,16 @@
                         type:'bar',
                         data : barChartData,
                         options: {
+                            tooltips: {
+                                callbacks: {
+                                    label: function(tooltipItem, data) {
+                                        var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || 'Other';
+                                        //var label = data.labels[tooltipItem.index];
+                                        var value=data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                                        return  datasetLabel +' : '+ humanReadableMoney(value,2);
+                                    }
+                                }
+                            },
                             barShowStroke: true,
                             scaleBeginAtZero : false,
                             scaleOverride: true,
