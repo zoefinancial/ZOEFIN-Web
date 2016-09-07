@@ -2,8 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a26e1794-ce03-4030-b64d-d75214c23689" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/ZOEFIN-Web.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/blade.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
     </list>
     <ignored path="ZOEFIN-Web.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -577,7 +581,7 @@
       <workItem from="1472737176086" duration="40017000" />
       <workItem from="1473172625853" duration="13138000" />
       <workItem from="1473274395763" duration="955000" />
-      <workItem from="1473275483059" duration="267000" />
+      <workItem from="1473275483059" duration="495000" />
     </task>
     <task id="LOCAL-00001" summary="Functional changes:&#10;-Hide loading icon on chart toolbox&#10;&#10;Visual changes:&#10;-Sidebar header hidden&#10;-Top menu buttons hidden&#10;-Loading icon on chart toolbox&#10;-yAxis legend test">
       <created>1472663027282</created>
@@ -653,7 +657,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="98638000" />
+    <option name="totallyTimeSpent" value="98866000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="773" extended-state="6" />
