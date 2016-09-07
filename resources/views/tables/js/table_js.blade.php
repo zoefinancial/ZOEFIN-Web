@@ -31,7 +31,12 @@
                         }
                     }
                     if(count==0){
-                        titles+='<th>'+col+'</th>';
+                        if(tooltips.contains(col)){
+                            titles+='<th title='+tooltips(col)+'>'+col+'</th>';
+                        }else{
+                            titles+='<th>'+col+'</th>';
+                        }
+
                     }
                     if (typeof totals[col] != "undefined"){
                     }else{
