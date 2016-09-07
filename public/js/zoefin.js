@@ -2,6 +2,15 @@
 
 var miles_separator=',';
 var decimal_separator='.';
+var currency_format_indicators = ['']
+var percentage_format_indicators=['Household Effective Tax Rate'];
+
+var colors=['rgba(75, 192, 192, 0.5)',
+    'rgba(255, 99, 132, 0.5)',
+    'rgba(54, 162, 235, 0.5)',
+    'rgba(255, 206, 86, 0.5)',
+    'rgba(153, 102, 255, 0.5)',
+    'rgba(255, 159, 64, 0.5)'];
 
 Number.prototype.format = function(n, x, s, c) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')',
@@ -36,12 +45,16 @@ function humanReadableMoney(s){
     return null;
 }
 /**/
-Array.prototype.contains = function(obj) {
-    var i = this.length;
-    while (i--) {
-        if (this[i] === obj) {
-            return true;
+
+Object.defineProperty(Array.prototype, "contains", {
+    enumerable: false,
+    value: function(obj) {
+        var i = this.length;
+        while (i--) {
+            if (this[i] === obj) {
+                return true;
+            }
         }
+        return false;
     }
-    return false;
-}
+});

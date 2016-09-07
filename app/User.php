@@ -198,4 +198,32 @@ class User extends Authenticatable
                 ['Tax Type'=>'Local','Marginal Tax Rate'=>'0%','Effective Tax Rate'=>'0%','Tax Amount'=>'0']);
         }
     }
+
+    function getTaxesComparison(){
+        return array(
+            'Adjusted Gross Income'=>
+                [
+                    2011=>195000,
+                    2012=>195000,
+                    2013=>205000,
+                    2014=>225000,
+                    2015=>256000,
+                    2016=>270000
+                ],
+            'Household Effective Tax Rate'=>
+                [
+                    2011=>'21',
+                    2012=>'23',
+                    2013=>'26',
+                    2014=>'26',
+                    2015=>'28',
+                    2016=>'29'
+                ]
+            );
+
+        /*
+         195000	195000	205000	225000	256000	270000
+        21%	23%	26%	26%	28%	29%
+          */
+    }
 }
