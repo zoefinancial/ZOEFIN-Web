@@ -48,13 +48,15 @@
             if(total){
                 newLine='';
                 for(var col in totals){
-                    if(isNaN(totals[col])){
-                        newLine+='<td>-</td>';
-                    }else{
-                        if(moneyFormat.contains(col)){
-                            newLine+='<td title="$'+tableMoneyFormat(totals[col],0)+'">'+humanReadableMoney(totals[col])+'</td>';
+                    if(typeof col != "function"){
+                        if(isNaN(totals[col])){
+                            newLine+='<td><b>TOTAL</b></td>';
                         }else{
-                            newLine+='<td>'+totals[col]+'</td>';
+                            if(moneyFormat.contains(col)){
+                                newLine+='<td title="$'+tableMoneyFormat(totals[col],0)+'"><b>'+humanReadableMoney(totals[col])+'</b></td>';
+                            }else{
+                                newLine+='<td><b>'+totals[col]+'</b></td>';
+                            }
                         }
                     }
                 }

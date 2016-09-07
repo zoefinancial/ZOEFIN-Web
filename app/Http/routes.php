@@ -64,18 +64,18 @@ Route::get('/user/net_worth',
     ]
 );
 
-Route::get('/user/insurance/summary',
-    ['middleware' => 'auth',
-        function () {
-            return response()->json(Auth::user()->getInsuranceSummary());
-        }
-    ]
-);
-
 Route::get('/user/net_worth/detailed',
     ['middleware' => 'auth',
         function () {
             return response()->json( Auth::user()->getDetailedNetWorth());
+        }
+    ]
+);
+
+Route::get('/user/insurance/summary',
+    ['middleware' => 'auth',
+        function () {
+            return response()->json(Auth::user()->getInsuranceSummary());
         }
     ]
 );
@@ -108,6 +108,14 @@ Route::get('/user/taxes/detailed/{year}',
     ['middleware' => 'auth',
         function ($year) {
             return response()->json(Auth::user()->getDetailedTaxes($year));
+        }
+    ]
+);
+
+Route::get('/user/taxes/comparison',
+    ['middleware' => 'auth',
+        function () {
+            return response()->json(Auth::user()->getTaxesComparison());
         }
     ]
 );
