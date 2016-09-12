@@ -21,8 +21,8 @@ class CreateOnBoardingTable extends Migration {
 			$table->date('date_birth');
 			$table->string('gender', 45)->nullable();
 			$table->integer('income');
-            $table->ipAddress('visitor_ip');
-            $table->text('visitor_data');
+            $table->ipAddress('visitor_ip')->nullable();
+            $table->text('visitor_data')->nullable();
             $table->timestamps();
 		});
 	}
