@@ -12,14 +12,15 @@ class CreateRelationshipTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('relationship', function(Blueprint $table)
+		Schema::create('relationships', function(Blueprint $table)
 		{
-			$table->integer('id', true);
-			$table->integer('individuals_id')->index('fk_relationship_individuals1_idx');
-			$table->integer('relative_id')->index('fk_relationship_individuals2_idx');
-			$table->integer('relationship_types_id')->index('fk_relationship_relationship_types1_idx');
+			$table->increments('id');
+			$table->integer('individuals_id')->index('fk_relationship_individuals_idx');
+			$table->integer('relative_id')->index('fk_relative_idx');
+			$table->integer('relationship_types_id')->index('fk_relationship_relationship_types_idx');
 			$table->date('date_start');
 			$table->date('date_end')->nullable();
+            $table->timestamps();
 		});
 	}
 
