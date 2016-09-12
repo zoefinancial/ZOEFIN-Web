@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateRelationshipTable extends Migration {
+class CreateRelationshipsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -32,7 +32,7 @@ class CreateRelationshipTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('relationship');
+		Schema::drop('relationships');
 	}
 
 }
