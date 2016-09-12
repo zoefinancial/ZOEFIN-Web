@@ -45,7 +45,15 @@ Route::get('/taxes',
 );
 
 /*
+ * END Side Menu options
+ * */
+
+/*
  * Web Services
+ * */
+
+/*
+ * INSURANCE
  * */
 
 Route::get('/user/insurance/prediction/{id}',
@@ -55,6 +63,22 @@ Route::get('/user/insurance/prediction/{id}',
         }
     ]
 );
+
+Route::get('/user/insurance/summary',
+    ['middleware' => 'auth',
+        function () {
+            return response()->json(Auth::user()->getInsuranceSummary());
+        }
+    ]
+);
+
+/*
+ * END INSURANCE
+ * */
+
+/*
+ * NET WORTH
+ * */
 
 Route::get('/user/net_worth',
     ['middleware' => 'auth',
@@ -72,13 +96,7 @@ Route::get('/user/net_worth/detailed',
     ]
 );
 
-Route::get('/user/insurance/summary',
-    ['middleware' => 'auth',
-        function () {
-            return response()->json(Auth::user()->getInsuranceSummary());
-        }
-    ]
-);
+
 
 Route::get('/user/cash_flow',
     ['middleware' => 'auth',
@@ -87,6 +105,14 @@ Route::get('/user/cash_flow',
         }
     ]
 );
+
+/*
+ * END NET WORTH
+ * */
+
+/*
+ * TAXES
+ * */
 
 Route::get('/user/taxes/summary',
     ['middleware' => 'auth',
@@ -120,6 +146,14 @@ Route::get('/user/taxes/comparison',
     ]
 );
 
+/*
+ * END TAXES
+ * */
+
+/*
+ * INVESTMENTS
+ * */
+
 Route::get('/user/investments',
     ['middleware' => 'auth',
         function () {
@@ -129,9 +163,33 @@ Route::get('/user/investments',
 );
 
 /*
+ * END INVESTMENTS
+ * */
+
+/*
+ * Test web services
+ * */
+
+Route::post('/test/forms',
+    ['middleware' => 'auth',
+        function () {
+            return response()->json(request()->all());
+        }
+    ]
+);
+
+/*
+ * END Test web services
+ * */
+
+/*
+ * END Web Services
+ * */
+
+/*
  * Authentication
  * */
 
 Route::auth();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/home', ['middleware' => 'auth']);

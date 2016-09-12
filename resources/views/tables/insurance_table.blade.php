@@ -10,7 +10,7 @@
     </div>
     <div class="box-body">
         <div class="table-responsive">
-            <table id="{{ $canvas_id }}" class="table table-striped table-hover" cellspacing="0" width="100%" class="">
+            <table id="{{ $canvas_id }}" class="tablesorter table table-striped table-hover" cellspacing="0" width="100%" class="">
                 <thead>
                 <tr>
                     <th>Name</th>

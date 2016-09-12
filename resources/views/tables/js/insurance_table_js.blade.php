@@ -19,6 +19,7 @@
                         '<td>$'+object_row['Annual Payment']+'</td>' +
                         '</tr>');
             }
+            $("#{{ $canvas_id }}").tablesorter();
         });
     } );
 </script>

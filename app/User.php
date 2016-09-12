@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use Illuminate\Support\Facades\DB;
+
 class User extends Authenticatable
 {
     /**
@@ -130,43 +132,44 @@ class User extends Authenticatable
      * Function to retrieve the Net Worth detailed data
      */
     function getDetailedNetWorth(){
-        return array(
-            'Home'=>[
-                'Assets'=>'700000',
-                'Liabilities'=>'480000',
-                'Net Worth'=>'220000'
-            ],
-            'Retirement Savings'=>[
-                'Assets'=>'182000',
-                'Liabilities'=>'0',
-                'Net Worth'=>'142000'
-            ],
-            'Brokerage Investments'=>[
-                'Assets'=>'55000',
-                'Liabilities'=>'0',
-                'Net Worth'=>'55000'
-            ],
-            'Car'=>[
-                'Assets'=>'20000',
-                'Liabilities'=>'15000',
-                'Net Worth'=>'5000'
-            ],
-            'Cash'=>[
-                'Assets'=>'30000',
-                'Liabilities'=>'0',
-                'Net Worth'=>'10000'
-            ],
-            'Student Loan'=>[
-                'Assets'=>'0',
-                'Liabilities'=>'40000',
-                'Net Worth'=>'0'
-            ],
-            'Credit card'=>[
-                'Assets'=>'0',
-                'Liabilities'=>'20000',
-                'Net Worth'=>'0'
-            ]
+        $accounts = DB::select('select account_type_id,
+  account_type_name,
+  case when account_category_id = 1 then total else 0 end Assets,
+  case when account_category_id = 2 then total else 0 end Liabilities
+from (
+select
+  account_category_id,
+  account_category_name,
+  account_type_id,
+  account_type_name,
+  account_current_value as total
+from zoefin_model_MF.Profiles
+  inner join zoefin_model_MF.Accounts using (profile_id)
+  inner join zoefin_model_MF.Account_types using (account_type_id)
+  inner join zoefin_model_MF.Account_subcategory using (account_subcategory_id)
+  inner join zoefin_model_MF.Account_category using (account_category_id)
+where user_id = ?
+  and account_category_id in (1,2)
+group by account_category_id,account_category_name,account_type_id,account_category_name
+order by account_category_id,account_category_name,account_type_id,account_category_name) AL'
+            ,[$this->id]);
+        $result = array();
+        $net_worth=0;
+        foreach($accounts as $account){
+            $array_account=array(
+                'Assets'=>$account->Assets,
+                'Liabilities'=>$account->Liabilities,
+                'Net Worth'=>0
+            );
+            $net_worth+=$account->Assets-$account->Liabilities;
+            $result[$account->account_type_name]=$array_account;
+        }
+        $result['Net Worth']=array(
+            'Assets'=>0,
+            'Liabilities'=>0,
+            'Net Worth'=>$net_worth
         );
+        return $result;
     }
 
     function getTaxesInformation(){
@@ -201,29 +204,22 @@ class User extends Authenticatable
 
     function getTaxesComparison(){
         return array(
-            'Adjusted Gross Income'=>
-                [
-                    2011=>195000,
-                    2012=>195000,
-                    2013=>205000,
-                    2014=>225000,
-                    2015=>256000,
-                    2016=>270000
-                ],
-            'Household Effective Tax Rate'=>
-                [
-                    2011=>'21',
-                    2012=>'23',
-                    2013=>'26',
-                    2014=>'26',
-                    2015=>'28',
-                    2016=>'29'
-                ]
-            );
-
-        /*
-         195000	195000	205000	225000	256000	270000
-        21%	23%	26%	26%	28%	29%
-          */
+            'Adjusted Gross Income'=>[
+                2011=>195000,
+                2012=>195000,
+                2013=>205000,
+                2014=>225000,
+                2015=>256000,
+                2016=>270000
+            ],
+            'Household Effective Tax Rate'=>[
+                2011=>'21',
+                2012=>'23',
+                2013=>'26',
+                2014=>'26',
+                2015=>'28',
+                2016=>'29'
+            ]
+        );
     }
 }

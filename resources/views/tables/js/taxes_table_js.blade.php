@@ -43,7 +43,7 @@
                 $("#{{ $canvas_id }}").append('<tr class="'+estimated_class+'" '+estimated_title+'>'+newLine+'</tr>');
 
             }
-
+            $("#{{ $canvas_id }}").tablesorter();
         });
     } );
 </script>

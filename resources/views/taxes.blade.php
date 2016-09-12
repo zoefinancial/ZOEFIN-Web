@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.app')
 @section('content')
     <div class="row row-height" >
         <div class="col-lg-6 col-md-12">
@@ -14,9 +14,4 @@
             @include('charts.line_chart',['box_title'=>'Taxes Comparison','url'=>'/user/taxes/comparison','canvas_id'=>'taxes_comparison'])
         </div>
     </div>
-@endsection
-@section('javascript')
-    <!-- ChartJS 2.2.1 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.min.js"></script>
-    @stack('scripts')
 @endsection

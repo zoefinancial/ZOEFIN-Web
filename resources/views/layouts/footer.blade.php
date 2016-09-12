@@ -4,5 +4,5 @@
 
     </div>
     <!-- Default to the left -->
-    <strong>Copyright © 2015 <a href="www.zoefin.com">Zoe Financial</a>.</strong> All rights reserved.
+    <strong>Copyright © 2016 <a href="http://www.zoefin.com">Zoe Financial</a>.</strong> All rights reserved.
 </footer>

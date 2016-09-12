@@ -31,10 +31,10 @@
                         }
                     }
                     if(count==0){
-                        if(tooltips.contains(col)){
-                            titles+='<th title='+tooltips(col)+'>'+col+'</th>';
+                        if(tooltips.containsKey(col)){
+                            titles+='<th title="'+tooltips[col]+' class="header">'+col+'</th>';
                         }else{
-                            titles+='<th>'+col+'</th>';
+                            titles+='<th class="header">'+col+'</th>';
                         }
 
                     }
@@ -67,6 +67,8 @@
                 }
                 $("#{{ $canvas_id }}").append('<tfoot><tr>'+newLine+'</tr></tfoot>');
             }
+            $("#{{ $canvas_id }}").tablesorter();
         });
     } );
+
 </script>
