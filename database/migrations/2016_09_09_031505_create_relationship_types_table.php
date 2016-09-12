@@ -14,8 +14,9 @@ class CreateRelationshipTypesTable extends Migration {
 	{
 		Schema::create('relationship_types', function(Blueprint $table)
 		{
-			$table->integer('id', true);
-			$table->string('description', 45);
+			$table->increments('id');
+			$table->string('description', 100);
+            $table->timestamps();
 		});
 	}
 
