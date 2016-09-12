@@ -1,5 +1,5 @@
 @extends('layouts.modal_dialog')
-@push('modal-body')
+@section('modal-body')
     <form action="{{ $url }}" method="post" id="{{ $id }}_form">
     @foreach( $inputs as $input )
         @if( $input['type']=='radio' )
@@ -19,17 +19,17 @@
             </div>
         @endif
     @endforeach
-        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        {{ csrf_field() }}
     </form>
     @php
         unset($inputs);
         unset($url);
     @endphp
-@endpush
+@endsection
 
-@push('modal-footer')
+@section('modal-footer')
     <button type="button" id="{{ $id or '' }}_submit_button" class="btn" >{{ $submit_button_label or 'Submit' }}</button>
-@endpush
+@endsection
 
 @push('scripts')
 <script>
@@ -47,6 +47,7 @@
             $('#{{ $id or '' }}').modal('toggle');
             $('#{{ $id or '' }}').find('form').trigger('reset');
 
+            document.getElementById('info_modal_description').innerHTML=str;
             $('#info_modal').modal('toggle');
         })
         .fail(function(response) {

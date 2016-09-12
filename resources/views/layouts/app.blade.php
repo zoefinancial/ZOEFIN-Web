@@ -33,6 +33,12 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
+
+@include('layouts.modal_dialog',
+    ['id'=>'info_modal',
+        'header'=>'Information',
+        'description'=>''])
+
 <!-- Header -->
 @include('layouts.header')
 
@@ -54,13 +60,9 @@
     @include('layouts.footer')
 </div><!-- ./wrapper -->
 
-
 @stack('modals')
 
-@include('layouts.modal_dialog',
-        ['id'=>'info_modal',
-            'header'=>'Information',
-            'description'=>''])
+
 
 <!-- REQUIRED JS SCRIPTS -->
 <!-- jQuery 2.1.3 -->

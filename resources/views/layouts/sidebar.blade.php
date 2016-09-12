@@ -13,7 +13,7 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
         <!-- Sidebar user panel (optional) -->
-        <div class="user-panel">
+        {{--<div class="user-panel">
             <div class="pull-left image">
                 <!--<img src="{{ asset("/bower_components/AdminLTE/dist/img/user2-160x160.jpg") }}" class="img-circle" alt="User Image" /> -->
                 <i class="fa fa-user"></i>
@@ -24,6 +24,8 @@
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
+        --}}
+        {{--
         <!-- search form (Optional) -->
         <form action="#" method="get" class="sidebar-form">
             <div class="input-group">
@@ -33,12 +35,14 @@
                     </span>
             </div>
         </form>
+        --}}
         <!-- /.search form -->
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
             <!-- <li class="header">HEADER</li> -->
             <!-- Optionally, you can add icons to the links -->
+            <li><a href="#"><i class="fa fa-plus"></i><span>Accounts</span></a></li>
             <li class="{{ $dasboard_active }}"><a href="/dashboard"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
             <li class="{{ $investments_active }}"><a href="#"><i class="fa fa-signal"></i><span>Investments</span></a></li>
             <li class="{{ $taxes_active }}"><a href="taxes"><i class="fa fa-pencil-square-o"></i><span>Taxes</span></a></li>
@@ -48,3 +52,6 @@
     </section>
     <!-- /.sidebar -->
 </aside>
+@push('modals')
+@include('layouts.modal_dialog',[''])
+@endpush
