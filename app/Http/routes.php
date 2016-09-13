@@ -162,6 +162,14 @@ Route::get('/user/investments',
     ]
 );
 
+Route::get('/onboarding', function () {
+    return view('onboarding');
+});
+
+Route::post('/onboarding', function (Request $request){
+
+});
+
 /*
  * END INVESTMENTS
  * */
