@@ -1,5 +1,5 @@
 @extends('layouts.modal_dialog')
-@section('modal-body')
+@section('modal-body-'.$id)
     <form action="{{ $url }}" method="post" id="{{ $id }}_form">
     @foreach( $inputs as $input )
         @if( $input['type']=='radio' )
@@ -27,7 +27,7 @@
     @endphp
 @endsection
 
-@section('modal-footer')
+@section('modal-footer-'.$id)
     <button type="button" id="{{ $id or '' }}_submit_button" class="btn" >{{ $submit_button_label or 'Submit' }}</button>
 @endsection
 

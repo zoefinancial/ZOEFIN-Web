@@ -18,7 +18,7 @@
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#" data-toggle="modal" data-target="#modal_home_form">Add</a></li>
+
                 <!-- User Account Menu -->
                 <li class="dropdown user user-menu">
                     <!-- Menu Toggle Button -->
@@ -64,24 +64,3 @@
         </div>
     </nav>
 </header>
-
-@push('modals')
-    @include('layouts.forms.modal_form',
-        [
-            'id'=>'modal_home_form',
-            'header'=>'Create Home',
-            'description'=>'Creating a home...',
-            'inputs'=>[
-                ['label'=>'Home name','id'=>'home_name','type'=>'text'],
-                ['label'=>'Home current value','id'=>'home_current_value','type'=>'number'],
-                ['label'=>'Home ZIPCODE','id'=>'home_zip','type'=>'number'],
-                ['label'=>'Home owner','id'=>'home_owner','type'=>'radio',
-                    'options'=>[
-                        ['id'=>'0','value'=>'0','label'=>'Both','checked'=>'checked'],
-                        ['id'=>'1','value'=>'1','label'=>'John'],
-                        ['id'=>'2','value'=>'2','label'=>'Melissa']
-                    ]
-                ]
-            ],
-            'submit_button_label'=>'Create Home','url'=>'/test/forms'])
-@endpush
