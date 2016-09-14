@@ -16,6 +16,10 @@ Route::get('/', function () {
     return redirect('dashboard');
 });
 
+Route::get('/onboarding', 'OnBoardingController@create');
+
+Route::post('/onboarding', 'OnBoardingController@store');
+
 /*
  * Side Menu options
  * */
@@ -161,12 +165,6 @@ Route::get('/user/investments',
         }
     ]
 );
-
-Route::get('/onboarding', function () {
-    return view('onboarding');
-});
-
-Route::post('/onboarding', 'OnBoardingController@store');
 
 /*
  * END INVESTMENTS

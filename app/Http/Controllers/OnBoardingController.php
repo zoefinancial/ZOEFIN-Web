@@ -11,6 +11,11 @@ use App\Http\Controllers\Controller;
 
 class OnBoardingController extends Controller
 {
+    public function create()
+    {
+        return view('onboarding');
+    }
+
     public function store()
     {
         $data = request()->all();
