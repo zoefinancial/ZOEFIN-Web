@@ -8,6 +8,8 @@
                     <section class="onboarding-madlib">
                         <h1>Financial Life</h1>
                         <form action="{{ url('onboarding') }}" method="POST" class="form-horizontal">
+                            @include('common.errors')
+                            
                             {{ csrf_field() }}
 
                             <h2>
