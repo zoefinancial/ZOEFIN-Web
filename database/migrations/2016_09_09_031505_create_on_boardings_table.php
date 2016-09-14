@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateOnBoardingTable extends Migration {
+class CreateOnBoardingsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,7 +12,7 @@ class CreateOnBoardingTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('on_boarding', function(Blueprint $table)
+		Schema::create('on_boardings', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('marital_status_id')->index('fk_user_profiles_marital_status_idx');
@@ -33,7 +33,7 @@ class CreateOnBoardingTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('on_boarding');
+		Schema::drop('on_boardings');
 	}
 
 }
