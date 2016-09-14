@@ -166,9 +166,7 @@ Route::get('/onboarding', function () {
     return view('onboarding');
 });
 
-Route::post('/onboarding', function (Request $request){
-
-});
+Route::post('/onboarding', 'OnBoardingController@store');
 
 /*
  * END INVESTMENTS
