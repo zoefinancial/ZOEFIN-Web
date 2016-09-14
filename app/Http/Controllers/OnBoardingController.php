@@ -25,6 +25,11 @@ class OnBoardingController extends Controller
         unset($data['age']);
 
         OnBoarding::create($data);
+
+        if ( ($data['income'] * 1) >= 120000 ) { //120.000 should be inside parameter
+            return view('onboarding/success');
+        }
+        return view('onboarding/recommend');
     }
 
     private function ageToDate($age)
