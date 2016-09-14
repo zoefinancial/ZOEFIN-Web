@@ -19,16 +19,16 @@
                                     years old
                                     <section class="selector-container">
                                         <select name="gender" class="cs-select cs-skin-underline">
-                                            <option value="1">woman</option>
-                                            <option value="2">man</option>
-                                            <option value="3">other</option>
+                                            <option value="F">woman</option>
+                                            <option value="M">man</option>
+                                            <option value="O">other</option>
                                         </select>
                                     </section>
                                 </span>
 
                                 <span class="text">and, I am</span>
                                     <section class="selector-container">
-                                        <select name="marital_status" class="cs-select cs-skin-underline">
+                                        <select name="marital_status_id" class="cs-select cs-skin-underline">
                                             <option value="1">Single</option>
                                             <option value="2">Married</option>
                                             <option value="3">Divorced</option>
