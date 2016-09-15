@@ -18,7 +18,7 @@
                                     <span class="madlib-error"></span>
                                     years old
                                     <section class="selector-container">
-                                        <select name="gender" class="cs-select cs-skin-underline">
+                                        <select name="gender" id="gender" class="cs-select cs-skin-underline">
                                             <option value="F">woman</option>
                                             <option value="M">man</option>
                                             <option value="O">other</option>
@@ -28,15 +28,15 @@
 
                                 <span class="text">and, I am</span>
                                     <section class="selector-container">
-                                        <select name="marital_status_id" class="cs-select cs-skin-underline">
+                                        <select name="marital_status_id" id="marital-status" class="cs-select cs-skin-underline">
                                             <option value="1">Single</option>
                                             <option value="2">Married</option>
                                             <option value="3">Divorced</option>
 
                                         </select>
                                     </section>
-                                <br>
-                                My annual income is $
+
+                                <span class="text text-nowrap"><span id="my-our">My</span> annual income is $</span>
                                 <span class="nowrap">
                                     <input type="text" placeholder="" maxlength="10" name="income" id="income" class="enter-income border">.
                                 </span>
