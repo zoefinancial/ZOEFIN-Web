@@ -14,7 +14,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password'
     ];
 
     /**
@@ -133,25 +133,25 @@ class User extends Authenticatable
      */
     function getDetailedNetWorth(){
         $accounts = DB::select('select account_type_id,
-  account_type_name,
-  case when account_category_id = 1 then total else 0 end Assets,
-  case when account_category_id = 2 then total else 0 end Liabilities
-from (
-select
-  account_category_id,
-  account_category_name,
-  account_type_id,
-  account_type_name,
-  account_current_value as total
-from zoefin_model_MF.Profiles
-  inner join zoefin_model_MF.Accounts using (profile_id)
-  inner join zoefin_model_MF.Account_types using (account_type_id)
-  inner join zoefin_model_MF.Account_subcategory using (account_subcategory_id)
-  inner join zoefin_model_MF.Account_category using (account_category_id)
-where user_id = ?
-  and account_category_id in (1,2)
-group by account_category_id,account_category_name,account_type_id,account_category_name
-order by account_category_id,account_category_name,account_type_id,account_category_name) AL'
+              account_type_name,
+              case when account_category_id = 1 then total else 0 end Assets,
+              case when account_category_id = 2 then total else 0 end Liabilities
+            from (
+            select
+              account_category_id,
+              account_category_name,
+              account_type_id,
+              account_type_name,
+              account_current_balance as total
+            from zoefin_model_MF.Profiles
+              inner join zoefin_model_MF.Accounts using (profile_id)
+              inner join zoefin_model_MF.Account_types using (account_type_id)
+              inner join zoefin_model_MF.Account_subcategory using (account_subcategory_id)
+              inner join zoefin_model_MF.Account_category using (account_category_id)
+            where user_id = ?
+              and account_category_id in (1,2)
+            group by account_category_id,account_category_name,account_type_id,account_category_name
+            order by account_category_id,account_category_name,account_type_id,account_category_name) AL'
             ,[$this->id]);
         $result = array();
         $net_worth=0;

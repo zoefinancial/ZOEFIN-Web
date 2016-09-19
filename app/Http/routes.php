@@ -95,7 +95,7 @@ Route::get('/user/net_worth',
 Route::get('/user/net_worth/detailed',
     ['middleware' => 'auth',
         function () {
-            return response()->json( Auth::user()->getDetailedNetWorth());
+            return response()->json(Auth::user()->getDetailedNetWorth());
         }
     ]
 );
@@ -178,6 +178,35 @@ Route::post('/test/forms',
     ['middleware' => 'auth',
         function () {
             return response()->json(request()->all());
+        }
+    ]
+);
+
+
+Route::post('/authenticate',
+    ['middleware' => 'auth',
+        function () {
+            $response = request()->all();
+
+            /*
+             array(5) {
+                ["_token"]=> string(40) "UcBuX5t8TJ2ojZaCQl4odDChv9Efa3CreaQmKzRe"
+                ["account"]=> string(15) "[object Object]"
+                ["account_id"]=> string(0) ""
+                ["institution"]=> array(2) {
+                    ["name"]=> string(5) "Chase"
+                    ["type"]=> string(5) "chase"
+                    }
+                ["public_token"]=> string(128) "5cbfe0e25cdbaceb833b127a8661b87a4e29d7b18f111d0da19c23ed9d412d208284db83e52f7cfdc86d1e684a40f45ada62dc19f185af36db31aac96f4c9b01"
+            }
+             * */
+            $plaidToken = new App\PlaidTokens;
+            $plaidToken->user_id=Auth::user()->id;
+            $plaidToken->institution_name=$response['institution']['name'];
+            $plaidToken->institution_type=$response['institution']['type'];
+            $plaidToken->public_token=$response['public_token'];
+            $plaidToken->save();
+            return redirect('dashboard');
         }
     ]
 );
