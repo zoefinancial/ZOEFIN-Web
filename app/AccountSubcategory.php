@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Account_subcategory extends Model{
+class AccountSubcategory extends Model{
     public $timestamps = false;
 
     protected $table = 'zoefin_model_MF.Account_subcategory';
