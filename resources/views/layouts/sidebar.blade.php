@@ -46,6 +46,7 @@
                 <ul class="treeview-menu">
                     <li class="treemenu"><a>Add Information</a>
                         <ul class="treeview-menu">
+                            <li class="treemenu" ><a>@include('layouts.forms.modal_plaid_form')</a></li>
                             <li class="treemenu"><a title="What i own">Assets</a>
                             <ul class="treeview-menu">
                                 <li data-toggle="modal" data-target="#modal_home_form"><a><i class="fa fa-home"></i> Home</a></li>
@@ -178,10 +179,4 @@
         ],
         'submit_button_label'=>'Create Car Loan','url'=>'/test/forms'
     ))
-
-/*
-
-Car Loan	Name
-Current Balance
-*/
 @endpush

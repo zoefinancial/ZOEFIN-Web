@@ -1,0 +1,13 @@
+#plaid-link-button {
+    background-color: #2c3b41 !important;
+    padding: 0px !important;
+    border: 0px;
+}
+
+#plaid-link-button:active {
+    outline-color: #2c3b41 !important;
+}
+
+#plaid-link-button:focus {
+    outline-color: #2c3b41 !important;
+}

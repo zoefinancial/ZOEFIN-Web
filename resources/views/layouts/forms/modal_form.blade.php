@@ -51,7 +51,8 @@
             $('#info_modal').modal('toggle');
         })
         .fail(function(response) {
-            alert('Error: ' + response.responseText);
+            document.getElementById('info_modal_description').innerHTML=response.Text;
+            $('#info_modal').modal('toggle');
         });
         return true;
     }
