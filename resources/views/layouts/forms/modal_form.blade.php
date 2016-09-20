@@ -2,15 +2,13 @@
 @section('modal-body-'.$id)
     <form action="{{ $url }}" method="post" id="{{ $id }}_form">
     @foreach( $inputs as $input )
-        @if( $input['type']=='radio' )
+        @if( $input['type']=='radio' or $input['type']=='radio-inline' )
             <label for="{{ $input['id'] }}">{{ $input['label'] or $input['id'] }}:</label>
             @foreach( $input['options'] as $option)
-                <div class="radio">
-                    <label>
+                    <label class="{{ $input['type'] }}">
                         <input type="radio" name="{{ $input['id'] }}" id="{{ $input['id'] }}_{{ $option['id'] }}" value="{{ $option['value'] or $option['id'] }}" {{ $option['checked'] or '' }}>
                         {{ $option['label'] or $option['id'] }}
                     </label>
-                </div>
             @endforeach
         @else
             <div class="form-group">
