@@ -14,18 +14,19 @@ class CreateIndividualsTable extends Migration {
 	{
 		Schema::create('individuals', function(Blueprint $table)
 		{
-			$table->integer('id', true);
+			$table->increments('id');
 			$table->integer('users_id')->index('fk_profiles_users1_idx');
-			$table->integer('marital_status_id')->index('fk_user_profiles_marital_status1_idx');
-			$table->string('name', 45)->nullable();
-			$table->string('lastname', 45)->nullable();
+			$table->integer('marital_status_id')->index('fk_user_profiles_marital_status1_idx')->nullable();
+			$table->string('name', 50)->nullable();
+			$table->string('lastname', 50)->nullable();
 			$table->date('datebirth')->nullable();
-			$table->string('gender', 45)->nullable();
-			$table->string('phone', 45)->nullable();
-			$table->string('mobile', 45)->nullable();
-			$table->integer('salary');
+			$table->string('gender', 1)->nullable();
+			$table->string('phone', 20)->nullable();
+			$table->string('mobile', 20)->nullable();
+			$table->integer('salary')->nullable();
 			$table->integer('bonus')->nullable();
 			$table->boolean('principal')->default(0);
+            $table->timestamps();
 		});
 	}
 
