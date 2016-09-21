@@ -10,7 +10,6 @@ namespace App\Http\Controllers;
 
 
 use App\QuovoUsers;
-use Illuminate\Support\Facades\Auth;
 use Wela\Quovo;
 
 class QuovoClientController
