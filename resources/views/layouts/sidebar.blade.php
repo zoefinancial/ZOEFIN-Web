@@ -47,6 +47,7 @@
                     <li class="treemenu"><a>Add Information</a>
                         <ul class="treeview-menu">
                             <li class="treemenu" ><a>@include('layouts.forms.modal_plaid_form')</a></li>
+                            <li class="treemenu" id="quovo_button_id"><a>Quovo</a>
                             <li class="treemenu"><a title="What i own">Assets</a>
                             <ul class="treeview-menu">
                                 <li data-toggle="modal" data-target="#modal_home_form"><a><i class="fa fa-home"></i> Home</a></li>
@@ -78,6 +79,7 @@
     <!-- /.sidebar -->
 </aside>
 @push('modals')
+@include('layouts.forms.modal_quovo_iframe',['id'=>'quovo_modal','button_id'=>'quovo_button_id','iframe_id'=>'quovo_iframe_id','header'=>'Quovo'])
 @include('layouts.modal_dialog',['id'=>'info_modal'])
 @include('layouts.forms.modal_form',array(
         'id'=>'modal_home_form',

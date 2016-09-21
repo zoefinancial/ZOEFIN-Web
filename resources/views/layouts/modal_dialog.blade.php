@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div id="{{ $id or '$id'}}" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="{{ $style or '' }}">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">

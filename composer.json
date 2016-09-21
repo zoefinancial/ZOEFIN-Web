@@ -1,6 +1,6 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
+    "name": "zoefinancial/zoefin",
+    "description": "ZoeFinancial Front End",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
@@ -8,6 +8,13 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*"
     },
+    "repositories":
+    [
+        {
+            "type": "vcs",
+            "url": "https://github.com/zoefinancial/quovo-php"
+        }
+    ],
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",

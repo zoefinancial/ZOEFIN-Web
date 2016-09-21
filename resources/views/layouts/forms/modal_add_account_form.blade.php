@@ -46,9 +46,9 @@
             document.getElementById('info_modal_description').innerHTML=str;
             $('#info_modal').modal('toggle');
         })
-                .fail(function(response) {
-                    alert('Error: ' + response.responseText);
-                });
+        .fail(function(response) {
+            alert('Error: ' + response.responseText);
+        });
         return true;
     }
 </script>

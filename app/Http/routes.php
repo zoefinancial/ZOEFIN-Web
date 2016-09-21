@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -207,6 +206,14 @@ Route::post('/authenticate',
             $plaidToken->public_token=$response['public_token'];
             $plaidToken->save();
             return redirect('dashboard');
+        }
+    ]
+);
+
+Route::get('/user/quovo_iframe',
+    ['middleware' => 'auth',
+        function () {
+            return \App\Http\Controllers\QuovoClientController::getIFrameToken(Auth::user()->id);
         }
     ]
 );
