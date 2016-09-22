@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Individual;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -48,11 +49,19 @@ class AuthController extends Controller
      */
     protected function validator(array $data)
     {
+        $messages = [
+            'individual.name.required' => 'We need to know your first name.',
+            'individual.lastname.required' => 'We need to know your last name.',
+            'individual.name.max' => 'The first name may not be greater than :max characters.',
+            'individual.lastname.max' => 'The last name may not be greater than :max characters.',
+        ];
         return Validator::make($data, [
-            'name' => 'required|max:255',
+            'individual.name' => 'required|max:50',
+            'individual.lastname' => 'required|max:50',
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
-        ]);
+            'password' => 'required|min:1|confirmed',
+            // min 8
+        ], $messages);
     }
 
     /**
@@ -63,10 +72,18 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
+        //$profileData = Input::only('individual');
+        $user = User::create([
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
+        $user['individual'] = Individual::create([
+            'users_id' => $user['attributes']['id'],
+            'name' => $data['individual']['name'],
+            'lastname' => $data['individual']['lastname'],
+            'principal' => 1
+        ]);
+        return $user;
     }
 }
