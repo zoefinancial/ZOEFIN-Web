@@ -24,7 +24,11 @@ class OnBoardingController extends Controller
 
         unset($data['age']);
 
-        OnBoarding::create($data);
+
+        $onBoarding = OnBoarding::create($data);
+
+        $response = new \Illuminate\Http\Response('onBoarding');
+        $response->withCookie(cookie()->forever('onBoarding', $onBoarding['attributes']));
 
         if ( ($data['income'] * 1) >= 120000 ) { //120.000 should be inside parameter
             return view('onboarding/success');

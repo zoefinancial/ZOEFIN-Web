@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Individual;
+use Illuminate\Support\Facades\Cookie;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -49,6 +50,9 @@ class AuthController extends Controller
      */
     protected function validator(array $data)
     {
+
+        $onBoarding = Cookie::get('onBoarding');
+
         $messages = [
             'individual.name.required' => 'We need to know your first name.',
             'individual.lastname.required' => 'We need to know your last name.',
@@ -72,7 +76,9 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        //$profileData = Input::only('individual');
+
+
+
         $user = User::create([
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
