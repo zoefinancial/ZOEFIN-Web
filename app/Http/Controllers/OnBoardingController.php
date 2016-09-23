@@ -7,6 +7,7 @@ use Carbon\Carbon;
 
 use App\OnBoarding;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Cookie;
 use App\Http\Controllers\Controller;
 
 class OnBoardingController extends Controller
@@ -27,8 +28,7 @@ class OnBoardingController extends Controller
 
         $onBoarding = OnBoarding::create($data);
 
-        $response = new \Illuminate\Http\Response('onBoarding');
-        $response->withCookie(cookie()->forever('onBoarding', $onBoarding['attributes']));
+        Cookie::queue('on_boarding', $onBoarding['attributes'], 45000);
 
         if ( ($data['income'] * 1) >= 120000 ) { //120.000 should be inside parameter
             return view('onboarding/success');

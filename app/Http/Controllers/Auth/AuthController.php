@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Individual;
-use Illuminate\Support\Facades\Cookie;
+
 use Validator;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
@@ -51,8 +52,6 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
 
-        $onBoarding = Cookie::get('onBoarding');
-
         $messages = [
             'individual.name.required' => 'We need to know your first name.',
             'individual.lastname.required' => 'We need to know your last name.',
@@ -63,8 +62,7 @@ class AuthController extends Controller
             'individual.name' => 'required|max:50',
             'individual.lastname' => 'required|max:50',
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:1|confirmed',
-            // min 8
+            'password' => 'required|min:8|confirmed',
         ], $messages);
     }
 
@@ -77,7 +75,16 @@ class AuthController extends Controller
     protected function create(array $data)
     {
 
+        $data['individual']['gender'] = null;
+        $data['individual']['marital_status_id'] = null;
+        $data['individual']['date_birth'] = null;
 
+        if (($onBoarding = Cookie::get('on_boarding')) !== null) {
+            $data['individual']['gender'] = $onBoarding['gender'];
+            $data['individual']['marital_status_id'] = $onBoarding['marital_status_id'];
+            $data['individual']['date_birth'] = $onBoarding['date_birth'];
+            Cookie::queue(Cookie::forget('on_boarding'));
+        }
 
         $user = User::create([
             'email' => $data['email'],
@@ -85,10 +92,13 @@ class AuthController extends Controller
         ]);
 
         $user['individual'] = Individual::create([
-            'users_id' => $user['attributes']['id'],
-            'name' => $data['individual']['name'],
-            'lastname' => $data['individual']['lastname'],
-            'principal' => 1
+            'users_id'          => $user['attributes']['id'],
+            'name'              => $data['individual']['name'],
+            'lastname'          => $data['individual']['lastname'],
+            'gender'            => $data['individual']['gender'],
+            'marital_status_id' => $data['individual']['marital_status_id'],
+            'date_birth'        => $data['individual']['date_birth'],
+            'principal'         => 1
         ]);
         return $user;
     }
