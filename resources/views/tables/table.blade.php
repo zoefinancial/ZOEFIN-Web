@@ -14,6 +14,9 @@
             </table>
         </div>
     </div>
+    @if($overlay=1 or false)
+        @include('layouts.overlay')
+    @endif
 </div>
 @push('scripts')
     @include('tables.js.table_js',['canvas_id'=>$canvas_id])

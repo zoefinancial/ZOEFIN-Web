@@ -1,3 +1,6 @@
+@php
+    $individuals=Auth::user()->getFamilyMembers();
+@endphp
 <!-- Main Header -->
 <header class="main-header">
 
@@ -26,7 +29,7 @@
                         <!-- The user image in the navbar-->
                         <!-- <img src="{{ asset("/bower_components/AdminLTE/dist/img/user2-160x160.jpg") }}" class="user-image" alt="User Image"/> -->                        <!-- hidden-xs hides the username on small devices so only the image appears. -->
                         <i class="fa fa-user"></i>
-                        <span class="hidden-xs">{{ Auth::user()->name }}</span>
+                        <span class="hidden-xs">{{ $individuals[0]->name }} {{ $individuals[0]->lastname }}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- The user image in the menu -->
@@ -38,17 +41,19 @@
                                 <small>Member since {{ Auth::user()->created_at->format('F, Y') }}</small>
                             </p>
                         </li>
+                        @if(count($individuals)>1)
                         <!-- Menu Body -->
                         <li class="user-body">
                             <div class="col-xs-4 text-center">
                                 <a href="#">Both</a>
                             </div>
-                            @foreach  (Auth::user()->getFamilyMembers() as $profile)
+                            @foreach  ($individuals as $profile)
                                 <div class="col-xs-4 text-center">
                                     <a href="#">{{ $profile['name'] }}</a>
                                 </div>
                             @endforeach
                         </li>
+                        @endif
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">

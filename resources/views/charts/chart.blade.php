@@ -32,5 +32,6 @@
             </canvas>
         </div>
     </div>
+    @yield('aditional-'.$canvas_id)
 </div>
 <div id="{{ $canvas_id }}_tooltip" class=""></div>

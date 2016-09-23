@@ -86,7 +86,28 @@ class User extends Authenticatable
     }
 
     function getFamilyMembers(){
-        return array('1'=>['id'=>'1','name'=>'John'],'2'=>['id'=>'2','name'=>'Melissa']);
+        $individuals = Individual::where('users_id',$this->id)
+            ->get();
+        //return array('1'=>['id'=>'1','name'=>'John'],'2'=>['id'=>'2','name'=>'Melissa']);
+        return $individuals;
+    }
+
+    function getHomes(){
+        $homes = Homes::where('users_id',$this->id)
+            ->get();
+        return $homes;
+    }
+
+    function getCars(){
+        $cars = Cars::where('users_id',$this->id)
+            ->get();
+        return $cars;
+    }
+
+    function getLoans(){
+        $loans = Loans::where('users_id',$this->id)
+            ->get();
+        return $loans;
     }
 
     /**
@@ -132,37 +153,38 @@ class User extends Authenticatable
      * Function to retrieve the Net Worth detailed data
      */
     function getDetailedNetWorth(){
-        $accounts = DB::select('select account_type_id,
-              account_type_name,
-              case when account_category_id = 1 then total else 0 end Assets,
-              case when account_category_id = 2 then total else 0 end Liabilities
-            from (
-            select
-              account_category_id,
-              account_category_name,
-              account_type_id,
-              account_type_name,
-              account_current_balance as total
-            from zoefin_model_MF.Profiles
-              inner join zoefin_model_MF.Accounts using (profile_id)
-              inner join zoefin_model_MF.Account_types using (account_type_id)
-              inner join zoefin_model_MF.Account_subcategory using (account_subcategory_id)
-              inner join zoefin_model_MF.Account_category using (account_category_id)
-            where user_id = ?
-              and account_category_id in (1,2)
-            group by account_category_id,account_category_name,account_type_id,account_category_name
-            order by account_category_id,account_category_name,account_type_id,account_category_name) AL'
-            ,[$this->id]);
+
         $result = array();
         $net_worth=0;
-        foreach($accounts as $account){
+        $homes=$this->getHomes();
+        foreach($homes as $account){
             $array_account=array(
-                'Assets'=>$account->Assets,
-                'Liabilities'=>$account->Liabilities,
+                'Assets'=>$account->current_value,
+                'Liabilities'=>0,
                 'Net Worth'=>0
             );
-            $net_worth+=$account->Assets-$account->Liabilities;
-            $result[$account->account_type_name]=$array_account;
+            $net_worth+=$account->current_value;
+            $result['Home']=$array_account;
+        }
+        $cars=$this->getCars();
+        foreach($cars as $account){
+            $array_account=array(
+                'Assets'=>$account->current_value,
+                'Liabilities'=>0,
+                'Net Worth'=>0
+            );
+            $net_worth+=$account->current_value;
+            $result['Car']=$array_account;
+        }
+        $loans=$this->getLoans();
+        foreach($loans as $loan){
+            $array_account=array(
+                'Assets'=>0,
+                'Liabilities'=>$loan->amount,
+                'Net Worth'=>0
+            );
+            $net_worth-=$loan->amount;
+            $result[$loan->getLoanType->description]=$array_account;
         }
         $result['Net Worth']=array(
             'Assets'=>0,

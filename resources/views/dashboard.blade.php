@@ -11,11 +11,12 @@
                 <div class="col-lg-12">
                     <!-- CASH FLOW CHART -->
                     {{-- @include('charts.cash_flow_barchart',['url'=>'/user/cash_flow','canvas_id'=>'cashFlowChart'])--}}
-                    @include('charts.bar_chart',['box_title'=>'Cash Flow','url'=>'/user/cash_flow','canvas_id'=>'cashFlowChart'])
+                    @include('charts.bar_chart',['box_title'=>'Cash Flow','url'=>'/user/cash_flow','canvas_id'=>'cashFlowChart','overlay'=>'1'])
+
                 </div>
                 <div class="col-lg-12">
                     <!-- INVESTMENTS CHART -->
-                    @include('charts.investments_chart',['box_title'=>'Investments'])
+                    @include('charts.investments_chart',['box_title'=>'Investments','overlay'=>'1'])
                 </div>
             </div>
         </div>

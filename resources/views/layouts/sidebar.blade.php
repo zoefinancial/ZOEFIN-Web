@@ -38,8 +38,29 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="treemenu"><a title="What i own">Assets</a></li>
-                    <li class="treemenu"><a title="What i owe">Liabilities</a></li>
+                    <li class="treemenu"><a title="What i own">Assets</a>
+                        <ul class="treeview-menu">
+                            @foreach(Auth::user()->getHomes() as $home)
+                                <li>
+                                    <a><i class="fa fa-home"></i> Home ${{ $home->current_value }}</a></li>
+                                </li>
+                            @endforeach
+                            @foreach(Auth::user()->getCars() as $car)
+                                <li>
+                                    <a><i class="fa fa-car"></i> Car ${{ $car->current_value }}</a></li>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
+                    <li class="treemenu"><a title="What i owe">Liabilities</a>
+                        <ul class="treeview-menu">
+                            @foreach(Auth::user()->getLoans() as $loan)
+                                <li>
+                                    <a> {{ $loan->getLoanType->description }} ${{ $loan->amount }}</a></li>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
                 </ul>
             </li>
         </ul>
@@ -75,7 +96,7 @@
             <!-- Optionally, you can add icons to the links -->
 
             <li class="{{ $dasboard_active }}"><a href="/dashboard"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
-            <li class="{{ $investments_active }}"><a href="#"><i class="fa fa-signal"></i><span>Investments</span></a></li>
+            <li class="{{ $investments_active }}"><a href="#"><i class="fa fa-line-chart"></i><span>Investments</span></a></li>
             <li class="{{ $taxes_active }}"><a href="taxes"><i class="fa fa-pencil-square-o"></i><span>Taxes</span></a></li>
             <li class="{{ $budgeting_active }}"><a href="#"><i class="fa fa-usd "></i><span>Budgeting</span></a></li>
             <li class="{{ $insurance_active }}"><a href="/insurance"><i class="fa fa-umbrella"></i><span>Insurance</span></a></li>

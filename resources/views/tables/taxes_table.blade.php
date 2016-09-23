@@ -22,6 +22,7 @@
             </table>
         </div>
     </div>
+   @include('layouts.overlay')
 </div>
 
 @push('scripts')

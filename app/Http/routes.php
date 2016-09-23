@@ -192,6 +192,14 @@ Route::post('/test/forms',
     ]
 );
 
+Route::get('/test/members',
+    ['middleware' => 'auth',
+        function () {
+            return Auth::user()->getFamilyMembers();
+        }
+    ]
+);
+
 
 Route::post('/authenticate',
     ['middleware' => 'auth',
