@@ -12,9 +12,11 @@ class RelationshipTypesTableSeeder extends Seeder
      */
     public function run()
     {
+        $dateNow = Carbon::now();
+
         DB::table('relationship_types')->insert([
-            ['description' => 'spouse', 'created_at' => Carbon::now()],
-            ['description' => 'child', 'created_at' => Carbon::now()]
+            ['description' => 'spouse', 'created_at' => $dateNow, 'updated_at' => $dateNow],
+            ['description' => 'child', 'created_at' => $dateNow, 'updated_at' => $dateNow],
         ]);
     }
 }

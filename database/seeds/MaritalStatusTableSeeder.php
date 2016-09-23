@@ -12,10 +12,12 @@ class MaritalStatusTableSeeder extends Seeder
      */
     public function run()
     {
+        $dateNow = Carbon::now();
+
         DB::table('marital_status')->insert([
-            ['description' => 'single', 'created_at' => Carbon::now()],
-            ['description' => 'married', 'created_at' => Carbon::now()],
-            ['description' => 'divorced', 'created_at' => Carbon::now()]
+            ['description' => 'single', 'created_at' => $dateNow, 'updated_at' => $dateNow],
+            ['description' => 'married', 'created_at' => $dateNow, 'updated_at' => $dateNow],
+            ['description' => 'divorced', 'created_at' => $dateNow, 'updated_at' => $dateNow],
         ]);
     }
 }
