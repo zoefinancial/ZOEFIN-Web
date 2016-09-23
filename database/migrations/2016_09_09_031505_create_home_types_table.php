@@ -14,8 +14,9 @@ class CreateHomeTypesTable extends Migration {
 	{
 		Schema::create('home_types', function(Blueprint $table)
 		{
-			$table->integer('id', true);
-			$table->string('description', 45)->nullable();
+			$table->increments('id');
+			$table->string('description', 60);
+            $table->timestamps();
 		});
 	}
 

@@ -14,15 +14,16 @@ class CreateHomesTable extends Migration {
 	{
 		Schema::create('homes', function(Blueprint $table)
 		{
-			$table->integer('id', true);
-			$table->integer('users_id')->index('fk_homes_users1_idx');
-			$table->integer('home_types_id')->index('fk_homes_home_types1_idx');
-			$table->integer('investments_id')->nullable()->index('fk_homes_investments1_idx');
-			$table->string('address', 45)->nullable();
-			$table->string('city', 45)->nullable();
-			$table->string('state', 45)->nullable();
-			$table->integer('zip')->nullable();
-			$table->integer('current_value')->nullable();
+			$table->increments('id');
+			$table->integer('users_id')->index('fk_homes_users_idx');
+			$table->integer('home_types_id')->index('fk_homes_home_types_idx');
+			$table->integer('investments_id')->nullable()->index('fk_homes_investments_idx');
+			$table->string('address', 100);
+			$table->string('city', 60);
+			$table->string('state', 60);
+			$table->integer('zip');
+			$table->integer('current_value');
+            $table->timestamps();
 		});
 	}
 
