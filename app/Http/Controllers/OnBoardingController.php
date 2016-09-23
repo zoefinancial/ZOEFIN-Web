@@ -12,6 +12,11 @@ use App\Http\Controllers\Controller;
 
 class OnBoardingController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
+
     public function create()
     {
         return view('onboarding');
