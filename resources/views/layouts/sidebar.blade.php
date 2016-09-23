@@ -12,6 +12,37 @@
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
+        <ul class="sidebar-menu">
+            <li class="treemenu">
+                <a href="#"><i href="#" class="fa fa-info"></i><span>Information</span></a>
+                <ul class="treeview-menu">
+                    <li class="treemenu"><a href="#" id="quovo_button_id">Link your accounts</a>
+                    <li class="treemenu"><a>Add Information Manually</a>
+                        <ul class="treeview-menu">
+                            {{-- Plaid integration form and JS--}}
+                            {{--  <li class="treemenu" ><a>@include('layouts.forms.modal_plaid_form')</a></li>--}}
+                            <li class="treemenu"><a title="What i own">Assets</a>
+                                <ul class="treeview-menu">
+                                    <li data-toggle="modal" data-target="#modal_home_form"><a><i class="fa fa-home"></i> Home</a></li>
+                                    <li data-toggle="modal" data-target="#modal_car_form"><a><i class="fa fa-car"></i> Car</a></li>
+                                    <li data-toggle="modal" data-target="#modal_cash_form"><a><i class="fa fa-money"></i> Cash</a></li>
+                                </ul>
+                            </li>
+                            <li class="treemenu"><a title="What i owe">Liabilities</a>
+                                <ul class="treeview-menu">
+                                    <li data-toggle="modal" data-target="#modal_mortgage_form"><a><i class="fa fa-home"></i> Mortgage</a></li>
+                                    <li data-toggle="modal" data-target="#modal_car_loan_form"><a><i class="fa fa-car"></i> Car Loan</a></li>
+                                    <li data-toggle="modal" data-target="#modal_student_loan_form"><a><i class="fa fa-book"></i> Student Loan</a></li>
+                                    <li data-toggle="modal" data-target="#modal_credit_card_form"><a><i class="fa fa-credit-card"></i> Credit Card</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="treemenu"><a title="What i own">Assets</a></li>
+                    <li class="treemenu"><a title="What i owe">Liabilities</a></li>
+                </ul>
+            </li>
+        </ul>
         <!-- Sidebar user panel (optional) -->
         {{--<div class="user-panel">
             <div class="pull-left image">
@@ -42,33 +73,7 @@
         <ul class="sidebar-menu">
             <!-- <li class="header">HEADER</li> -->
             <!-- Optionally, you can add icons to the links -->
-            <li class="treemenu"><a href="#"><i class="fa fa-plus"></i><span>Information</span></a>
-                <ul class="treeview-menu">
-                    <li class="treemenu"><a>Add Information</a>
-                        <ul class="treeview-menu">
-                            <li class="treemenu" ><a>@include('layouts.forms.modal_plaid_form')</a></li>
-                            <li class="treemenu" id="quovo_button_id"><a>Quovo</a>
-                            <li class="treemenu"><a title="What i own">Assets</a>
-                            <ul class="treeview-menu">
-                                <li data-toggle="modal" data-target="#modal_home_form"><a><i class="fa fa-home"></i> Home</a></li>
-                                <li data-toggle="modal" data-target="#modal_car_form"><a><i class="fa fa-car"></i> Car</a></li>
-                                <li data-toggle="modal" data-target="#modal_cash_form"><a><i class="fa fa-money"></i> Cash</a></li>
-                            </ul>
-                            </li>
-                            <li class="treemenu"><a title="What i owe">Liabilities</a>
-                                <ul class="treeview-menu">
-                                    <li data-toggle="modal" data-target="#modal_mortgage_form"><a><i class="fa fa-home"></i> Mortgage</a></li>
-                                    <li data-toggle="modal" data-target="#modal_car_loan_form"><a><i class="fa fa-car"></i> Car Loan</a></li>
-                                    <li data-toggle="modal" data-target="#modal_student_loan_form"><a><i class="fa fa-book"></i> Student Loan</a></li>
-                                    <li data-toggle="modal" data-target="#modal_credit_card_form"><a><i class="fa fa-credit-card"></i> Credit Card</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="treemenu"><a title="What i own">Assets</a></li>
-                    <li class="treemenu"><a title="What i owe">Liabilities</a></li>
-                </ul>
-            </li>
+
             <li class="{{ $dasboard_active }}"><a href="/dashboard"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
             <li class="{{ $investments_active }}"><a href="#"><i class="fa fa-signal"></i><span>Investments</span></a></li>
             <li class="{{ $taxes_active }}"><a href="taxes"><i class="fa fa-pencil-square-o"></i><span>Taxes</span></a></li>
@@ -80,7 +85,11 @@
 </aside>
 @push('modals')
 @include('layouts.forms.modal_quovo_iframe',['id'=>'quovo_modal','button_id'=>'quovo_button_id','iframe_id'=>'quovo_iframe_id','header'=>'Quovo'])
-@include('layouts.modal_dialog',['id'=>'info_modal'])
+
+@include('layouts.modal_dialog',
+    ['id'=>'info_modal',
+        'header'=>'Information',
+        'description'=>''])
 @include('layouts.forms.modal_form',array(
         'id'=>'modal_home_form',
         'header'=>'Create Home',

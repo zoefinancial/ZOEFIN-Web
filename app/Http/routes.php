@@ -10,6 +10,8 @@
 |
 */
 
+use Illuminate\Http\Request;
+
 Route::get('/', function () {
     //phpinfo();
     return redirect('dashboard');
@@ -169,6 +171,15 @@ Route::get('/user/investments',
  * END INVESTMENTS
  * */
 
+Route::get('/user/quovo_iframe',
+    ['middleware' => 'auth',
+        function () {
+            return \App\Http\Controllers\QuovoClientController::getIFrameToken(Auth::user()->id);
+        }
+    ]
+);
+
+
 /*
  * Test web services
  * */
@@ -185,20 +196,6 @@ Route::post('/test/forms',
 Route::post('/authenticate',
     ['middleware' => 'auth',
         function () {
-            $response = request()->all();
-
-            /*
-             array(5) {
-                ["_token"]=> string(40) "UcBuX5t8TJ2ojZaCQl4odDChv9Efa3CreaQmKzRe"
-                ["account"]=> string(15) "[object Object]"
-                ["account_id"]=> string(0) ""
-                ["institution"]=> array(2) {
-                    ["name"]=> string(5) "Chase"
-                    ["type"]=> string(5) "chase"
-                    }
-                ["public_token"]=> string(128) "5cbfe0e25cdbaceb833b127a8661b87a4e29d7b18f111d0da19c23ed9d412d208284db83e52f7cfdc86d1e684a40f45ada62dc19f185af36db31aac96f4c9b01"
-            }
-             * */
             $plaidToken = new App\PlaidTokens;
             $plaidToken->user_id=Auth::user()->id;
             $plaidToken->institution_name=$response['institution']['name'];
@@ -210,13 +207,89 @@ Route::post('/authenticate',
     ]
 );
 
-Route::get('/user/quovo_iframe',
-    ['middleware' => 'auth',
-        function () {
-            return \App\Http\Controllers\QuovoClientController::getIFrameToken(Auth::user()->id);
+Route::post('/taxesUpload',
+    array('middleware' => 'auth',
+        function (Request $request) {
+            if ($request->hasFile('taxfile')) {
+                $destinationPath = env('S3_ENV','dev').'/'.Auth::user()->id.'_'.str_slug(Auth::user()->email).'/taxes/'.$request->get('year').'/'; // upload path
+                $fileName = $request->file('taxfile')->getClientOriginalName(); // renameing image
+                $path=$destinationPath.$fileName;
+                $uploadedFile = $request->file('taxfile');
+                $s3 = Storage::disk('s3');
+                $s3->put($path, file_get_contents($uploadedFile));
+                return redirect('taxes');
+            }
+            return 'Error';
         }
-    ]
+    )
 );
+
+Route::post('/insuranceUpload',
+    array('middleware' => 'auth',
+        function (Request $request) {
+            if ($request->hasFile('insurancefile')) {
+                $destinationPath = env('S3_ENV','dev').'/'.Auth::user()->id.'_'.str_slug(Auth::user()->email).'/insurance/'.$request->get('individual').'/'; // upload path
+                $fileName = $request->file('insurancefile')->getClientOriginalName(); // renameing image
+                $path=$destinationPath.$fileName;
+                $uploadedFile = $request->file('insurancefile');
+                $s3 = Storage::disk('s3');
+                $s3->put($path, file_get_contents($uploadedFile));
+                return redirect('insurance');
+            }
+            return 'Error';
+        }
+    )
+);
+
+Route::get('/getFile',
+    array('middleware' => 'auth',
+        function (Request $request) {
+            $f=$request->get('f');
+            $file_name=base64_decode($f);
+            $s3 = Storage::disk('s3');
+            $file_content=$s3->get($file_name);
+            $response = response($file_content, 200, [
+                'Content-Type' => 'application/pdf',
+                //'Content-Length' => $file_content->length,
+                'Content-Description' => 'File Transfer',
+                'Content-Disposition' => 'attachment; filename='.basename($file_name) ,
+                'Content-Transfer-Encoding' => 'binary',
+            ]);
+
+            return $response;
+        }
+    )
+);
+
+Route::post('/renameFile',
+    array('middleware' => 'auth',
+        function (Request $request) {
+            $file_name=base64_decode($request->get('rename_old_file_name'));
+            $new_file_name=$request->get('rename_new_file_name');
+            if(!str_is('*.pdf',$new_file_name)){
+                if(!str_is('*.PDF',$new_file_name)){
+                    $new_file_name = str_finish($new_file_name, '.pdf');
+                }
+            }
+            $s3 = Storage::disk('s3');
+            $directory=dirname($file_name);
+            $s3->move($file_name,$directory.'/'.$new_file_name);
+            return ['Information'=>'File '.basename($file_name).' renamed to '.$new_file_name];
+        }
+    )
+);
+
+Route::post('/deleteFile',
+    array('middleware' => 'auth',
+        function (Request $request) {
+            $file_name=base64_decode($request->get('delete_file_name'));
+            $s3 = Storage::disk('s3');
+            $s3->delete($file_name);
+            return ['Information'=>'File '.basename($file_name).' deleted'];
+        }
+    )
+);
+
 
 /*
  * END Test web services

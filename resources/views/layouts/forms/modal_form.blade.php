@@ -11,22 +11,22 @@
                     </label>
             @endforeach
         @else
-            <div class="form-group">
-                <label for="{{ $input['id'] }}">{{ $input['label'] or $input['id'] }}:</label>
-                <input type="{{ $input['type'] }}" class="form-control" id="{{ $input['id'] }}" name="{{ $input['id'] or '' }}">
-            </div>
+            @if( $input['type']=='hidden' )
+                    <input type="{{ $input['type'] }}" class="form-control" id="{{ $input['id'] }}" name="{{ $input['id'] or '' }}">
+            @else
+                <div class="form-group">
+                    <label for="{{ $input['id'] }}">{{ $input['label'] or $input['id'] }}:</label>
+                    <input type="{{ $input['type'] }}" class="form-control" id="{{ $input['id'] }}" name="{{ $input['id'] or '' }}">
+                </div>
+            @endif
         @endif
     @endforeach
         {{ csrf_field() }}
     </form>
-    @php
-        unset($inputs);
-        unset($url);
-    @endphp
 @endsection
 
 @section('modal-footer-'.$id)
-    <button type="button" id="{{ $id or '' }}_submit_button" class="btn" >{{ $submit_button_label or 'Submit' }}</button>
+    <button type="button" id="{{ $id or '' }}_submit_button" class="btn btn-primary" >{{ $submit_button_label or 'Submit' }}</button>
 @endsection
 
 @push('scripts')
@@ -45,12 +45,12 @@
             $('#{{ $id or '' }}').modal('toggle');
             $('#{{ $id or '' }}').find('form').trigger('reset');
 
-            document.getElementById('info_modal_description').innerHTML=str;
-            $('#info_modal').modal('toggle');
+            document.getElementById('{{ $callback_modal or 'info_modal' }}_description').innerHTML=str;
+            $('#{{ $callback_modal or 'info_modal' }}').modal('toggle');
         })
         .fail(function(response) {
-            document.getElementById('info_modal_description').innerHTML=response.Text;
-            $('#info_modal').modal('toggle');
+            document.getElementById('{{ $callback_modal or 'info_modal' }}_description').innerHTML=response.Text;
+            $('#{{ $callback_modal or 'info_modal' }}').modal('toggle');
         });
         return true;
     }

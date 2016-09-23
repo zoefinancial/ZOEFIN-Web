@@ -36,10 +36,7 @@
 <body class="hold-transition skin-blue sidebar-mini layout-boxed">
 <div class="wrapper">
 
-@include('layouts.modal_dialog',
-    ['id'=>'info_modal',
-        'header'=>'Information',
-        'description'=>''])
+
 
 <!-- Header -->
 @include('layouts.header')
@@ -49,8 +46,6 @@
 
 <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-
-
         <!-- Main content -->
         <section class="content">
             <!-- Your Page Content Here -->
@@ -63,6 +58,8 @@
 </div><!-- ./wrapper -->
 
 @stack('modals')
+
+
 
 
 

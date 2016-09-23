@@ -1,7 +1,9 @@
 @extends('layouts.modal_dialog',['style'=>'width:768px !important'])
 @section('modal-body-'.$id)
-<div class="embed-responsive embed-responsive-4by3">
-    <iframe class="embed-responsive-item" id={{ $iframe_id }} src=""></iframe>
+<div class="well">
+    <div class="embed-responsive embed-responsive-4by3">
+        <iframe class="embed-responsive-item" id={{ $iframe_id }} src=""></iframe>
+    </div>
 </div>
 @endsection
 @push('scripts')
