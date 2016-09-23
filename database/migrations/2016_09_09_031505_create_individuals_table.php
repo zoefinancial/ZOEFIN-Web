@@ -19,7 +19,7 @@ class CreateIndividualsTable extends Migration {
 			$table->integer('marital_status_id')->index('fk_user_profiles_marital_status1_idx')->nullable();
 			$table->string('name', 50)->nullable();
 			$table->string('lastname', 50)->nullable();
-			$table->date('datebirth')->nullable();
+			$table->date('date_birth')->nullable();
 			$table->string('gender', 1)->nullable();
 			$table->string('phone', 20)->nullable();
 			$table->string('mobile', 20)->nullable();
