@@ -13,7 +13,7 @@
 
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-6">
-                                <a href="#" class="btn btn-md btn-primary" role="button">Continue to sign up</a>
+                                <a href="{{ url('/register') }}" class="btn btn-md btn-primary" role="button">Continue to sign up</a>
                             </div>
                         </div>
                     </section>
