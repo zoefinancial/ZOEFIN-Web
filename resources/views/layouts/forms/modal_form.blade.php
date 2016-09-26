@@ -6,7 +6,7 @@
             <label for="{{ $input['id'] }}">{{ $input['label'] or $input['id'] }}:</label>
             @foreach( $input['options'] as $option)
                     <label class="{{ $input['type'] }}">
-                        <input type="radio" name="{{ $input['id'] }}" id="{{ $input['id'] }}_{{ $option['id'] }}" value="{{ $option['value'] or $option['id'] }}" {{ $option['checked'] or '' }}>
+                        <input type="radio" name="{{ ($input['name'])? $input['name'] : $input['id'] }}" id="{{ $input['id'] }}_{{ $option['id'] }}" value="{{ $option['value'] or $option['id'] }}" {{ $option['checked'] or '' }}>
                         {{ $option['label'] or $option['id'] }}
                     </label>
             @endforeach

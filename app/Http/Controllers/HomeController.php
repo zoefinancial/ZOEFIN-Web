@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Home;
+use Validator;
+
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
 
 class HomeController extends Controller
 {
@@ -25,5 +30,22 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function store(Request $request)
+    {
+
+        $this->validate($request, [
+            'home_types_id' => 'required',
+            'address'       => 'required|max:100',
+            'city'          => 'required|max:60',
+            'state'         => 'required|max:60',
+            'zip'           => 'required|max:6|numeric',
+            'current_value' => 'required|max:10|numeric',
+        ]);
+
+        return Home::create($request->all());
+//        Home::create($data);
+
     }
 }

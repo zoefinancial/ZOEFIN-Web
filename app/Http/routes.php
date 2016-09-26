@@ -32,6 +32,8 @@ Route::get('/dashboard',
     ]
 );
 
+Route::post('/api/home','HomeController@store');
+
 Route::get('/insurance',
     ['middleware' => 'auth',
         function () {
@@ -337,4 +339,4 @@ Route::post('/deleteFile',
 
 Route::auth();
 
-Route::get('/home', ['middleware' => 'auth']);
+//Route::get('/home', ['middleware' => 'auth']);
