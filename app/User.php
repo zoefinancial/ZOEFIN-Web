@@ -161,9 +161,8 @@ class User extends Authenticatable
             $array_account=array(
                 'Assets'=>$account->current_value,
                 'Liabilities'=>0,
-                'Net Worth'=>0
+                'Net Worth'=>$account->current_value
             );
-            $net_worth+=$account->current_value;
             $result['Home']=$array_account;
         }
         $cars=$this->getCars();
@@ -171,20 +170,30 @@ class User extends Authenticatable
             $array_account=array(
                 'Assets'=>$account->current_value,
                 'Liabilities'=>0,
-                'Net Worth'=>0
+                'Net Worth'=>$account->current_value
             );
-            $net_worth+=$account->current_value;
             $result['Car']=$array_account;
         }
         $loans=$this->getLoans();
         foreach($loans as $loan){
-            $array_account=array(
-                'Assets'=>0,
-                'Liabilities'=>$loan->amount,
-                'Net Worth'=>0
-            );
-            $net_worth-=$loan->amount;
-            $result[$loan->getLoanType->description]=$array_account;
+
+            if($loan->getLoanType->description=='Mortgage'){
+                $result['Home']['Liabilities']=$loan->amount;
+                $result['Home']['Net Worth']=$result['Home']['Net Worth']-$loan->amount;
+            }else{
+                if($loan->getLoanType->description=='Car Loan'){
+                    $result['Car']['Liabilities']=$loan->amount;
+                    $result['Car']['Net Worth']=$result['Car']['Net Worth']-$loan->amount;
+                }else{
+                    $array_account=array(
+                        'Assets'=>0,
+                        'Liabilities'=>$loan->amount,
+                        'Net Worth'=>0
+                    );
+                    $net_worth-=$loan->amount;
+                    $result[$loan->getLoanType->description]=$array_account;
+                }
+            }
         }
         $result['Net Worth']=array(
             'Assets'=>0,

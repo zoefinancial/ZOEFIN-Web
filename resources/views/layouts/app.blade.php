@@ -20,7 +20,7 @@
     <link href="{{ asset("/bower_components/AdminLTE/dist/css/skins/skin-blue.min.css")}}" rel="stylesheet" type="text/css" />
 
 
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
     @stack('head-scripts')
     @stack('styles')
 
@@ -32,6 +32,7 @@
     <![endif]-->
 
     <link rel="stylesheet" href="{{ asset("/css/plaid_related_style.css")}}">
+    <link rel="stylesheet" href="{{ asset("/css/zoefin.css")}}">
 </head>
 <body class="hold-transition skin-blue sidebar-mini layout-boxed">
 <div class="wrapper">

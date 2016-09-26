@@ -30,17 +30,13 @@
                         <div class="form-group">
                             <label class="control-label">Select Tax Year</label>
                             <select class="form-control" name="year">
-                                <option>2010</option>
-                                <option>2011</option>
-                                <option>2012</option>
-                                <option>2013</option>
                                 <option>2014</option>
                                 <option>2015</option>
                                 <option>2016</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label class="control-label">Select Tax File to upload</label>
+                            <label class="control-label">Select file</label>
                             <input name="taxfile" type="file" class="form-control">
                         </div>
                         {{ csrf_field() }}
@@ -70,7 +66,7 @@
                         @endphp
                         <table class="table table-hover" style="border: 1px">
                             <tr>
-                            <th></i> Year</th>
+                            <th>Year</th>
                             <th><i class="fa fa-file"></i> File</th>
                             <th><i class="fa fa-edit"></i> Options</th>
                             </tr>

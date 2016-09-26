@@ -64,7 +64,12 @@
                         label: function(tooltipItem, data) {
                             var datasetLabel = data.datasets[tooltipItem.datasetIndex].label || 'Other';
                             var value=data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-                            return  datasetLabel +' : '+ humanReadableMoney(value);
+                            var datasets=data.datasets;
+                            var total=0;
+                            for(d in datasets){
+                                total+=datasets[d].data[tooltipItem.index];
+                            }
+                            return  datasetLabel +' : '+ humanReadableMoney(value) + '(Total : '+ humanReadableMoney(total)+')';
                         }
                     }
                 },

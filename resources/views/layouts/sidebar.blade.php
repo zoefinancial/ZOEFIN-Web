@@ -1,4 +1,44 @@
 @php
+    function formatMoney($number, $fractional=false) {
+        $label='';
+        if($number>999999){
+            $number=$number/1000000;
+            $label = 'M';
+        }else{
+            if($number>999){
+                $number=$number/1000;
+                $label = 'K';
+            }
+        }
+        if ($fractional) {
+            $number = sprintf('%.2f', $number);
+        }
+        while (true) {
+            $replaced = preg_replace('/(-?\d+)(\d\d\d)/', '$1,$2', $number);
+            if ($replaced != $number) {
+                $number = $replaced;
+            } else {
+                break;
+            }
+        }
+        return $number.' '.$label;
+    }
+
+    function titleMoney($number, $fractional=false) {
+        if ($fractional) {
+            $number = sprintf('%.2f', $number);
+        }
+        while (true) {
+            $replaced = preg_replace('/(-?\d+)(\d\d\d)/', '$1,$2', $number);
+            if ($replaced != $number) {
+                $number = $replaced;
+            } else {
+                break;
+            }
+        }
+        return $number;
+    }
+
     $side_bar_active_item = $side_bar_active_item ? $side_bar_active_item:'dashboard';
 
     $dasboard_active = $side_bar_active_item=='dashboard'? 'active':'';
@@ -6,6 +46,8 @@
     $taxes_active = $side_bar_active_item=='taxes'? 'active':'';
     $budgeting_active = $side_bar_active_item=='budgeting'? 'active':'';
     $insurance_active = $side_bar_active_item=='insurance'? 'active':'';
+
+    setlocale(LC_MONETARY, 'en_US.UTF-8');
 @endphp
 
 <!-- Left side column. contains the sidebar -->
@@ -13,7 +55,7 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
         <ul class="sidebar-menu">
-            <li class="treemenu">
+            <li class="treemenu active">
                 <a href="#"><i href="#" class="fa fa-info"></i><span>Information</span></a>
                 <ul class="treeview-menu">
                     <li class="treemenu"><a href="#" id="quovo_button_id">Link your accounts</a>
@@ -38,25 +80,43 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="treemenu"><a title="What i own">Assets</a>
+                    <li class="treemenu active"><a title="What i own">Assets</a>
                         <ul class="treeview-menu">
                             @foreach(Auth::user()->getHomes() as $home)
-                                <li>
-                                    <a><i class="fa fa-home"></i> Home ${{ $home->current_value }}</a></li>
+                                <li class="active row">
+                                    <a><span><i class="fa fa-home"></i>Home <span class="label label-info" title="${{  titleMoney($home->current_value) }}">${{ formatMoney($home->current_value) }}</span></span>
+                                        <span class="pull-right hover-btn">
+                                            <span class="label label-primary" title="Edit" data-toggle="modal" data-target="#modal_home_form"><i class="fa fa-edit"></i></span>
+                                            <span class="label label-danger" title="Delete" data-toggle="modal" data-target="#modal_home_form"><i class="fa fa-trash"></i></span>
+                                        </span>
+                                    </a>
                                 </li>
                             @endforeach
                             @foreach(Auth::user()->getCars() as $car)
-                                <li>
-                                    <a><i class="fa fa-car"></i> Car ${{ $car->current_value }}</a></li>
+                                <li class="active row">
+                                    <a><span><i class="fa fa-car"></i>Car <span class="label label-info" title="${{  titleMoney($car->current_value) }}">${{ formatMoney($car->current_value) }}</span></span>
+                                        <span class="pull-right hover-btn">
+                                            <span class="label label-primary" title="Edit" data-toggle="modal" data-target="#modal_home_form"><i class="fa fa-edit"></i></span>
+                                            <span class="label label-danger" title="Delete" data-toggle="modal" data-target="#modal_home_form"><i class="fa fa-trash"></i></span>
+                                        </span>
+                                    </a>
                                 </li>
                             @endforeach
                         </ul>
                     </li>
-                    <li class="treemenu"><a title="What i owe">Liabilities</a>
+                    <li class="treemenu active"><a title="What i owe">Liabilities</a>
                         <ul class="treeview-menu">
                             @foreach(Auth::user()->getLoans() as $loan)
-                                <li>
-                                    <a> {{ $loan->getLoanType->description }} ${{ $loan->amount }}</a></li>
+                                <li class="active row">
+                                    <a>{{ $loan->getLoanType->description }}
+                                        <span class="label label-warning" title="${{  titleMoney($loan->amount) }}">${{ formatMoney($loan->amount) }}</span>
+                                        <span class="pull-right">
+                                            <span class="pull-right hover-btn">
+                                                <span class="label label-primary" title="Edit"><i class="fa fa-edit"></i></span>
+                                                <span class="label label-danger" title="Delete"><i class="fa fa-trash"></i></span>
+                                            </span>
+                                        </span>
+                                    </a>
                                 </li>
                             @endforeach
                         </ul>
@@ -98,7 +158,7 @@
             <li class="{{ $dasboard_active }}"><a href="/dashboard"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
             <li class="{{ $investments_active }}"><a href="#"><i class="fa fa-line-chart"></i><span>Investments</span></a></li>
             <li class="{{ $taxes_active }}"><a href="taxes"><i class="fa fa-pencil-square-o"></i><span>Taxes</span></a></li>
-            <li class="{{ $budgeting_active }}"><a href="#"><i class="fa fa-usd "></i><span>Budgeting</span></a></li>
+            <li class="{{ $budgeting_active }}"><a href="/budgeting"><i class="fa fa-usd "></i><span>Budgeting</span></a></li>
             <li class="{{ $insurance_active }}"><a href="/insurance"><i class="fa fa-umbrella"></i><span>Insurance</span></a></li>
         </ul><!-- /.sidebar-menu -->
     </section>

@@ -13,7 +13,6 @@
 use Illuminate\Http\Request;
 
 Route::get('/', function () {
-    //phpinfo();
     return redirect('dashboard');
 });
 
@@ -45,6 +44,14 @@ Route::get('/taxes',
     ['middleware' => 'auth',
         function () {
             return view('taxes',["page_title"=>"Taxes",'side_bar_active_item'=>'taxes']);
+        }
+    ]
+);
+
+Route::get('/budgeting',
+    ['middleware' => 'auth',
+        function () {
+            return view('budgeting',["page_title"=>"Budgeting",'side_bar_active_item'=>'budgeting']);
         }
     ]
 );
@@ -200,7 +207,7 @@ Route::get('/test/members',
     ]
 );
 
-
+/*
 Route::post('/authenticate',
     ['middleware' => 'auth',
         function () {
@@ -213,7 +220,7 @@ Route::post('/authenticate',
             return redirect('dashboard');
         }
     ]
-);
+);*/
 
 Route::post('/taxesUpload',
     array('middleware' => 'auth',
@@ -243,6 +250,23 @@ Route::post('/insuranceUpload',
                 $s3 = Storage::disk('s3');
                 $s3->put($path, file_get_contents($uploadedFile));
                 return redirect('insurance');
+            }
+            return 'Error';
+        }
+    )
+);
+
+Route::post('/budgetingUpload',
+    array('middleware' => 'auth',
+        function (Request $request) {
+            if ($request->hasFile('budgetingFile')) {
+                $destinationPath = env('S3_ENV','dev').'/'.Auth::user()->id.'_'.str_slug(Auth::user()->email).'/budgeting/'.$request->get('filePeriod').'/'.$request->get('fileType').'/'; // upload path
+                $fileName = $request->file('budgetingFile')->getClientOriginalName(); // renameing image
+                $path=$destinationPath.$fileName;
+                $uploadedFile = $request->file('budgetingFile');
+                $s3 = Storage::disk('s3');
+                $s3->put($path, file_get_contents($uploadedFile));
+                return redirect('budgeting');
             }
             return 'Error';
         }
