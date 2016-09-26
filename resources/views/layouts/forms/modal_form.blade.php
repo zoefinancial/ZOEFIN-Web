@@ -1,26 +1,33 @@
 @extends('layouts.modal_dialog')
 @section('modal-body-'.$id)
     <form action="{{ $url }}" method="post" id="{{ $id }}_form">
-    @foreach( $inputs as $input )
-        @if( $input['type']=='radio' or $input['type']=='radio-inline' )
-            <label for="{{ $input['id'] }}">{{ $input['label'] or $input['id'] }}:</label>
-            @foreach( $input['options'] as $option)
-                    <label class="{{ $input['type'] }}">
-                        <input type="radio" name="{{ $input['name'] or $input['id'] }}" id="{{ $input['id'] }}_{{ $option['id'] }}" value="{{ $option['value'] or $option['id'] }}" {{ $option['checked'] or '' }}>
-                        {{ $option['label'] or $option['id'] }}
-                    </label>
-            @endforeach
-        @else
-            @if( $input['type']=='hidden' )
-                    <input type="{{ $input['type'] }}" class="form-control" id="{{ $input['id'] }}" name="{{ $input['name'] or $input['id'] }}">
-            @else
-                <div class="form-group">
-                    <label for="{{ $input['id'] }}">{{ $input['label'] or $input['id'] }}:</label>
-                    <input type="{{ $input['type'] }}" class="form-control" id="{{ $input['id'] }}" name="{{ $input['name'] or $input['id'] }}">
-                </div>
+        @foreach( $inputs as $input )
+            @if( in_array($input['type'], ['radio','radio-line','select']))
+                <label for="{{ $input['id'] }}"> {{ $input['label'] or $input['id'] }}:</label>
+                    @if( in_array($input['type'], ['radio','radio-line']))
+                        @foreach( $input['options'] as $option)
+                                <label class="{{ $input['type'] }}">
+                                    <input type="radio" name="{{ $input['name'] or $input['id'] }}" id="{{ $input['id'] }}_{{ $option['id'] }}" value="{{ $option['value'] or $option['id'] }}" {{ $option['checked'] or '' }}>
+                                    {{ $option['label'] or $option['id'] }}
+                                </label>
+                        @endforeach
+                    @else
+                        <select name="{{$input['name']}}" id="{{$input['id']}}">
+                        @foreach( $input['options'] as $option)
+                                <option value="{{ $option['value'] }}">{{$option['label']}}</option>
+                        @endforeach
+                        </select>
+                    @endif
+            @elseif( $input['type']=='hidden' )
+                        <input type="{{ $input['type'] }}" class="form-control" id="{{ $input['id'] }}" name="{{ $input['name'] or $input['id'] }}">
+            @elseif( $input['type']=='text' )
+                    <div class="form-group">
+                        <label for="{{ $input['id'] }}">{{ $input['label'] or $input['id'] }}:</label>
+                        <input type="{{ $input['type'] }}" class="form-control" id="{{ $input['id'] }}" name="{{ $input['name'] or $input['id'] }}">
+                    </div>
+
             @endif
-        @endif
-    @endforeach
+        @endforeach
         {{ csrf_field() }}
     </form>
 @endsection
