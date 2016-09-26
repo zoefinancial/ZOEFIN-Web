@@ -117,11 +117,11 @@
         'description'=>'',
         'cancel_button_label'=>'Cancel',
         'inputs'=>[
-            ['label'=>'Home type','id'=>'home_type','type'=>'radio-inline','name'=>'home_types_id' ,
+            ['label'=>'Home type','id'=>'home_type','type'=>'select','name'=>'home_types_id' ,
                 'options'=>[
-                    ['id'=>'primary','value'=>'primary','label'=>'Primary residence','checked'=>'checked'],
-                    ['id'=>'vacation','value'=>'vacation','label'=>'Vacation Home'],
-                    ['id'=>'investment','value'=>'investment','label'=>'Investment Property']
+                    ['value'=>'1','label'=>'Primary residence'],
+                    ['value'=>'2','label'=>'Vacation Home'],
+                    ['value'=>'3','label'=>'Investment Property']
                 ]
             ],
             ['label'=>'Address','id'=>'home_address', 'name'=>'address', 'type'=>'text'],
