@@ -1,44 +1,4 @@
 @php
-    function formatMoney($number, $fractional=false) {
-        $label='';
-        if($number>999999){
-            $number=$number/1000000;
-            $label = 'M';
-        }else{
-            if($number>999){
-                $number=$number/1000;
-                $label = 'K';
-            }
-        }
-        if ($fractional) {
-            $number = sprintf('%.2f', $number);
-        }
-        while (true) {
-            $replaced = preg_replace('/(-?\d+)(\d\d\d)/', '$1,$2', $number);
-            if ($replaced != $number) {
-                $number = $replaced;
-            } else {
-                break;
-            }
-        }
-        return $number.' '.$label;
-    }
-
-    function titleMoney($number, $fractional=false) {
-        if ($fractional) {
-            $number = sprintf('%.2f', $number);
-        }
-        while (true) {
-            $replaced = preg_replace('/(-?\d+)(\d\d\d)/', '$1,$2', $number);
-            if ($replaced != $number) {
-                $number = $replaced;
-            } else {
-                break;
-            }
-        }
-        return $number;
-    }
-
     $side_bar_active_item = $side_bar_active_item ? $side_bar_active_item:'dashboard';
 
     $dasboard_active = $side_bar_active_item=='dashboard'? 'active':'';
@@ -46,8 +6,6 @@
     $taxes_active = $side_bar_active_item=='taxes'? 'active':'';
     $budgeting_active = $side_bar_active_item=='budgeting'? 'active':'';
     $insurance_active = $side_bar_active_item=='insurance'? 'active':'';
-
-    setlocale(LC_MONETARY, 'en_US.UTF-8');
 @endphp
 
 <!-- Left side column. contains the sidebar -->
@@ -55,7 +13,7 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
         <ul class="sidebar-menu">
-            <li class="treemenu active">
+            <li class="treemenu">
                 <a href="#"><i href="#" class="fa fa-info"></i><span>Information</span></a>
                 <ul class="treeview-menu">
                     <li class="treemenu"><a href="#" id="quovo_button_id">Link your accounts</a>
@@ -80,43 +38,25 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="treemenu active"><a title="What i own">Assets</a>
+                    <li class="treemenu"><a title="What i own">Assets</a>
                         <ul class="treeview-menu">
                             @foreach(Auth::user()->getHomes() as $home)
-                                <li class="active row">
-                                    <a><span><i class="fa fa-home"></i>Home <span class="label label-info" title="${{  titleMoney($home->current_value) }}">${{ formatMoney($home->current_value) }}</span></span>
-                                        <span class="pull-right hover-btn">
-                                            <span class="label label-primary" title="Edit" data-toggle="modal" data-target="#modal_home_form"><i class="fa fa-edit"></i></span>
-                                            <span class="label label-danger" title="Delete" data-toggle="modal" data-target="#modal_home_form"><i class="fa fa-trash"></i></span>
-                                        </span>
-                                    </a>
+                                <li>
+                                    <a><i class="fa fa-home"></i> Home ${{ $home->current_value }}</a></li>
                                 </li>
                             @endforeach
                             @foreach(Auth::user()->getCars() as $car)
-                                <li class="active row">
-                                    <a><span><i class="fa fa-car"></i>Car <span class="label label-info" title="${{  titleMoney($car->current_value) }}">${{ formatMoney($car->current_value) }}</span></span>
-                                        <span class="pull-right hover-btn">
-                                            <span class="label label-primary" title="Edit" data-toggle="modal" data-target="#modal_home_form"><i class="fa fa-edit"></i></span>
-                                            <span class="label label-danger" title="Delete" data-toggle="modal" data-target="#modal_home_form"><i class="fa fa-trash"></i></span>
-                                        </span>
-                                    </a>
+                                <li>
+                                    <a><i class="fa fa-car"></i> Car ${{ $car->current_value }}</a></li>
                                 </li>
                             @endforeach
                         </ul>
                     </li>
-                    <li class="treemenu active"><a title="What i owe">Liabilities</a>
+                    <li class="treemenu"><a title="What i owe">Liabilities</a>
                         <ul class="treeview-menu">
                             @foreach(Auth::user()->getLoans() as $loan)
-                                <li class="active row">
-                                    <a>{{ $loan->getLoanType->description }}
-                                        <span class="label label-warning" title="${{  titleMoney($loan->amount) }}">${{ formatMoney($loan->amount) }}</span>
-                                        <span class="pull-right">
-                                            <span class="pull-right hover-btn">
-                                                <span class="label label-primary" title="Edit"><i class="fa fa-edit"></i></span>
-                                                <span class="label label-danger" title="Delete"><i class="fa fa-trash"></i></span>
-                                            </span>
-                                        </span>
-                                    </a>
+                                <li>
+                                    <a> {{ $loan->getLoanType->description }} ${{ $loan->amount }}</a></li>
                                 </li>
                             @endforeach
                         </ul>
@@ -177,20 +117,19 @@
         'description'=>'',
         'cancel_button_label'=>'Cancel',
         'inputs'=>[
-            ['label'=>'Home type','id'=>'home_type','type'=>'radio-inline','name'=>'home_types_id' ,
+            ['label'=>'Home type','id'=>'home_type','type'=>'radio-inline',
                 'options'=>[
                     ['id'=>'primary','value'=>'primary','label'=>'Primary residence','checked'=>'checked'],
                     ['id'=>'vacation','value'=>'vacation','label'=>'Vacation Home'],
                     ['id'=>'investment','value'=>'investment','label'=>'Investment Property']
                 ]
             ],
-            ['label'=>'Address','id'=>'home_address', 'name'=>'address', 'type'=>'text'],
-            ['label'=>'State','id'=>'home_state','name'=>'state', 'type'=>'text'],
-            ['label'=>'City','id'=>'home_city', 'name'=> 'city', 'type'=>'text'],
-            ['label'=>'Zip Code','id'=>'zip_code', 'name'=> 'zip', 'type'=>'text'],
-            ['label'=>'Current Value','id'=>'home_current_value', 'name'=>'current_value', 'type'=>'number']
+            ['label'=>'Address','id'=>'home_address','type'=>'text'],
+            ['label'=>'State','id'=>'home_state','type'=>'text'],
+            ['label'=>'City','id'=>'home_city','type'=>'text'],
+            ['label'=>'Current Value','id'=>'home_current_value','type'=>'number']
         ],
-        'submit_button_label'=>'Create Home','url'=>'/api/home'
+        'submit_button_label'=>'Create Home','url'=>'/test/forms'
     ))
 
 @include('layouts.forms.modal_form',

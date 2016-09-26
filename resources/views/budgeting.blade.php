@@ -17,6 +17,7 @@
                             <label class="control-label">Select file type</label>
                             <select class="form-control" name="fileType">
                                 <option>Credit Card file</option>
+                                <option>Debit Card file</option>
                                 <option>Other</option>
                             </select>
                         </div>

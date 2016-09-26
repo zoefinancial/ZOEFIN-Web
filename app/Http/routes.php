@@ -13,6 +13,7 @@
 use Illuminate\Http\Request;
 
 Route::get('/', function () {
+    //phpinfo();
     return redirect('dashboard');
 });
 
@@ -31,8 +32,6 @@ Route::get('/dashboard',
         }
     ]
 );
-
-Route::post('/api/home','HomeController@store');
 
 Route::get('/insurance',
     ['middleware' => 'auth',
@@ -258,23 +257,6 @@ Route::post('/insuranceUpload',
     )
 );
 
-Route::post('/budgetingUpload',
-    array('middleware' => 'auth',
-        function (Request $request) {
-            if ($request->hasFile('budgetingFile')) {
-                $destinationPath = env('S3_ENV','dev').'/'.Auth::user()->id.'_'.str_slug(Auth::user()->email).'/budgeting/'.$request->get('filePeriod').'/'.$request->get('fileType').'/'; // upload path
-                $fileName = $request->file('budgetingFile')->getClientOriginalName(); // renameing image
-                $path=$destinationPath.$fileName;
-                $uploadedFile = $request->file('budgetingFile');
-                $s3 = Storage::disk('s3');
-                $s3->put($path, file_get_contents($uploadedFile));
-                return redirect('budgeting');
-            }
-            return 'Error';
-        }
-    )
-);
-
 Route::get('/getFile',
     array('middleware' => 'auth',
         function (Request $request) {
@@ -339,4 +321,4 @@ Route::post('/deleteFile',
 
 Route::auth();
 
-//Route::get('/home', ['middleware' => 'auth']);
+Route::get('/home', ['middleware' => 'auth']);
