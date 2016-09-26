@@ -117,19 +117,20 @@
         'description'=>'',
         'cancel_button_label'=>'Cancel',
         'inputs'=>[
-            ['label'=>'Home type','id'=>'home_type','type'=>'radio-inline',
+            ['label'=>'Home type','id'=>'home_type','type'=>'radio-inline','name'=>'home_types_id' ,
                 'options'=>[
                     ['id'=>'primary','value'=>'primary','label'=>'Primary residence','checked'=>'checked'],
                     ['id'=>'vacation','value'=>'vacation','label'=>'Vacation Home'],
                     ['id'=>'investment','value'=>'investment','label'=>'Investment Property']
                 ]
             ],
-            ['label'=>'Address','id'=>'home_address','type'=>'text'],
-            ['label'=>'State','id'=>'home_state','type'=>'text'],
-            ['label'=>'City','id'=>'home_city','type'=>'text'],
-            ['label'=>'Current Value','id'=>'home_current_value','type'=>'number']
+            ['label'=>'Address','id'=>'home_address', 'name'=>'address', 'type'=>'text'],
+            ['label'=>'State','id'=>'home_state','name'=>'state', 'type'=>'text'],
+            ['label'=>'City','id'=>'home_city', 'name'=> 'city', 'type'=>'text'],
+            ['label'=>'Zip Code','id'=>'zip_code', 'name'=> 'zip', 'type'=>'text'],
+            ['label'=>'Current Value','id'=>'home_current_value', 'name'=>'current_value', 'type'=>'number']
         ],
-        'submit_button_label'=>'Create Home','url'=>'/test/forms'
+        'submit_button_label'=>'Create Home','url'=>'/api/home'
     ))
 
 @include('layouts.forms.modal_form',
