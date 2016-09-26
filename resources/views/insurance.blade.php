@@ -65,7 +65,7 @@
                         @endphp
                         <table class="table table-hover" style="border: 1px">
                             <tr>
-                                <th></i> Individual</th>
+                                <th>Individual</th>
                                 <th><i class="fa fa-file"></i> File</th>
                                 <th><i class="fa fa-edit"></i> Options</th>
                             </tr>

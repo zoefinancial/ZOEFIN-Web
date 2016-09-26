@@ -1,0 +1,7 @@
+.hover-btn {
+    display: none;
+}
+
+.row:hover .hover-btn {
+    display: block;
+}

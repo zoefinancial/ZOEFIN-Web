@@ -10,7 +10,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class QuovoUsers extends Model
+class QuovoUser extends Model
 {
 
     /**

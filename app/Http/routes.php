@@ -51,6 +51,14 @@ Route::get('/taxes',
     ]
 );
 
+Route::get('/budgeting',
+    ['middleware' => 'auth',
+        function () {
+            return view('budgeting',["page_title"=>"Budgeting",'side_bar_active_item'=>'budgeting']);
+        }
+    ]
+);
+
 /*
  * END Side Menu options
  * */
@@ -202,7 +210,7 @@ Route::get('/test/members',
     ]
 );
 
-
+/*
 Route::post('/authenticate',
     ['middleware' => 'auth',
         function () {
@@ -215,7 +223,7 @@ Route::post('/authenticate',
             return redirect('dashboard');
         }
     ]
-);
+);*/
 
 Route::post('/taxesUpload',
     array('middleware' => 'auth',
@@ -315,4 +323,4 @@ Route::post('/deleteFile',
 
 Route::auth();
 
-//Route::get('/home', ['middleware' => 'auth']);
+Route::get('/home', ['middleware' => 'auth']);
