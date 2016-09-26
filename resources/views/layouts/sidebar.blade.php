@@ -6,6 +6,22 @@
     $taxes_active = $side_bar_active_item=='taxes'? 'active':'';
     $budgeting_active = $side_bar_active_item=='budgeting'? 'active':'';
     $insurance_active = $side_bar_active_item=='insurance'? 'active':'';
+    $homeTypes = [
+                    ['value'=>'1','label'=>'Primary residence'],
+                    ['value'=>'2','label'=>'Vacation Home'],
+                    ['value'=>'3','label'=>'Investment Property']
+                ];
+/*    $homeTypes = App\HomeType::select('id', 'description');
+    //dd($homeTypes);
+    $homeTypes->each(function ($id, $types){
+        echo $id;
+        echo $types;
+
+    });
+*/
+/*dd($homeTypes->pluck('id', 'description'));*/
+
+dd("d");
 @endphp
 
 <!-- Left side column. contains the sidebar -->
@@ -118,11 +134,7 @@
         'cancel_button_label'=>'Cancel',
         'inputs'=>[
             ['label'=>'Home type','id'=>'home_type','type'=>'select','name'=>'home_types_id' ,
-                'options'=>[
-                    ['value'=>'1','label'=>'Primary residence'],
-                    ['value'=>'2','label'=>'Vacation Home'],
-                    ['value'=>'3','label'=>'Investment Property']
-                ]
+                'options'=> $homeTypes
             ],
             ['label'=>'Address','id'=>'home_address', 'name'=>'address', 'type'=>'text'],
             ['label'=>'State','id'=>'home_state','name'=>'state', 'type'=>'text'],
