@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class LoanTypes extends Model{
+class LoanType extends Model{
 
     protected $table = 'loan_types';
 

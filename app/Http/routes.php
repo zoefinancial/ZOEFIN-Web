@@ -33,6 +33,8 @@ Route::get('/dashboard',
     ]
 );
 
+Route::post('/api/home','HomeController@store');
+
 Route::get('/insurance',
     ['middleware' => 'auth',
         function () {

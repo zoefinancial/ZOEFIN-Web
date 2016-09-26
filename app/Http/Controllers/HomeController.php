@@ -40,8 +40,8 @@ class HomeController extends Controller
             'address'       => 'required|max:100',
             'city'          => 'required|max:60',
             'state'         => 'required|max:60',
-            'zip'           => 'required|max:6|numeric',
-            'current_value' => 'required|max:10|numeric',
+            'zip'           => 'required|max:999999|numeric',
+            'current_value' => 'required|max:99999999999|numeric',
         ]);
 
         return Home::create($request->all());

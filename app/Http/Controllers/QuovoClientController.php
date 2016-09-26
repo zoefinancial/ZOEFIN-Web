@@ -9,7 +9,7 @@
 namespace App\Http\Controllers;
 
 
-use App\QuovoUsers;
+use App\QuovoUser;
 use Wela\Quovo;
 
 class QuovoClientController
@@ -17,7 +17,7 @@ class QuovoClientController
     static $quovo;
     static function  getIFrameToken($id){
         $quovo = new Quovo(['user'=>env('QUOVO_USER', ''),'password'=>env('QUOVO_PASSWORD', '')]);
-        $quovoUsers =QuovoUsers::where('user_id',$id)
+        $quovoUsers =QuovoUser::where('user_id',$id)
             ->take(1)
             ->get();
         if($quovoUsers[0]->quovo_user_id!=null){

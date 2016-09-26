@@ -10,7 +10,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PlaidTokens extends Model
+class PlaidToken extends Model
 {
 
     /**

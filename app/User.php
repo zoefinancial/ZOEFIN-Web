@@ -93,19 +93,19 @@ class User extends Authenticatable
     }
 
     function getHomes(){
-        $homes = Homes::where('users_id',$this->id)
+        $homes = Home::where('users_id',$this->id)
             ->get();
         return $homes;
     }
 
     function getCars(){
-        $cars = Cars::where('users_id',$this->id)
+        $cars = Car::where('users_id',$this->id)
             ->get();
         return $cars;
     }
 
     function getLoans(){
-        $loans = Loans::where('users_id',$this->id)
+        $loans = Loan::where('users_id',$this->id)
             ->get();
         return $loans;
     }

@@ -69,7 +69,7 @@
                             for(d in datasets){
                                 total+=datasets[d].data[tooltipItem.index];
                             }
-                            return  datasetLabel +' : '+ humanReadableMoney(value) + '(Total : '+ humanReadableMoney(total)+')';
+                            return  datasetLabel +' : '+ humanReadableMoney(value) + ' (Total : '+ humanReadableMoney(total)+')';
                         }
                     }
                 },
