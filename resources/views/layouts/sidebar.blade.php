@@ -62,7 +62,7 @@
 */
 /*dd($homeTypes->pluck('id', 'description'));*/
 
-dd("d");
+
 
 @endphp
 
