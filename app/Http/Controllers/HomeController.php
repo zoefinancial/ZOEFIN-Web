@@ -60,6 +60,10 @@ class HomeController extends Controller
         }else{
             return ['Error'=>'Oops! Something went wrong'];
         }
+    }
 
+    static public function getHome($user_id)
+    {
+        return Home::where('users_id',$user_id)->get();
     }
 }
