@@ -61,7 +61,11 @@
                     <div class="table-responsive">
                         @php
                             $path = env('S3_ENV','dev').'/'.Auth::user()->id.'_'.str_slug(Auth::user()->email).'/taxes/';
-                            $directories = Storage::disk('s3')->directories($path);
+                            $directories=array();
+                            try{
+                                $directories = Storage::disk('s3')->directories($path);
+                            }catch(Exception $e){
+                            }
                             $i=0;
                         @endphp
                         <table class="table table-hover" style="border: 1px">
@@ -72,7 +76,13 @@
                             </tr>
                             @foreach ($directories as $directory)
                                 @php
-                                    $files = Storage::disk('s3')->files($directory);
+                                    $files = array();
+                                    $file='';
+                                    try{
+                                        $files = Storage::disk('s3')->files($directory);
+                                    }catch(Exception $e){
+
+                                    }
                                 @endphp
                                 @foreach($files as $file)
                                     @php
@@ -126,7 +136,6 @@
                 ['label'=>'','id'=>'rename_old_file_name','type'=>'hidden']
             ],
             'submit_button_label'=>'Rename file','url'=>'/renameFile',
-            'callback_modal'=>'mod_file_modal',
         ))
     @include('layouts.forms.modal_form',
         array(
@@ -137,10 +146,7 @@
             'inputs'=>[
                 ['label'=>'','id'=>'delete_file_name','type'=>'hidden']
             ],
-            'submit_button_label'=>'Delete file','url'=>'/deleteFile',
-            'callback_modal'=>'mod_file_modal',
-
-        ))
+            'submit_button_label'=>'Delete file','url'=>'/deleteFile',))
 
     @include('layouts.modal_dialog',
     ['id'=>'mod_file_modal',
@@ -164,7 +170,11 @@
         return true;
     }
 
-    $('#mod_file_modal').on('hidden.bs.modal', function () {
+    $('#{{ 'delete_file_form_info_modal' }}').on('hidden.bs.modal', function () {
+        location.reload();
+    })
+
+    $('#{{ 'rename_file_form_info_modal' }}').on('hidden.bs.modal', function () {
         location.reload();
     })
 </script>

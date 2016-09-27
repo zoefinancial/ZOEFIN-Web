@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Home;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 
 use App\Http\Requests;
@@ -43,9 +44,13 @@ class HomeController extends Controller
             'zip'           => 'required|max:999999|numeric',
             'current_value' => 'required|max:99999999999|numeric',
         ]);
+        try{
+            Home::create($request->all());
+            return ['Information'=>'Home created'];
+        }catch(\Exception $e){
+            return ['Error'=>'Oops! Something was wrong'];
+        }
 
-        return Home::create($request->all());
-//        Home::create($data);
 
     }
 }

@@ -43,7 +43,14 @@
         f_{{ $id }}();
     });
 
+    $('#{{ $id or '' }}').on('submit', function (e) {
+        f_{{ $id }}();
+    });
+
     function f_{{ $id }}() {
+
+        $('#{{ $id or '' }}_overlay').get(0).className='overlay';
+
         var action = $('#{{ $id or '' }}_form').attr("action");
         $.post(action, $('#{{ $id or '' }}_form').serialize()).done(function (data) {
             var str='';
@@ -52,34 +59,38 @@
             }
             $('#{{ $id or '' }}').modal('toggle');
             $('#{{ $id or '' }}').find('form').trigger('reset');
+            $('#{{ $id or '' }}_overlay').get(0).className='hidden';
 
             document.getElementById('{{ $id }}_{{ $callback_modal or 'info_modal' }}_description').innerHTML=str;
             $('#{{ $id or '' }}_info_modal').modal('toggle');
+            $('#{{ $id or '' }}_info_modal').unbind('hidden.bs.modal');
+
+            $('#{{ $id or '' }}_info_modal').on('hidden.bs.modal', function () {
+                location.reload();
+            })
         })
         .fail(function(response) {
-
+            $('#{{ $id or '' }}_overlay').get(0).className='hidden';
             @foreach( $inputs as $input )
                 document.getElementById('{{ $id }}_{{ $input['id'] }}_div').setAttribute('class','form-group');
             @endforeach
 
-            var data = JSON.parse(response.responseText);
-            var str='';
-            for(var dataItem in data){
-                str+=(dataItem+':'+data[dataItem])+'<br/>';
+            var data = null;
 
-                document.getElementById('{{ $id }}_'+dataItem+'_div').setAttribute('class','form-group has-error');
-                document.getElementById('{{ $id }}_'+dataItem+'_help').innerHTML=data[dataItem];
+            try{
+                data=JSON.parse(response.responseText);
+                for(var dataItem in data){
+                    document.getElementById('{{ $id }}_'+dataItem+'_div').setAttribute('class','form-group has-error');
+                    document.getElementById('{{ $id }}_'+dataItem+'_help').innerHTML=data[dataItem];
+                }
+            }catch(e){
+                document.getElementById('{{ $id }}_info_modal_description').innerHTML="Ups! Something was wrong";
+                $('#{{ $id or '' }}_info_modal').unbind('hidden.bs.modal');
+
+                $('#{{ $id or '' }}_info_modal').on('hidden.bs.modal', function () {
+                    $('#{{ $id or '' }}').modal('toggle');
+                })
             }
-            document.getElementById('{{ $id }}_info_modal_description').innerHTML=str;
-            $('#{{ $id or '' }}').modal('toggle');
-
-            $('#{{ $id or '' }}_info_modal').modal('toggle');
-
-            $('#{{ $id or '' }}_info_modal').unbind('hidden.bs.modal');
-
-            $('#{{ $id or '' }}_info_modal').on('hidden.bs.modal', function () {
-                $('#{{ $id or '' }}').modal('toggle');
-            })
         });
         return true;
     }

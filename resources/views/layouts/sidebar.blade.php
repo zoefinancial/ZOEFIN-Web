@@ -98,15 +98,23 @@
                     </li>
                     <li class="treemenu active"><a title="What i own">Assets</a>
                         <ul class="treeview-menu">
+                            @php
+                                $i=0;
+                            @endphp
                             @foreach(Auth::user()->getHomes() as $home)
                                 <li class="active row">
                                     <a><span><i class="fa fa-home"></i> Home <span class="label label-info" title="${{  titleMoney($home->current_value) }}">${{ formatMoney($home->current_value) }}</span></span>
                                         <span class="pull-right hover-btn">
-                                            <span class="label label-primary" title="Edit" data-toggle="modal" data-target="#modal_home_form"><i class="fa fa-edit"></i></span>
-                                            <span class="label label-danger" title="Delete" data-toggle="modal" data-target="#modal_home_form"><i class="fa fa-trash"></i></span>
+                                            <span class="label label-primary" title="Edit" ><i class="fa fa-edit"></i></span>
+                                            <span class="label label-danger" title="Delete" id="d_h_{{ $i }}"><i class="fa fa-trash"></i></span>
                                         </span>
                                     </a>
                                 </li>
+                                @push('scripts')
+                                <script>
+                                    $('#d_h_{{ $i }}').on('click', function (e) {deleteHome('{{ base64_encode($home->id) }}');});
+                                </script>
+                                @endpush
                             @endforeach
                             @foreach(Auth::user()->getCars() as $car)
                                 <li class="active row">
@@ -281,4 +289,28 @@
         ],
         'submit_button_label'=>'Create Car Loan','url'=>'/test/forms'
     ))
+
+@include('layouts.forms.modal_form',
+       array(
+           'id'=>'delete_home_form',
+           'header'=>'Delete home',
+           'description'=>'',
+           'cancel_button_label'=>'Cancel',
+           'inputs'=>[
+               ['label'=>'','id'=>'delete_home_id','type'=>'hidden']
+           ],
+           'submit_button_label'=>'Delete file','url'=>'/test/forms',
+           'callback_modal'=>'mod_file_modal',
+       ))
+@endpush
+
+@push('scripts')
+<script>
+    function deleteHome(home_id_encode){
+        $('#delete_home_id').attr('value',home_id_encode);
+        $('#description_delete_home_form').html('Are you sure than you want to delete this Home?');
+        $('#delete_home_form').modal('toggle');
+        return true;
+    }
+</script>
 @endpush
