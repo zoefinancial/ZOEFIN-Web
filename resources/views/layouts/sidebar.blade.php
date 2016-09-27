@@ -47,22 +47,17 @@
     $budgeting_active = $side_bar_active_item=='budgeting'? 'active':'';
     $insurance_active = $side_bar_active_item=='insurance'? 'active':'';
 
-    $homeTypes = [
-                    ['value'=>'1','label'=>'Primary residence'],
-                    ['value'=>'2','label'=>'Vacation Home'],
-                    ['value'=>'3','label'=>'Investment Property']
-                ];
-/*    $homeTypes = App\HomeType::select('id', 'description');
-    //dd($homeTypes);
-    $homeTypes->each(function ($id, $types){
-        echo $id;
-        echo $types;
 
-    });
-*/
-/*dd($homeTypes->pluck('id', 'description'));*/
+    $homeTypesSelect = array();
+    $homeTypes = App\HomeType::select('id', 'description')->get();
 
+    foreach ($homeTypes as $key => $homeType) {
+        $homeTypesSelect[] = [
+                                'value'=> $homeType['attributes']['id'],
+                                'label' => $homeType['attributes']['description']
+                            ];
 
+        }
 
 @endphp
 
@@ -97,6 +92,19 @@
                         </ul>
                     </li>
                     <li class="treemenu active"><a title="What i own">Assets</a>
+                        <div class="box box-default">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Homes</h3>
+                                <div class="box-tools pull-right">
+                                    <span class="badge">1</span>
+                                </div><!-- /.box-tools -->
+                            </div>
+                            <span class="info-box-text">Principal Home</span>
+                            <address>
+                                Current Value: <strong>600000</strong><br>
+                                New York, NY 94103<br>
+                            </address>
+                        </div><!-- /.info-box -->
                         <ul class="treeview-menu">
                             @php
                                 $i=0;
@@ -201,7 +209,7 @@
         'cancel_button_label'=>'Cancel',
         'inputs'=>[
                             ['label'=>'Home type','id'=>'home_type','type'=>'select','name'=>'home_types_id' ,
-                                'options'=> $homeTypes
+                                'options'=> $homeTypesSelect
                             ],
                         ['label'=>'Address','id'=>'address', 'name'=>'address', 'type'=>'text'],
                         ['label'=>'State','id'=>'state','name'=>'state', 'type'=>'text'],

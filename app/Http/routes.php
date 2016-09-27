@@ -31,7 +31,7 @@ Route::get('/dashboard',
         }
     ]
 );
-
+Route::get('/home','HomeController@list');
 Route::post('/api/home','HomeController@store');
 
 Route::post('/api/home/delete','HomeController@delete');
