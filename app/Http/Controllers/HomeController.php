@@ -47,7 +47,7 @@ class HomeController extends Controller
             Home::create($request->all());
             return ['Information'=>'Home created'];
         }catch(\Exception $e){
-            return ['Error'=>'Oops! Something went wrong'];
+            return ['Error'=>$e->getMessage()];
         }
     }
 
