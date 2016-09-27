@@ -14,12 +14,14 @@ class CreateBankingAccountsTable extends Migration {
 	{
 		Schema::create('banking_accounts', function(Blueprint $table)
 		{
-			$table->integer('id', true);
-			$table->integer('users_id')->index('fk_accounts_users1_idx');
-			$table->integer('banks_id')->index('fk_banking_accounts_banks1_idx');
-			$table->integer('account_types_id')->index('fk_accounts_account_types1_idx');
-			$table->integer('account_status_id')->index('fk_accounts_account_status1_idx');
-			$table->integer('current_balance');
+			$table->increments('id');
+			$table->integer('users_id')->index('fk_accounts_users_idx');
+			$table->integer('banks_id')->index('fk_banking_accounts_banks_idx');
+			$table->integer('account_types_id')->index('fk_accounts_account_types_idx');
+			$table->integer('account_status_id')->index('fk_accounts_account_status_idx');
+            $table->string('number',100);
+            $table->integer('current_balance');
+            $table->timestamps();
 		});
 	}
 

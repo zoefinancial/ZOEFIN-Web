@@ -14,8 +14,9 @@ class CreateLoanTypesTable extends Migration {
 	{
 		Schema::create('loan_types', function(Blueprint $table)
 		{
-			$table->integer('id', true);
-			$table->string('description', 45)->nullable();
+			$table->increments('id');
+			$table->string('description', 60);
+            $table->timestamps();
 		});
 	}
 
