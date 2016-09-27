@@ -44,7 +44,9 @@ class HomeController extends Controller
             'current_value' => 'required|max:99999999999|numeric',
         ]);
         try{
-            Home::create($request->all())->users_id=Auth::user()->id;
+            $home = new Home($request->all());
+            $home->users_id=Auth::user()->id;
+            $home->save();
             return ['Information'=>'Home created'];
         }catch(\Exception $e){
             return ['Error'=>'Oops! Something went wrong'];
