@@ -113,11 +113,14 @@
                                 $i=0;
                             @endphp
                             @foreach(Auth::user()->getHomes() as $home)
+                                @php
+                                    $i++;
+                                @endphp
                                 <li class="active row">
                                     <a><span><i class="fa fa-home"></i> Home <span class="label label-info" title="${{  titleMoney($home->current_value) }}">${{ formatMoney($home->current_value) }}</span></span>
                                         <span class="pull-right hover-btn">
-                                            <span class="label label-primary" title="Edit" ><i class="fa fa-edit"></i></span>
-                                            <span class="label label-danger" title="Delete" id="d_h_{{ $i }}"><i class="fa fa-trash"></i></span>
+                                            <span id="e_h_{{ $i }}" class="label label-primary" title="Edit"><i class="fa fa-edit"></i></span>
+                                            <span id="d_h_{{ $i }}" class="label label-danger" title="Delete"><i class="fa fa-trash"></i></span>
                                         </span>
                                     </a>
                                 </li>
@@ -201,7 +204,6 @@
 </aside>
 @push('modals')
 @include('layouts.forms.modal_quovo_iframe',['id'=>'quovo_modal','button_id'=>'quovo_button_id','iframe_id'=>'quovo_iframe_id','header'=>'Quovo'])
-
 
 @include('layouts.forms.modal_form',array(
         'id'=>'modal_home_form',
@@ -310,8 +312,7 @@
            'inputs'=>[
                ['label'=>'','id'=>'delete_home_id','type'=>'hidden']
            ],
-           'submit_button_label'=>'Delete file','url'=>'/test/forms',
-           'callback_modal'=>'mod_file_modal',
+           'submit_button_label'=>'Delete home','url'=>'/api/home/delete',
        ))
 @endpush
 

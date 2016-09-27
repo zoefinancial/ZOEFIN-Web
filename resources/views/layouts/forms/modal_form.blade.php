@@ -1,6 +1,17 @@
 @extends('layouts.modal_dialog')
+@php
+    $enc='';
+    if(isset($hasFiles) && $hasFiles==1){
+        $enc='enctype=multipart/form-data';
+    }
+
+    $callback_function='reload';
+    if(isset($callback)){
+        $callback_function=$callback;
+    }
+@endphp
 @section('modal-body-'.$id)
-    <form action="{{ $url }}" method="post" id="{{ $id }}_form">
+    <form action="{{ $url }}" method="post" {{ $enc }} id="{{ $id or '' }}_form">
         @foreach( $inputs as $input )
             <div class="form-group" id="{{ $id }}_{{ $input['id'] }}_div">
             @if( in_array($input['type'], ['radio','radio-line','select']))
@@ -40,15 +51,16 @@
 @push('scripts')
 <script>
     $('#{{ $id or '' }}_submit_button').on('click', function (e) {
-        f_{{ $id }}();
-    });
 
-    $('#{{ $id or '' }}').on('submit', function (e) {
-        f_{{ $id }}();
+        @if(isset($hasFiles) && $hasFiles==1)
+            $('#{{ $id or '' }}_form').submit();
+        @else
+            f_{{ $id }}();
+        @endif
+
     });
 
     function f_{{ $id }}() {
-
         $('#{{ $id or '' }}_overlay').get(0).className='overlay';
 
         var action = $('#{{ $id or '' }}_form').attr("action");
@@ -66,7 +78,11 @@
             $('#{{ $id or '' }}_info_modal').unbind('hidden.bs.modal');
 
             $('#{{ $id or '' }}_info_modal').on('hidden.bs.modal', function () {
-                location.reload();
+                @if($callback_function='reload')
+                    location.reload();
+                @else
+
+                @endif
             })
         })
         .fail(function(response) {
