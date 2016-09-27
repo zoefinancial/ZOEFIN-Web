@@ -13,7 +13,6 @@
 use Illuminate\Http\Request;
 
 Route::get('/', function () {
-    //phpinfo();
     return redirect('dashboard');
 });
 
@@ -35,13 +34,7 @@ Route::get('/dashboard',
 
 Route::post('/api/home','HomeController@store');
 
-Route::get('/insurance',
-    ['middleware' => 'auth',
-        function () {
-            return view('insurance',["page_title"=>"Insurance",'side_bar_active_item'=>'insurance']);
-        }
-    ]
-);
+Route::post('/api/home/delete','HomeController@delete');
 
 Route::get('/taxes',
     ['middleware' => 'auth',
@@ -237,7 +230,24 @@ Route::post('/taxesUpload',
                 $s3->put($path, file_get_contents($uploadedFile));
                 return redirect('taxes');
             }
-            return 'Error';
+        }
+    )
+);
+
+Route::post('/profileUpload',
+    array('middleware' => 'auth',
+        function (Request $request) {
+            if ($request->hasFile('imageFileName')) {
+                $destinationPath = env('S3_ENV','dev').'/'.Auth::user()->id.'_'.str_slug(Auth::user()->email).'/profile/'; // upload path
+                $fileExtension = $request->file('imageFileName')->getClientOriginalExtension();
+                $fileName = 'ProfilePicture.'.$fileExtension;
+                $path=$destinationPath.$fileName;
+                $uploadedFile = $request->file('imageFileName');
+                $s3 = Storage::disk('s3');
+                $s3->put($path, file_get_contents($uploadedFile));
+                return Redirect::back();
+            }
+            return Redirect::back();
         }
     )
 );
@@ -254,7 +264,7 @@ Route::post('/insuranceUpload',
                 $s3->put($path, file_get_contents($uploadedFile));
                 return redirect('insurance');
             }
-            return 'Error';
+            return ['Error'=>'Oops! Something went wrong'];
         }
     )
 );

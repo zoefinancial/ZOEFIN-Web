@@ -35,7 +35,6 @@ class HomeController extends Controller
 
     public function store(Request $request)
     {
-
         $this->validate($request, [
             'home_types_id' => 'required',
             'address'       => 'required|max:100',
@@ -48,9 +47,17 @@ class HomeController extends Controller
             Home::create($request->all());
             return ['Information'=>'Home created'];
         }catch(\Exception $e){
-            return ['Error'=>'Oops! Something was wrong'];
+            return ['Error'=>'Oops! Something went wrong'];
         }
+    }
 
+    public function delete(Request $request)
+    {
+        if(Home::where('id',base64_decode($request->get('delete_home_id')))->delete()==1){
+            return ['Information'=>'Home deleted'];
+        }else{
+            return ['Error'=>'Oops! Something went wrong'];
+        }
 
     }
 }
