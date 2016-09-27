@@ -58,6 +58,7 @@
                             ];
 
         }
+    $userHomes = App\Http\Controllers\HomeController::getHome(Auth::user()->id);
 
 @endphp
 
@@ -96,15 +97,17 @@
                             <div class="box-header with-border">
                                 <h3 class="box-title">Homes</h3>
                                 <div class="box-tools pull-right">
-                                    <span class="badge">1</span>
+                                    <span class="badge">{{ count($userHomes) }}</span>
                                 </div><!-- /.box-tools -->
                             </div>
-                            <span class="info-box-text">Principal Home</span>
-                            <address>
-                                Current Value: <strong>600000</strong><br>
-                                New York, NY 94103<br>
-                            </address>
-                        </div><!-- /.info-box -->
+                            @foreach($userHomes as $home)
+                                <span class="info-box-text">{{ $home->getHomeType->description }}</span>
+                                <address>
+                                    Current Value: <strong>${{  titleMoney($home->current_value) }}</strong><br>
+                                    {{  $home->address }}<br>
+                                </address>
+                            @endforeach
+                        </div>
                         <ul class="treeview-menu">
                             @php
                                 $i=0;

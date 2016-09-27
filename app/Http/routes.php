@@ -32,7 +32,7 @@ Route::get('/dashboard',
         }
     ]
 );
-Route::get('/home','HomeController@list');
+Route::get('/home','HomeController@getHome');
 Route::post('/api/home','HomeController@store');
 
 Route::get('/insurance',
