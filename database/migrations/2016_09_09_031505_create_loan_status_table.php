@@ -14,8 +14,9 @@ class CreateLoanStatusTable extends Migration {
 	{
 		Schema::create('loan_status', function(Blueprint $table)
 		{
-			$table->integer('id', true);
-			$table->string('description', 45);
+			$table->increments('id');
+			$table->string('description', 60);
+            $table->timestamps();
 		});
 	}
 

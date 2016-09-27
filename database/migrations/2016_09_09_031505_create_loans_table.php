@@ -14,17 +14,18 @@ class CreateLoansTable extends Migration {
 	{
 		Schema::create('loans', function(Blueprint $table)
 		{
-			$table->integer('id', true);
-			$table->integer('users_id')->index('fk_loans_users1_idx');
-			$table->integer('individuals_id')->index('fk_loans_individuals1_idx');
-			$table->integer('loan_status_id')->index('fk_loans_loan_status1_idx');
-			$table->integer('loan_types_id')->index('fk_loans_loan_types1_idx');
-			$table->string('amount', 45)->nullable();
-			$table->string('period', 45)->nullable();
+			$table->increments('id');
+			$table->integer('users_id')->index('fk_loans_users_idx');
+			$table->integer('individuals_id')->index('fk_loans_individuals_idx');
+			$table->integer('loan_status_id')->index('fk_loans_loan_status_idx');
+			$table->integer('loan_types_id')->index('fk_loans_loan_types_idx');
+			$table->integer('amount');
+			$table->string('period', 60)->nullable();
 			$table->date('first_payment')->nullable();
 			$table->date('last_payment')->nullable();
-			$table->text('comments', 65535)->nullable();
-			$table->string('details', 45)->nullable();
+			$table->text('comments', 1000)->nullable();
+			$table->string('details', 100)->nullable();
+            $table->timestamps();
 		});
 	}
 
