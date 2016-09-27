@@ -92,7 +92,7 @@
                         </ul>
                     </li>
                     <li class="treemenu active"><a title="What i own">Assets</a>
-                        <div class="box box-default">
+                        {{--<div class="box box-default">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Homes</h3>
                                 <div class="box-tools pull-right">
@@ -104,7 +104,7 @@
                                 Current Value: <strong>600000</strong><br>
                                 New York, NY 94103<br>
                             </address>
-                        </div><!-- /.info-box -->
+                        </div><!-- /.info-box --> --}}
                         <ul class="treeview-menu">
                             @php
                                 $i=0;
