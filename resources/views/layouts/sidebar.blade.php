@@ -70,18 +70,18 @@
                 <a href="#"><i href="#" class="fa fa-info"></i><span>Information</span></a>
                 <ul class="treeview-menu">
                     <li class="treemenu"><a href="#" id="quovo_button_id">Link your accounts</a>
-                    <li class="treemenu"><a>Add Information Manually</a>
+                    <li class="treemenu" ><a href="#">Add Information Manually</a>
                         <ul class="treeview-menu">
                             {{-- Plaid integration form and JS--}}
                             {{--  <li class="treemenu" ><a>@include('layouts.forms.modal_plaid_form')</a></li>--}}
-                            <li class="treemenu"><a title="What i own">Assets</a>
+                            <li class="treemenu" ><a href="#" title="What i own">Assets</a>
                                 <ul class="treeview-menu">
-                                    <li data-toggle="modal" data-target="#modal_home_form"><a><i class="fa fa-home"></i> Home</a></li>
-                                    <li data-toggle="modal" data-target="#modal_car_form"><a><i class="fa fa-car"></i> Car</a></li>
-                                    <li data-toggle="modal" data-target="#modal_cash_form"><a><i class="fa fa-money"></i> Cash</a></li>
+                                    <li data-toggle="modal" data-target="#modal_home_form"><a href="#"><i class="fa fa-home"></i> Home</a></li>
+                                    <li data-toggle="modal" data-target="#modal_car_form"><a href="#"><i class="fa fa-car"></i> Car</a></li>
+                                    <li data-toggle="modal" data-target="#modal_cash_form"><a href="#"><i class="fa fa-money"></i> Cash</a></li>
                                 </ul>
                             </li>
-                            <li class="treemenu"><a title="What i owe">Liabilities</a>
+                            <li class="treemenu" ><a title="What i owe" href="#">Liabilities</a>
                                 <ul class="treeview-menu">
                                     <li data-toggle="modal" data-target="#modal_mortgage_form"><a><i class="fa fa-home"></i> Mortgage</a></li>
                                     <li data-toggle="modal" data-target="#modal_car_loan_form"><a><i class="fa fa-car"></i> Car Loan</a></li>
@@ -128,14 +128,22 @@
                                 @endpush
                             @endforeach
                             @foreach(Auth::user()->getCars() as $car)
+                                @php
+                                    $i++;
+                                @endphp
                                 <li class="active row">
                                     <a><span><i class="fa fa-car"></i> Car <span class="label label-info" title="${{  titleMoney($car->current_value) }}">${{ formatMoney($car->current_value) }}</span></span>
                                         <span class="pull-right hover-btn">
-                                            <span class="label label-primary" title="Edit" data-toggle="modal" data-target="#modal_car_form"><i class="fa fa-edit"></i></span>
-                                            <span class="label label-danger" title="Delete" data-toggle="modal" data-target="#modal_car_form"><i class="fa fa-trash"></i></span>
+                                            <span id="e_c_{{ $i }}" class="label label-primary" title="Edit"><i class="fa fa-edit"></i></span>
+                                            <span id="d_c_{{ $i }}" class="label label-danger" title="Delete"><i class="fa fa-trash"></i></span>
                                         </span>
                                     </a>
                                 </li>
+                                @push('scripts')
+                                <script>
+                                    $('#d_c_{{ $i }}').on('click', function (e) {deleteCar('{{ base64_encode($car->id) }}');});
+                                </script>
+                                @endpush
                             @endforeach
                         </ul>
                     </li>
@@ -202,6 +210,7 @@
 @push('modals')
 @include('layouts.forms.modal_quovo_iframe',['id'=>'quovo_modal','button_id'=>'quovo_button_id','iframe_id'=>'quovo_iframe_id','header'=>'Quovo'])
 
+{{-- Create home form --}}
 @include('layouts.forms.modal_form',array(
         'id'=>'modal_home_form',
         'header'=>'Create Home',
@@ -220,6 +229,7 @@
         'submit_button_label'=>'Create Home','url'=>'/api/home'
     ))
 
+{{-- Create car form --}}
 @include('layouts.forms.modal_form',
     array(
         'id'=>'modal_car_form',
@@ -227,10 +237,9 @@
         'description'=>'',
         'cancel_button_label'=>'Cancel',
         'inputs'=>[
-            ['label'=>'Car description','id'=>'car_name','type'=>'text'],
-            ['label'=>'Current Value','id'=>'car_current_value','type'=>'number']
+            ['label'=>'Current Value','id'=>'current_value','type'=>'number']
         ],
-        'submit_button_label'=>'Create Car','url'=>'/test/forms'
+        'submit_button_label'=>'Create Car','url'=>'/api/car'
     ))
 
 @include('layouts.forms.modal_form',
@@ -311,14 +320,35 @@
            ],
            'submit_button_label'=>'Delete home','url'=>'/api/home/delete',
        ))
+
+@include('layouts.forms.modal_form',
+       array(
+           'id'=>'delete_car_form',
+           'header'=>'Delete car',
+           'description'=>'',
+           'cancel_button_label'=>'Cancel',
+           'inputs'=>[
+               ['label'=>'','id'=>'delete_car_id','type'=>'hidden']
+           ],
+           'submit_button_label'=>'Delete car','url'=>'/api/car/delete',
+       ))
 @endpush
 
 @push('scripts')
 <script>
     function deleteHome(home_id_encode){
         $('#delete_home_id').attr('value',home_id_encode);
-        $('#description_delete_home_form').html('Are you sure than you want to delete this Home?');
+        $('#description_delete_home_form').html('Are you sure than you want to delete this home?');
         $('#delete_home_form').modal('toggle');
+        return true;
+    }
+</script>
+
+<script>
+    function deleteCar(car_id_encode){
+        $('#delete_car_id').attr('value',car_id_encode);
+        $('#description_delete_car_form').html('Are you sure than you want to delete this car?');
+        $('#delete_car_form').modal('toggle');
         return true;
     }
 </script>

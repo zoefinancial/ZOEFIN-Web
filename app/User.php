@@ -158,25 +158,34 @@ class User extends Authenticatable
         $net_worth=0;
         $homes=$this->getHomes();
         foreach($homes as $account){
-            $array_account=array(
-                'Assets'=>$account->current_value,
-                'Liabilities'=>0,
-                'Net Worth'=>$account->current_value
-            );
-            $result['Home']=$array_account;
+            if(isset($result['Home'])){
+                $result['Home']['Assets']+=$account->current_value;
+                $result['Home']['Net Worth']+=$account->current_value;
+            }else{
+                $array_account=array(
+                    'Assets'=>$account->current_value,
+                    'Liabilities'=>0,
+                    'Net Worth'=>$account->current_value
+                );
+                $result['Home']=$array_account;
+            }
         }
         $cars=$this->getCars();
         foreach($cars as $account){
-            $array_account=array(
-                'Assets'=>$account->current_value,
-                'Liabilities'=>0,
-                'Net Worth'=>$account->current_value
-            );
-            $result['Car']=$array_account;
+            if(isset($result['Car'])){
+                $result['Car']['Assets']+=$account->current_value;
+                $result['Car']['Net Worth']+=$account->current_value;
+            }else{
+                $array_account=array(
+                    'Assets'=>$account->current_value,
+                    'Liabilities'=>0,
+                    'Net Worth'=>$account->current_value
+                );
+                $result['Car']=$array_account;
+            }
         }
         $loans=$this->getLoans();
         foreach($loans as $loan){
-
             if($loan->getLoanType->description=='Mortgage'){
                 $result['Home']['Liabilities']=$loan->amount;
                 $result['Home']['Net Worth']=$result['Home']['Net Worth']-$loan->amount;
