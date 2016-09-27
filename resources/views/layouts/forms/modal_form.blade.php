@@ -31,10 +31,10 @@
                         </select>
                     @endif
             @elseif( $input['type']=='hidden' )
-                        <input type="{{ $input['type'] }}" class="form-control" id="{{ $input['id'] }}" name="{{ $input['name'] or $input['id'] }}">
+                        <input type="{{ $input['type'] }}" class="form-control" id="{{ $input['id'] }}" name="{{ $input['name'] or $input['id'] }}" value="{{ $input['value'] or ''}}">
             @else
                     <label for="{{ $input['id'] }}">{{ $input['label'] or $input['id'] }}:</label>
-                    <input type="{{ $input['type'] }}" class="form-control" id="{{ $input['id'] }}" name="{{ $input['name'] or $input['id'] }}">
+                    <input type="{{ $input['type'] }}" class="form-control" id="{{ $input['id'] }}" name="{{ $input['name'] or $input['id'] }}" value="{{ $input['value'] or ''}}">
 
             @endif
                 <span class="help-block" id="{{ $id }}_{{ $input['id'] }}_help">{{ $input['help'] or '' }}</span>

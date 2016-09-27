@@ -84,10 +84,31 @@
                             </li>
                             <li class="treemenu" ><a title="What i owe" href="#">Liabilities</a>
                                 <ul class="treeview-menu">
+                                    @foreach(\App\LoanType::all() as $loanType)
+                                        <li data-toggle="modal" data-target="#modal_{{ str_slug($loanType->description) }}_form"><a><i class="{{ $loanType->loan_icon }}"></i> {{ $loanType->description }}</a></li>
+                                        @push('modals')
+                                        @include('layouts.forms.modal_form',
+                                            array(
+                                                'id'=>'modal_'.str_slug($loanType->description).'_form',
+                                                'header'=>'Create '.$loanType->description,
+                                                'description'=>'',
+                                                'cancel_button_label'=>'Cancel',
+                                                'inputs'=>[
+                                                    ['label'=>$loanType->id,'id'=>'loan_types_id','type'=>'hidden','value'=>$loanType->id],
+                                                    ['label'=>'Amount','id'=>'amount','type'=>'number'],
+                                                    ['label'=>'Comments','id'=>'comments','type'=>'text'],
+                                                    ['label'=>'Detail','id'=>'detail','type'=>'text']
+                                                ],
+                                                'submit_button_label'=>'Create '.$loanType->description,'url'=>'/api/loan'
+                                            ))
+                                        @endpush
+                                    @endforeach
+                                    {{--
                                     <li data-toggle="modal" data-target="#modal_mortgage_form"><a><i class="fa fa-home"></i> Mortgage</a></li>
                                     <li data-toggle="modal" data-target="#modal_car_loan_form"><a><i class="fa fa-car"></i> Car Loan</a></li>
                                     <li data-toggle="modal" data-target="#modal_student_loan_form"><a><i class="fa fa-book"></i> Student Loan</a></li>
                                     <li data-toggle="modal" data-target="#modal_credit_card_form"><a><i class="fa fa-credit-card"></i> Credit Card</a></li>
+                                    --}}
                                 </ul>
                             </li>
                         </ul>
@@ -211,6 +232,7 @@
     <!-- /.sidebar -->
 </aside>
 @push('modals')
+{{-- Quovo form --}}
 @include('layouts.forms.modal_quovo_iframe',['id'=>'quovo_modal','button_id'=>'quovo_button_id','iframe_id'=>'quovo_iframe_id','header'=>'Quovo'])
 
 {{-- Create home form --}}
@@ -245,6 +267,7 @@
         'submit_button_label'=>'Create Car','url'=>'/api/car'
     ))
 
+{{-- Create cash form --}}
 @include('layouts.forms.modal_form',
     array(
         'id'=>'modal_cash_form',
@@ -258,7 +281,8 @@
         'submit_button_label'=>'Create Cash Account','url'=>'/test/forms'
     ))
 
-@include('layouts.forms.modal_form',
+{{-- Create creadit card form --}}
+{{-- @include('layouts.forms.modal_form',
     array(
         'id'=>'modal_credit_card_form',
         'header'=>'Create Credit Card',
@@ -271,7 +295,9 @@
         ],
         'submit_button_label'=>'Create Credit Card','url'=>'/test/forms'
     ))
-
+---}}
+{{-- Create home form --}}
+{{--
 @include('layouts.forms.modal_form',
     array(
         'id'=>'modal_mortgage_form',
@@ -285,7 +311,9 @@
         ],
         'submit_button_label'=>'Create Mortgage','url'=>'/test/forms'
     ))
+--}}
 
+{{--
 @include('layouts.forms.modal_form',
     array(
         'id'=>'modal_student_loan_form',
@@ -298,7 +326,8 @@
         ],
         'submit_button_label'=>'Create Student Loan','url'=>'/test/forms'
     ))
-
+--}}
+{{--
 @include('layouts.forms.modal_form',
     array(
         'id'=>'modal_car_loan_form',
@@ -311,7 +340,8 @@
         ],
         'submit_button_label'=>'Create Car Loan','url'=>'/test/forms'
     ))
-
+--}}
+{{--
 @include('layouts.forms.modal_form',
        array(
            'id'=>'delete_home_form',
@@ -323,7 +353,8 @@
            ],
            'submit_button_label'=>'Delete home','url'=>'/api/home/delete',
        ))
-
+--}}
+{{--
 @include('layouts.forms.modal_form',
        array(
            'id'=>'delete_car_form',
@@ -335,6 +366,7 @@
            ],
            'submit_button_label'=>'Delete car','url'=>'/api/car/delete',
        ))
+--}}
 @endpush
 
 @push('scripts')
