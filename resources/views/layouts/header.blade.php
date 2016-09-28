@@ -44,12 +44,18 @@
                     </a>
                     <ul class="dropdown-menu">
                         <!-- The user image in the menu -->
-                        <li class="user-header">
-                            <img src="/getFile?f={{ base64_encode($path) }}" class="img-circle" alt="User Image" />
-                            <p>
-                                {{ Auth::user()->name }}
-                                <small>Member since {{ Auth::user()->created_at->format('F, Y') }}</small>
-                            </p>
+                        <li class="user-header bg-white">
+                            <div class="box box-widget widget-user">
+                            <div class="widget-user-header bg-black" style="background: url('{{ asset("/bower_components/AdminLTE/dist/img/photo1.png") }}') center center;">
+                                <p>
+                                    {{ Auth::user()->name }}
+                                    <small>Member since {{ Auth::user()->created_at->format('F, Y') }}</small>
+                                </p>
+                            </div>
+                            <div class="widget-user-image">
+                                <img src="/getFile?f={{ base64_encode($path) }}" class="img-circle" alt="User Image" />
+                            </div>
+                            </div>
                         </li>
                         @if(count($individuals)>1)
                         <!-- Menu Body -->

@@ -56,4 +56,20 @@ class CarController extends Controller
         }
 
     }
+
+    public function update(Request $request){
+        $this->validate($request, [
+            'id'=>'required',
+            'current_value' => 'required|max:99999999999|numeric',
+        ]);
+
+        try{
+            Car::where('id',base64_decode($request->get('id')))->update(['current_value'=>$request->get('current_value')]
+            );
+            return ['Information'=>'Car updated'];
+        }catch(\Exception $e){
+            return ['Error'=>'Oops! Something went wrong'];
+            //return ['Error'=>$e->getMessage()];
+        }
+    }
 }

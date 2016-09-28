@@ -73,7 +73,7 @@
                                         @php
                                             $i=$i+1;
                                         @endphp
-                                        <tr>
+                                        <tr class="row-hidden">
                                             <td>
                                                 {{ class_basename($directoryL1) }}
                                             </td>
@@ -87,13 +87,15 @@
                                                 </span>
                                                 </a>
                                             </td>
-                                            <td>
-                                                <a href="#">
-                                                    <span id="r_{{ $i }}" class="label label-info" title="Rename file"><i class="fa fa-edit"></i></span>
-                                                </a>
-                                                <a href="#">
-                                                    <span  id="d_{{ $i }}" class="label label-danger" title="Delete file"><i class="fa fa-trash"></i></span>
-                                                </a>
+                                            <td >
+                                                <span class="hover-btn">
+                                                    <a href="#">
+                                                        <span id="r_{{ $i }}" class="label label-info" title="Rename file"><i class="fa fa-edit"></i></span>
+                                                    </a>
+                                                    <a href="#">
+                                                        <span  id="d_{{ $i }}" class="label label-danger" title="Delete file"><i class="fa fa-trash"></i></span>
+                                                    </a>
+                                                </span>
                                             </td>
                                         </tr>
                                         @push('scripts')
@@ -156,7 +158,7 @@
             ['label'=>'','id'=>'rename_old_file_name','type'=>'hidden']
         ],
         'submit_button_label'=>'Rename file','url'=>'/renameFile',
-        'callback_modal'=>'mod_file_modal',
+
     ))
 @include('layouts.forms.modal_form',
     array(
@@ -168,12 +170,6 @@
             ['label'=>'','id'=>'delete_file_name','type'=>'hidden']
         ],
         'submit_button_label'=>'Delete file','url'=>'/deleteFile',
-        'callback_modal'=>'mod_file_modal',
 
     ))
-
-@include('layouts.modal_dialog',
-['id'=>'mod_file_modal',
-    'header'=>'File modification',
-    'description'=>''])
 @endpush

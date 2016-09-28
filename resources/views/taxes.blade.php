@@ -99,13 +99,15 @@
                                             </span>
                                             </a>
                                         </td>
-                                        <td>
-                                            <a href="#">
-                                            <span id="r_{{ $i }}" class="label label-info" title="Rename file"><i class="fa fa-edit"></i></span>
-                                            </a>
-                                            <a href="#">
-                                            <span  id="d_{{ $i }}" class="label label-danger" title="Delete file"><i class="fa fa-trash"></i></span>
-                                            </a>
+                                        <td class="row-hidden">
+                                            <span class="hover-btn">
+                                                <a href="#">
+                                                    <span id="r_{{ $i }}" class="label label-info " title="Rename file"><i class="fa fa-edit"></i></span>
+                                                </a>
+                                                <a href="#">
+                                                    <span  id="d_{{ $i }}" class="label label-danger" title="Delete file"><i class="fa fa-trash"></i></span>
+                                                </a>
+                                            </span>
                                         </td>
                                     </tr>
                                     @push('scripts')

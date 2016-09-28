@@ -2,6 +2,6 @@
     display: none;
 }
 
-.row:hover .hover-btn {
+.row-hidden:hover .hover-btn {
     display: block;
 }

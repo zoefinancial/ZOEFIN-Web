@@ -36,10 +36,12 @@ class LoanController extends Controller
     {
         $this->validate($request, [
             'amount' => 'required|max:99999999999|numeric',
+            'loan_types_id'=>'required'
         ]);
         try{
             $loan = new Loan($request->all());
             $loan->users_id=Auth::user()->id;
+            $loan->loan_types_id=$request->get('loan_types_id');
             $loan->save();
             return ['Information'=>'Loan created'];
         }catch(\Exception $e){
@@ -55,5 +57,26 @@ class LoanController extends Controller
             return ['Error'=>'Oops! Something went wrong'];
         }
 
+    }
+
+    public function update(Request $request){
+        $this->validate($request, [
+            'id'=>'required',
+            'loan_types_id'=>'required',
+            'amount' => 'required|max:99999999999|numeric',
+        ]);
+
+        try{
+            Loan::where('id',base64_decode($request->get('id')))->update(
+                ['amount'=>$request->get('amount'),
+                    'comments'=>$request->get('comments'),
+                    'details'=>$request->get('details'),
+                ]
+            );
+            return ['Information'=>'Loan updated'];
+        }catch(\Exception $e){
+            return ['Error'=>'Oops! Something went wrong'];
+            //return ['Error'=>$e->getMessage()];
+        }
     }
 }
