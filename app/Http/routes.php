@@ -42,6 +42,8 @@ Route::post('/api/car/','CarController@store');
 
 Route::post('/api/car/delete','CarController@delete');
 
+Route::post('/api/bankingaccount', 'BankingAccountController@store');
+
 Route::get('/taxes',
     ['middleware' => 'auth',
         function () {
