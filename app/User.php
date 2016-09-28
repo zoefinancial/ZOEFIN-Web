@@ -134,9 +134,14 @@ class User extends Authenticatable
     function getInsurancePrediction($m_id)
     {
         $insuranceInformation=InsuranceInformation::where('individuals_id',$m_id)->first();
-        $family_resources = $insuranceInformation->available_resources;
-        $family_need = $insuranceInformation->total_family_need;
-        $total = $family_need - $family_resources;
+        $family_resources=0;
+        $family_need=0;
+        try{
+            $family_resources = $insuranceInformation->available_resources;
+            $family_need = $insuranceInformation->total_family_need;
+            $total = $family_need - $family_resources;
+        }catch(Exception $e){}
+
         return array(
             'Total Family Would Need' => ['Total Family Would Need' => $family_need, 'Family Resources' => 0],
             'Available Resources' => ['Total Family Would Need' => 0, 'Family Resources' => $family_resources],
