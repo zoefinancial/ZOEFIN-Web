@@ -137,12 +137,10 @@ class User extends Authenticatable
         $family_resources=0;
         $family_need=0;
         $total=0;
-        try{
+        if($insuranceInformation){
             $family_resources = $insuranceInformation->available_resources;
             $family_need = $insuranceInformation->total_family_need;
             $total = $family_need - $family_resources;
-        }catch(Exception $e){
-
         }
 
         return array(
