@@ -24,14 +24,10 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Store Home asset.
      *
-     * @return \Illuminate\Http\Response
+     * @return array
      */
-    public function index()
-    {
-        return view('home');
-    }
 
     public function store(Request $request)
     {
@@ -53,6 +49,12 @@ class HomeController extends Controller
         }
     }
 
+    /**
+     * Delete Home asset.
+     *
+     * @return array
+     */
+
     public function delete(Request $request)
     {
         if(Home::where('id',base64_decode($request->get('delete_home_id')))->delete()==1){
@@ -61,6 +63,12 @@ class HomeController extends Controller
             return ['Error'=>'Oops! Something went wrong'];
         }
     }
+
+    /**
+     * get Home/s asset/s.
+     *
+     * @return array
+     */
 
     static public function getHome($user_id)
     {
