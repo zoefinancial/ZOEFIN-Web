@@ -93,26 +93,11 @@
                         </ul>
                     </li>
                     <li class="treemenu active"><a title="What i own">Assets</a>
-                        <div class="box box-default">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Homes</h3>
-                                <div class="box-tools pull-right">
-                                    <span class="badge">{{ count($userHomes) }}</span>
-                                </div><!-- /.box-tools -->
-                            </div>
-                            @foreach($userHomes as $home)
-                                <span class="info-box-text">{{ $home->getHomeType->description }}</span>
-                                <address>
-                                    Current Value: <strong>${{  titleMoney($home->current_value) }}</strong><br>
-                                    {{  $home->address }}<br>
-                                </address>
-                            @endforeach
-                        </div>
                         <ul class="treeview-menu">
                             @php
                                 $i=0;
                             @endphp
-                            @foreach(Auth::user()->getHomes() as $home)
+                            @foreach($userHomes as $home)
                                 @php
                                     $i++;
                                 @endphp
