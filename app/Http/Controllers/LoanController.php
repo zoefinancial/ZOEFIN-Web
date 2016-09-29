@@ -66,6 +66,7 @@ class LoanController extends Controller
             'id'=>'required',
             'loan_types_id'=>'required',
             'amount' => 'required|max:99999999999|numeric',
+            'interest_rate'=>'required',
         ]);
 
         try{
@@ -73,6 +74,7 @@ class LoanController extends Controller
                 ['amount'=>$request->get('amount'),
                     'comments'=>$request->get('comments'),
                     'details'=>$request->get('details'),
+                    'interest_rate'=>$request->get('interest_rate'),
                 ]
             );
             return ['Information'=>'Loan updated'];

@@ -13,9 +13,11 @@
 @section('modal-body-'.$id)
     <form action="{{ $url }}" method="{{ $method or 'post' }}" {{ $enc }} id="{{ $id or '' }}_form">
         @foreach( $inputs as $input )
-            <div class="input-group" id="{{ $id }}_{{ $input['id'] }}_div">
-            @if( in_array($input['type'], ['radio','radio-line','select']))
-                <label for="{{ $input['id'] }}"> {{ $input['label'] or $input['id'] }}:</label>
+            @if( $input['type']<>'hidden' )
+                <label for="{{ $input['id'] }}">{{ $input['label'] or $input['id'] }}:</label>
+            @endif
+            <div class="input-group form-group" id="{{ $id }}_{{ $input['id'] }}_div">
+             @if( in_array($input['type'], ['radio','radio-line','select']))
                     @if( in_array($input['type'], ['radio','radio-line']))
                         @foreach( $input['options'] as $option)
                                 <label class="{{ $input['type'] }}">
@@ -43,15 +45,15 @@
                     @endphp
                 @endif
                 @if( $input['type']=='money')
-                        <span class="input-group-addon">$</span>
+                        <span class="input-group-addon input-group-addon-left">$</span>
                 @endif
-                <label for="{{ $input['id'] }}">{{ $input['label'] or $input['id'] }}:</label>
+
                 <input type="{{ $type }}" class="form-control" id="{{ $input['id'] }}" name="{{ $input['name'] or $input['id'] }}" value="{{ $input['value'] or ''}}">
                 @if( $input['type']=='money')
-                    <span class="input-group-addon">.00</span>
+                    <span class="input-group-addon input-group-addon-right">.00</span>
                 @endif
                 @if( $input['type']=='percentage')
-                    <span class="input-group-addon">%</span>
+                    <span class="input-group-addon input-group-addon-right">%</span>
                 @endif
             @endif
                 <span class="help-block" id="{{ $id }}_{{ $input['id'] }}_help">{{ $input['help'] or '' }}</span>

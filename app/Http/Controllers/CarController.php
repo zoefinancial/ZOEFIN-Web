@@ -40,6 +40,7 @@ class CarController extends Controller
         try{
             $car = new Car($request->all());
             $car->users_id=Auth::user()->id;
+            $car->additional_details=$request->get('additional_details');
             $car->save();
             return ['Information'=>'Car created'];
         }catch(\Exception $e){
@@ -64,7 +65,9 @@ class CarController extends Controller
         ]);
 
         try{
-            Car::where('id',base64_decode($request->get('id')))->update(['current_value'=>$request->get('current_value')]
+            Car::where('id',base64_decode($request->get('id')))
+                ->update(['current_value'=>$request->get('current_value'),
+                    'additional_details'=>$request->get('additional_details')]
             );
             return ['Information'=>'Car updated'];
         }catch(\Exception $e){

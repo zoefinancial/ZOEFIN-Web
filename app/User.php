@@ -115,6 +115,12 @@ class User extends Authenticatable
         return $loans;
     }
 
+    function getLoansByType($type_id){
+        $loans = Loan::where(['users_id'=>$this->id,'loan_types_id'=>$type_id])
+            ->get();
+        return $loans;
+    }
+
     /**
      * Function to retrieve the Insurance Summary data
      */
@@ -188,12 +194,31 @@ class User extends Authenticatable
         $loans=$this->getLoans();
         foreach($loans as $loan){
             if($loan->getLoanType->description=='Mortgage'){
-                $result['Home']['Liabilities']=$loan->amount;
-                $result['Home']['Net Worth']=$result['Home']['Net Worth']-$loan->amount;
+                if(isset($result['Home'])){
+                    $result['Home']['Liabilities']=$result['Home']['Liabilities']+$loan->amount;
+                    $result['Home']['Net Worth']=$result['Home']['Net Worth']-$loan->amount;
+                }else{
+                    $array_account=array(
+                        'Assets'=>0,
+                        'Liabilities'=>$loan->amount,
+                        'Net Worth'=>0-$loan->amount
+                    );
+                    $result['Home']=$array_account;
+                }
+
             }else{
                 if($loan->getLoanType->description=='Car Loan'){
-                    $result['Car']['Liabilities']=$loan->amount;
-                    $result['Car']['Net Worth']=$result['Car']['Net Worth']-$loan->amount;
+                    if(isset($result['Car'])){
+                        $result['Car']['Liabilities']=$loan->amount;
+                        $result['Car']['Net Worth']=$result['Car']['Net Worth']-$loan->amount;
+                    }else{
+                        $array_account=array(
+                            'Assets'=>0,
+                            'Liabilities'=>$loan->amount,
+                            'Net Worth'=>0-$loan->amount
+                        );
+                        $result['Car']=$array_account;
+                    }
                 }else{
                     $array_account=array(
                         'Assets'=>0,

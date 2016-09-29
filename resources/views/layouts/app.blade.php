@@ -33,6 +33,7 @@
 
     <link rel="stylesheet" href="{{ asset("/css/plaid_related_style.css")}}">
     <link rel="stylesheet" href="{{ asset("/css/zoefin.css")}}">
+
 </head>
 <body class="hold-transition skin-blue sidebar-mini layout-boxed">
 <div class="wrapper">
@@ -49,12 +50,6 @@
     <div class="content-wrapper">
         <!-- Main content -->
         <section class="content">
-            @if($errors->any())
-                <h4>{{$errors->first()}}</h4>
-            @endif
-            @if(Session::has('message'))
-                <h4>{{ \Illuminate\Support\Facades\Session::get('message') }}</h4>
-            @endif
             <!-- Your Page Content Here -->
             @yield('content')
         </section><!-- /.content -->
