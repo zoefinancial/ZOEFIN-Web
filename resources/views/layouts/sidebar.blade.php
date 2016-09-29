@@ -39,6 +39,19 @@
         return $number;
     }
 
+    function selectParameters($values, $params)
+    {
+        $Select = array();
+        foreach ($values as $key => $value) {
+        $Select[] = [
+                        'value' => $value['attributes'][$params['value']],
+                        'label' => $value['attributes'][$params['label']]
+                    ];
+
+        }
+        return $Select;
+    }
+
     $side_bar_active_item = $side_bar_active_item ? $side_bar_active_item:'dashboard';
 
     $dasboard_active = $side_bar_active_item=='dashboard'? 'active':'';
@@ -49,16 +62,22 @@
 
 
     $homeTypesSelect = array();
+    $banksSelect = array();
+    $accountTypesSelect = array();
+    $accountStatusSelect = array();
     $homeTypes = App\HomeType::select('id', 'description')->get();
+    $banks = App\Bank::select('id','name')->get();
+    $accountStatus = App\AccountStatus::select('id','description')->get();
+    $accountTypes = App\AccountType::select('id','description')->get();
 
-    foreach ($homeTypes as $key => $homeType) {
-        $homeTypesSelect[] = [
-                                'value'=> $homeType['attributes']['id'],
-                                'label' => $homeType['attributes']['description']
-                            ];
+    $homeTypesSelect = selectParameters($homeTypes,['value' => 'id','label' => 'description']);
+    $banksSelect = selectParameters($banks,['value' => 'id','label' => 'name']);
+    $accountStatusSelect = selectParameters($accountStatus,['value' => 'id','label' => 'description']);
+    $accountTypesSelect = selectParameters($accountTypes,['value' => 'id','label' => 'description']);
 
-        }
     $userHomes = App\Http\Controllers\HomeController::getHome(Auth::user()->id);
+
+
 
 @endphp
 
@@ -233,14 +252,17 @@
 @include('layouts.forms.modal_form',
     array(
         'id'=>'modal_cash_form',
-        'header'=>'Create Cash Account',
+        'header'=>'Create Banking Account',
         'description'=>'',
         'cancel_button_label'=>'Cancel',
         'inputs'=>[
-            ['label'=>'Bank Name','id'=>'cash_bank','type'=>'text'],
-            ['label'=>'Current Balance','id'=>'cash_current_balance','type'=>'number']
+            ['label'=>'Bank Name', 'name' => 'banks_id','id'=>'banks-id','type'=>'select', 'options' => $banksSelect],
+            ['label'=>'Account Type', 'name' => 'account_types_id','id'=>'account-types-id','type'=>'select', 'options' => $accountTypesSelect],
+            ['label'=>'Account Status', 'name' => 'account_status_id','id'=>'account-status-id','type'=>'select', 'options' => $accountStatusSelect],
+            ['label'=>'Account Number', 'name' => 'number','id'=>'number','type'=>'text'],
+            ['label'=>'Current Balance', 'name' => 'current_balance','id'=>'current-balance','type'=>'number'],
         ],
-        'submit_button_label'=>'Create Cash Account','url'=>'/test/forms'
+        'submit_button_label'=>'Create Cash Account','url'=>'/api/bankingaccount'
     ))
 
 @include('layouts.forms.modal_form',

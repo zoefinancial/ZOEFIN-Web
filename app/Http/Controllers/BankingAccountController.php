@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\BankingAccount;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 
 use App\Http\Requests;
@@ -26,10 +26,9 @@ class BankingAccountController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'users_id'          => 'required|',
-            'banks_id'          => 'required|',
-            'account_types_id'  => 'required|',
-            'account_status_id' => 'required|',
+            'banks_id'          => 'required',
+            'account_types_id'  => 'required',
+            'account_status_id' => 'required',
             'number'            => 'required|max:100',
             'current_balance'   => 'required|max:99999999999|numeric',
         ]);
