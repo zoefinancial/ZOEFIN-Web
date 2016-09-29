@@ -11,7 +11,7 @@
     }
 @endphp
 @section('modal-body-'.$id)
-    <form action="{{ $url }}" method="post" {{ $enc }} id="{{ $id or '' }}_form">
+    <form action="{{ $url }}" method="{{ $method or 'post' }}" {{ $enc }} id="{{ $id or '' }}_form">
         @foreach( $inputs as $input )
             <div class="form-group" id="{{ $id }}_{{ $input['id'] }}_div">
             @if( in_array($input['type'], ['radio','radio-line','select']))
@@ -31,10 +31,10 @@
                         </select>
                     @endif
             @elseif( $input['type']=='hidden' )
-                        <input type="{{ $input['type'] }}" class="form-control" id="{{ $input['id'] }}" name="{{ $input['name'] or $input['id'] }}">
+                        <input type="{{ $input['type'] }}" class="form-control" id="{{ $input['id'] }}" name="{{ $input['name'] or $input['id'] }}" value="{{ $input['value'] or ''}}">
             @else
                     <label for="{{ $input['id'] }}">{{ $input['label'] or $input['id'] }}:</label>
-                    <input type="{{ $input['type'] }}" class="form-control" id="{{ $input['id'] }}" name="{{ $input['name'] or $input['id'] }}">
+                    <input type="{{ $input['type'] }}" class="form-control" id="{{ $input['id'] }}" name="{{ $input['name'] or $input['id'] }}" value="{{ $input['value'] or ''}}">
 
             @endif
                 <span class="help-block" id="{{ $id }}_{{ $input['id'] }}_help">{{ $input['help'] or '' }}</span>
@@ -64,7 +64,8 @@
         $('#{{ $id or '' }}_overlay').get(0).className='overlay';
 
         var action = $('#{{ $id or '' }}_form').attr("action");
-        $.post(action, $('#{{ $id or '' }}_form').serialize()).done(function (data) {
+
+        $.{{ $method or 'post' }}(action, $('#{{ $id or '' }}_form').serialize()).done(function (data) {
             var str='';
             for(var dataItem in data){
                 str+=(dataItem+':'+data[dataItem])+'\n';

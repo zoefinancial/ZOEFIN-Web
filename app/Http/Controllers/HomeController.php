@@ -4,11 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Home;
 use Illuminate\Support\Facades\Auth;
-use Validator;
 
-use App\Http\Requests;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 
 class HomeController extends Controller
@@ -49,12 +46,38 @@ class HomeController extends Controller
         }
     }
 
+    public function update(Request $request){
+        $this->validate($request, [
+            'id'=>'required',
+            'home_types_id' => 'required',
+            'address'       => 'required|max:100',
+            'city'          => 'required|max:60',
+            'state'         => 'required|max:60',
+            'zip'           => 'required|max:999999|numeric',
+            'current_value' => 'required|max:99999999999|numeric',
+        ]);
+
+        try{
+            Home::where('id',base64_decode($request->get('id')))->update([
+            'home_types_id'=>$request->get('home_types_id'),
+            'address'=>$request->get('address'),
+            'city'=>$request->get('city'),
+            'state'=>$request->get('state'),
+            'zip'=>$request->get('zip'),
+            'current_value'=>$request->get('current_value')]
+            );
+            return ['Information'=>'Home updated'];
+        }catch(\Exception $e){
+            return ['Error'=>'Oops! Something went wrong'];
+            //return ['Error'=>$e->getMessage()];
+        }
+    }
+
     /**
      * Delete Home asset.
      *
      * @return array
      */
-
     public function delete(Request $request)
     {
         if(Home::where('id',base64_decode($request->get('delete_home_id')))->delete()==1){

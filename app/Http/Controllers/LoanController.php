@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Car;
+use App\Loan;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 
 
-class CarController extends Controller
+class LoanController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -35,13 +35,15 @@ class CarController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'current_value' => 'required|max:99999999999|numeric',
+            'amount' => 'required|max:99999999999|numeric',
+            'loan_types_id'=>'required'
         ]);
         try{
-            $car = new Car($request->all());
-            $car->users_id=Auth::user()->id;
-            $car->save();
-            return ['Information'=>'Car created'];
+            $loan = new Loan($request->all());
+            $loan->users_id=Auth::user()->id;
+            $loan->loan_types_id=$request->get('loan_types_id');
+            $loan->save();
+            return ['Information'=>'Loan created'];
         }catch(\Exception $e){
             return ['Error'=>$e->getMessage()];
         }
@@ -49,8 +51,8 @@ class CarController extends Controller
 
     public function delete(Request $request)
     {
-        if(Car::where('id',base64_decode($request->get('delete_car_id')))->delete()==1){
-            return ['Information'=>'Car deleted'];
+        if(Loan::where('id',base64_decode($request->get('delete_loan_id')))->delete()==1){
+            return ['Information'=>'Loan deleted'];
         }else{
             return ['Error'=>'Oops! Something went wrong'];
         }
@@ -60,13 +62,18 @@ class CarController extends Controller
     public function update(Request $request){
         $this->validate($request, [
             'id'=>'required',
-            'current_value' => 'required|max:99999999999|numeric',
+            'loan_types_id'=>'required',
+            'amount' => 'required|max:99999999999|numeric',
         ]);
 
         try{
-            Car::where('id',base64_decode($request->get('id')))->update(['current_value'=>$request->get('current_value')]
+            Loan::where('id',base64_decode($request->get('id')))->update(
+                ['amount'=>$request->get('amount'),
+                    'comments'=>$request->get('comments'),
+                    'details'=>$request->get('details'),
+                ]
             );
-            return ['Information'=>'Car updated'];
+            return ['Information'=>'Loan updated'];
         }catch(\Exception $e){
             return ['Error'=>'Oops! Something went wrong'];
             //return ['Error'=>$e->getMessage()];

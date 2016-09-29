@@ -36,11 +36,21 @@ Route::get('/home','HomeController@getHome');
 
 Route::post('/api/home','HomeController@store');
 
-Route::post('/api/home/delete','HomeController@delete');
+Route::put('/api/home','HomeController@update');
+
+Route::delete('/api/home','HomeController@delete');
 
 Route::post('/api/car/','CarController@store');
 
-Route::post('/api/car/delete','CarController@delete');
+Route::put('/api/car/','CarController@update');
+
+Route::delete('/api/car/','CarController@delete');
+
+Route::post('/api/loan/','LoanController@store');
+
+Route::delete('/api/loan/','LoanController@delete');
+
+Route::put('/api/loan/','LoanController@update');
 
 Route::post('/api/bankingaccount', 'BankingAccountController@store');
 
@@ -56,6 +66,14 @@ Route::get('/budgeting',
     ['middleware' => 'auth',
         function () {
             return view('budgeting',["page_title"=>"Budgeting",'side_bar_active_item'=>'budgeting']);
+        }
+    ]
+);
+
+Route::get('/insurance',
+    ['middleware' => 'auth',
+        function () {
+            return view('insurance',["page_title"=>"Insurance",'side_bar_active_item'=>'insurance']);
         }
     ]
 );
@@ -277,6 +295,23 @@ Route::post('/insuranceUpload',
     )
 );
 
+Route::post('/budgetingUpload',
+    array('middleware' => 'auth',
+        function (Request $request) {
+            if ($request->hasFile('budgetingFile')) {
+                $destinationPath = env('S3_ENV','dev').'/'.Auth::user()->id.'_'.str_slug(Auth::user()->email).'/budgeting/'.$request->get('filePeriod').'/'.$request->get('fileType').'/'; // upload path
+                $fileName = $request->file('budgetingFile')->getClientOriginalName(); // renameing image
+                $path=$destinationPath.$fileName;
+                $uploadedFile = $request->file('budgetingFile');
+                $s3 = Storage::disk('s3');
+                $s3->put($path, file_get_contents($uploadedFile));
+                return redirect('budgeting');
+            }
+            return redirect('budgeting');
+        }
+    )
+);
+
 Route::get('/getFile',
     array('middleware' => 'auth',
         function (Request $request) {
@@ -291,7 +326,6 @@ Route::get('/getFile',
                 'Content-Disposition' => 'attachment; filename='.basename($file_name) ,
                 'Content-Transfer-Encoding' => 'binary',
             ]);
-
             return $response;
         }
     )

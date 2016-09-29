@@ -125,7 +125,6 @@
             ['label'=>'','id'=>'rename_old_file_name','type'=>'hidden']
         ],
         'submit_button_label'=>'Rename file','url'=>'/renameFile',
-        'callback_modal'=>'mod_file_modal',
     ))
 @include('layouts.forms.modal_form',
     array(
@@ -137,14 +136,7 @@
             ['label'=>'','id'=>'delete_file_name','type'=>'hidden']
         ],
         'submit_button_label'=>'Delete file','url'=>'/deleteFile',
-        'callback_modal'=>'mod_file_modal',
-
     ))
-
-@include('layouts.modal_dialog',['id'=>'mod_file_modal',
-    'header'=>'File modification',
-    'description'=>''])
-@endpush
 
 @push('scripts')
 <script>

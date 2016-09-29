@@ -88,8 +88,13 @@ class User extends Authenticatable
     function getFamilyMembers(){
         $individuals = Individual::where('users_id',$this->id)
             ->get();
-        //return array('1'=>['id'=>'1','name'=>'John'],'2'=>['id'=>'2','name'=>'Melissa']);
         return $individuals;
+    }
+
+    function getFamilyMember($m_id){
+        $individual = Individual::where('id',$m_id)
+            ->first();
+        return $individual;
     }
 
     function getHomes(){
@@ -114,38 +119,34 @@ class User extends Authenticatable
      * Function to retrieve the Insurance Summary data
      */
     function getInsuranceSummary(){
-        return array(
-            'John'=>[
-                'Coverage'=>'2000000',
-                'Type'=>'Term insurance',
-                'Years coverage'=>'20',
-                'Annual Payment'=>'1500'
-            ],
-            'Melissa'=>[
-                'Coverage'=>'2000000',
-                'Type'=>'Term insurance',
-                'Years coverage'=>'20',
-                'Annual Payment'=>'1500'
-            ]
-        );
+        $result = array();
+        foreach ($this->getFamilyMembers() as $familyMember) {
+            foreach (Insurance::where('individuals_id',$familyMember->id)->get() as $insurance){
+                $result[$familyMember->name]=['Coverage'=>$insurance->coverage,
+                        'Type'=>$insurance->insurance_type,
+                        'Years coverage'=>$insurance->years,
+                        'Annual Payment'=>$insurance->anual_payment];
+            }
+        }
+        return $result;
     }
 
-    function getInsurancePrediction($id)
+    function getInsurancePrediction($m_id)
     {
-        $family_resources = 257000;
-        if ($id == '1') {
-            $family_need = 2882164;
-
-        } else if ($id == '2') {
-            $family_need = 2149032;
-        } else {
-            return null;
+        $insuranceInformation=InsuranceInformation::where('individuals_id',$m_id)->first();
+        $family_resources=0;
+        $family_need=0;
+        $total=0;
+        if($insuranceInformation){
+            $family_resources = $insuranceInformation->available_resources;
+            $family_need = $insuranceInformation->total_family_need;
+            $total = $family_need - $family_resources;
         }
-        $total = $family_need - $family_resources;
+
         return array(
-            'Total Family Would Need' => ['Total Family Would Need' => $family_need, 'Family Resources' => '0'],
-            'Available Resources' => ['Total Family Would Need' => '0', 'Family Resources' => $family_resources],
-            'Insurance Need' => ['Total Family Would Need' => '0', 'Family Resources' => $total]
+            'Total Family Would Need' => ['Total Family Would Need' => $family_need, 'Family Resources' => 0],
+            'Available Resources' => ['Total Family Would Need' => 0, 'Family Resources' => $family_resources],
+            'Insurance Need' => ['Total Family Would Need' => 0, 'Family Resources' => $total]
         );
     }
 
