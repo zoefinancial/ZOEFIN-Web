@@ -13,7 +13,7 @@
 @section('modal-body-'.$id)
     <form action="{{ $url }}" method="{{ $method or 'post' }}" {{ $enc }} id="{{ $id or '' }}_form">
         @foreach( $inputs as $input )
-            <div class="form-group" id="{{ $id }}_{{ $input['id'] }}_div">
+            <div class="input-group" id="{{ $id }}_{{ $input['id'] }}_div">
             @if( in_array($input['type'], ['radio','radio-line','select']))
                 <label for="{{ $input['id'] }}"> {{ $input['label'] or $input['id'] }}:</label>
                     @if( in_array($input['type'], ['radio','radio-line']))
@@ -33,9 +33,26 @@
             @elseif( $input['type']=='hidden' )
                         <input type="{{ $input['type'] }}" class="form-control" id="{{ $input['id'] }}" name="{{ $input['name'] or $input['id'] }}" value="{{ $input['value'] or ''}}">
             @else
-                    <label for="{{ $input['id'] }}">{{ $input['label'] or $input['id'] }}:</label>
-                    <input type="{{ $input['type'] }}" class="form-control" id="{{ $input['id'] }}" name="{{ $input['name'] or $input['id'] }}" value="{{ $input['value'] or ''}}">
-
+                @if( $input['type']=='money' or $input['type']=='percentage')
+                    @php
+                        $type='number';
+                    @endphp
+                @else
+                    @php
+                        $type=$input['type'];
+                    @endphp
+                @endif
+                @if( $input['type']=='money')
+                        <span class="input-group-addon">$</span>
+                @endif
+                <label for="{{ $input['id'] }}">{{ $input['label'] or $input['id'] }}:</label>
+                <input type="{{ $type }}" class="form-control" id="{{ $input['id'] }}" name="{{ $input['name'] or $input['id'] }}" value="{{ $input['value'] or ''}}">
+                @if( $input['type']=='money')
+                    <span class="input-group-addon">.00</span>
+                @endif
+                @if( $input['type']=='percentage')
+                    <span class="input-group-addon">%</span>
+                @endif
             @endif
                 <span class="help-block" id="{{ $id }}_{{ $input['id'] }}_help">{{ $input['help'] or '' }}</span>
             </div>

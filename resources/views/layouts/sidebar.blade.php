@@ -86,16 +86,17 @@
                                         @include('layouts.forms.modal_form',
                                             array(
                                                 'id'=>'modal_'.str_replace('-','',str_replace(' ','',str_slug($loanType->description))).'_form',
-                                                'header'=>'Create '.$loanType->description,
+                                                'header'=>$loanType->description,
                                                 'description'=>'',
                                                 'cancel_button_label'=>'Cancel',
                                                 'inputs'=>[
                                                     ['label'=>$loanType->id,'id'=>'loan_types_id','type'=>'hidden','value'=>$loanType->id],
-                                                    ['label'=>'Amount','id'=>'amount','type'=>'number'],
+                                                    ['label'=>'Amount','id'=>'amount','type'=>'money'],
+                                                    ['label'=>'Interest rate','id'=>'interest_rate','type'=>'percentage'],
                                                     ['label'=>'Comments','id'=>'comments','type'=>'text'],
-                                                    ['label'=>'Detail','id'=>'detail','type'=>'text']
+                                                    ['label'=>'Detail','id'=>'detail','type'=>'text'],
                                                 ],
-                                                'submit_button_label'=>'Create '.$loanType->description,'url'=>'/api/loan'
+                                                'submit_button_label'=>'Add','url'=>'/api/loan'
                                             ))
                                         @endpush
                                     @endforeach

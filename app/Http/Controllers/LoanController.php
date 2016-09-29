@@ -36,11 +36,13 @@ class LoanController extends Controller
     {
         $this->validate($request, [
             'amount' => 'required|max:99999999999|numeric',
+            'interest_rate'=>'required',
             'loan_types_id'=>'required'
         ]);
         try{
             $loan = new Loan($request->all());
             $loan->users_id=Auth::user()->id;
+            $loan->interest_rate=$request->get('interest_rate');
             $loan->loan_types_id=$request->get('loan_types_id');
             $loan->save();
             return ['Information'=>'Loan created'];
