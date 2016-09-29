@@ -52,6 +52,8 @@ Route::delete('/api/loan/','LoanController@delete');
 
 Route::put('/api/loan/','LoanController@update');
 
+Route::post('/api/bankingaccount', 'BankingAccountController@store');
+
 Route::get('/taxes',
     ['middleware' => 'auth',
         function () {
