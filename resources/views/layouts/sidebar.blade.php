@@ -138,7 +138,6 @@
                         <ul class="">
                             @php
                                 $i=0;
-                                $homes_total=0;
                             @endphp
                             <li>
                             <div class="box box-primary collapsed-box box-solid bg-transparent">
