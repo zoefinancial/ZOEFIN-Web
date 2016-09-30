@@ -109,6 +109,15 @@ class User extends Authenticatable
         return $cars;
     }
 
+    /**
+     * @return array
+     */
+    public function getBankingAccount()
+    {
+        return BankingAccount::where('users_id',$this->id)
+            ->get();
+    }
+
     function getLoans(){
         $loans = Loan::where('users_id',$this->id)
             ->get();
@@ -189,6 +198,20 @@ class User extends Authenticatable
                     'Net Worth'=>$account->current_value
                 );
                 $result['Car']=$array_account;
+            }
+        }
+        $bankingAccount = $this->getBankingAccount();
+        foreach($bankingAccount as $account){
+            if(isset($result['Bank'])){
+                $result['Bank']['Assets']+=$account->current_balance;
+                $result['Bank']['Net Worth']+=$account->current_balance;
+            }else{
+                $array_account=array(
+                    'Assets'=>$account->current_balance,
+                    'Liabilities'=>0,
+                    'Net Worth'=>$account->current_balance
+                );
+                $result['Bank']=$array_account;
             }
         }
         $loans=$this->getLoans();
