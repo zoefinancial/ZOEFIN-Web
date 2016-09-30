@@ -97,43 +97,6 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                {{--     <li class="unstyled-list" ><a href="#">Add Information Manually</a>--}
-                        <ul class="">
-                            {{-- Plaid integration form and JS--}}
-                            {{--  <li class="treemenu" ><a>@include('layouts.forms.modal_plaid_form')</a></li>--}}
-                 {{--           <li ><a href="#" title="What i own">Assets</a>
-                                <ul class="">
-                                    <li data-toggle="modal" data-target="#modal_home_form"><a href="#"><i class="fa fa-home"></i> Home</a></li>
-                                    <li data-toggle="modal" data-target="#modal_car_form"><a href="#"><i class="fa fa-car"></i> Car</a></li>
-                                    <li data-toggle="modal" data-target="#modal_cash_form"><a href="#"><i class="fa fa-money"></i> Cash</a></li>
-                                </ul>
-                            </li>
-                            <li class="" ><a title="What i owe" href="#">Liabilities</a>
-                                <ul class="">
-                                    @foreach(\App\LoanType::all() as $loanType)
-                                        <li data-toggle="modal" data-target="#modal_{{ str_replace('-','',str_replace(' ','',str_slug($loanType->description))) }}_form"><a href="#"><i class="{{ $loanType->loan_icon }}"></i> {{ $loanType->description }}</a></li>
-                                        @push('modals')
-                                        @include('layouts.forms.modal_form',
-                                            array(
-                                                'id'=>'modal_'.str_replace('-','',str_replace(' ','',str_slug($loanType->description))).'_form',
-                                                'header'=>$loanType->description,
-                                                'description'=>'',
-                                                'cancel_button_label'=>'Cancel',
-                                                'inputs'=>[
-                                                    ['label'=>$loanType->id,'id'=>'loan_types_id','type'=>'hidden','value'=>$loanType->id],
-                                                    ['label'=>'Amount','id'=>'amount','type'=>'money'],
-                                                    ['label'=>'Interest rate','id'=>'interest_rate','type'=>'percentage'],
-                                                    ['label'=>'Comments','id'=>'comments','type'=>'text'],
-                                                    ['label'=>'Detail','id'=>'detail','type'=>'text'],
-                                                ],
-                                                'submit_button_label'=>'Add','url'=>'/api/loan'
-                                            ))
-                                        @endpush
-                                    @endforeach
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>--}}
                     <li class="unstyled-list"><a title="What i own">Assets</a>
                         <ul class="">
                             @php
@@ -155,7 +118,6 @@
                                     $('#c_h_{{ $i }}').on('click', function (e) {createHome();});
                                 </script>
                                 @endpush
-                                <!-- /.box-header -->
                                 <div class="box-body no-border">
                                 @foreach($userHomes as $home)
                                     @php
@@ -185,7 +147,6 @@
                                     @endpush
                                 @endforeach
                                 </div>
-                                <!-- /.box-body -->
                             </div>
                             </li>
                             <li>
@@ -204,7 +165,6 @@
                                         $('#c_c_{{ $i }}').on('click', function (e) {createCar();});
                                     </script>
                                     @endpush
-                                <!-- /.box-header -->
                                     <div class="box-body no-border">
                                         @foreach(Auth::user()->getCars() as $car)
                                             @php
@@ -234,7 +194,6 @@
                                             @endpush
                                         @endforeach
                                     </div>
-                                    <!-- /.box-body -->
                                 </div>
                             </li>
                             @forelse($userBankingAccounts as $bankingAccount )
@@ -344,44 +303,6 @@
                 </ul>
             </li>
         </ul>
-        {{--<!-- Sidebar user panel (optional) -->
-        <div class="user-panel">
-            <div class="pull-left image">
-                <!--<img src="{{ asset("/bower_components/AdminLTE/dist/img/user2-160x160.jpg") }}" class="img-circle" alt="User Image" /> -->
-                <i class="fa fa-user"></i>
-            </div>
-            <div class="pull-left info">
-                <p>{{ Auth::user()->name }}</p>
-                <!-- Status -->
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-            </div>
-        </div>
-        --}}
-        {{--
-        <!-- search form (Optional) -->
-        <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Search..."/>
-                    <span class="input-group-btn">
-                      <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
-                    </span>
-            </div>
-        </form>
-
-        <!-- /.search form -->
-           --}}
-        {{--
-        <!-- Sidebar Menu -->
-        <ul class="sidebar-menu">
-            <!-- <li class="header">HEADER</li> -->
-            <!-- Optionally, you can add icons to the links -->
-            <li class="{{ $dashboard_active }}"><a href="/dashboard"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
-            <li class="{{ $investments_active }}"><a href="#"><i class="fa fa-line-chart"></i><span>Investments</span></a></li>
-            <li class="{{ $taxes_active }}"><a href="taxes"><i class="fa fa-pencil-square-o"></i><span>Taxes</span></a></li>
-            <li class="{{ $budgeting_active }}"><a href="/budgeting"><i class="fa fa-usd "></i><span>Budgeting</span></a></li>
-            <li class="{{ $insurance_active }}"><a href="/insurance"><i class="fa fa-umbrella"></i><span>Insurance</span></a></li>
-        </ul><!-- /.sidebar-menu -->
-        --}}
     </section>
     <!-- /.sidebar -->
 </aside>
