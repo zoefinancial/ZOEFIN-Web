@@ -135,7 +135,7 @@
                             @php
                                 $i=0;
                             @endphp
-                            @forelse(Auth::user()->getHomes() as $home)
+                            @forelse($userHomes as $home)
                                 @php
                                     $i++;
                                 @endphp
