@@ -20,6 +20,7 @@ class CreateLoansTable extends Migration {
 			$table->integer('loan_status_id')->index('fk_loans_loan_status_idx');
 			$table->integer('loan_types_id')->index('fk_loans_loan_types_idx');
 			$table->integer('amount');
+            $table->integer('interest_rate');
 			$table->string('period', 60)->nullable();
 			$table->date('first_payment')->nullable();
 			$table->date('last_payment')->nullable();
