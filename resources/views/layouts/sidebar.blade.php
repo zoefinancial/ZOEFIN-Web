@@ -89,7 +89,7 @@
                 <a href="#"><i class="fa fa-info"></i><span>My Accounts</span>
                     <span class="pull-right">
                         <span id="manual_account_add" class="label" title="Add manually"><i class="fa fa-edit"></i></span>
-                        <span id="quovo_button_id" class="label" title="Link your accounts"><i class="fa fa-plus"></i></span>
+                        <span id="quovo_button_id" class="label" title="Link your accounts"><i class="fa fa-plus" style="font-size: 2em;"></i></span>
                     </span>
                 </a>
                 <ul class="treeview-menu">
@@ -134,88 +134,117 @@
                         <ul class="">
                             @php
                                 $i=0;
+                                $homes_total=0;
                             @endphp
-                            @forelse(Auth::user()->getHomes() as $home)
-                                @php
-                                    $i++;
-                                @endphp
-                                <li class="row-hidden assets-item">
-                                    <a><span class="assets-item"><i class="fa fa-home"></i> Home <span class="label label-info" title="${{  titleMoney($home->current_value) }}">${{ formatMoney($home->current_value) }}</span></span>
-                                        <span class="pull-right hover-btn">
-                                            <span id="c_h_{{ $i }}" class="label label-success" title="Create"><i class="fa fa-plus"></i></span>
-                                            <span id="e_h_{{ $i }}" class="label label-primary" title="Edit"><i class="fa fa-edit"></i></span>
-                                            <span id="d_h_{{ $i }}" class="label label-danger" title="Delete"><i class="fa fa-trash"></i></span>
-                                        </span>
-                                    </a>
-                                </li>
-                                @push('scripts')
-                                <script>
-                                    $('#c_h_{{ $i }}').on('click', function (e) {createHome();});
-                                    $('#e_h_{{ $i }}').on('click', function (e) {editHome('{{ base64_encode($home->id) }}','{{ $home->getHomeType->id }}','{{ $home->address }}','{{ $home->state }}','{{ $home->city }}','{{ $home->zip }}','{{ $home->current_value }}');});
-                                    $('#d_h_{{ $i }}').on('click', function (e) {deleteHome('{{ base64_encode($home->id) }}');});
-                                </script>
-                                @endpush
-                            @empty
-                                <li class="assets-item">
-                                    <a><span class="assets-item"><i class="fa fa-home"></i> Home </span>
-                                        <span class="pull-right">
-                                            <span id="c_h_{{ $i }}" class="label label-success" title="Create"><i class="fa fa-plus"></i></span>
-                                        </span>
-                                    </a>
-                                </li>
+                            <li>
+                            <div class="box box-primary collapsed-box box-solid bg-transparent">
+                                <div class="box-header">
+                                    <h3 class="box-title">Homes</h3>
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" id="c_h_{{ $i }}" title="Add home manually"><i class="fa fa-plus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-angle-down"></i>
+                                        </button>
+                                    </div>
+                                </div>
                                 @push('scripts')
                                 <script>
                                     $('#c_h_{{ $i }}').on('click', function (e) {createHome();});
                                 </script>
                                 @endpush
-                            @endforelse
-                            @forelse(Auth::user()->getCars() as $car)
-                                @php
-                                    $i++;
-                                @endphp
-                                <li class="row-hidden assets-item">
-                                    <a><span class="assets-item" title="{{ $car->additional_details }}"><i class="fa fa-car"></i> Car <span class="label label-info" title="${{  titleMoney($car->current_value) }}">${{ formatMoney($car->current_value) }}</span></span>
-                                        <span class="pull-right hover-btn">
-                                            <span id="c_c_{{ $i }}" class="label label-success" title="Create"><i class="fa fa-plus"></i></span>
-                                            <span id="e_c_{{ $i }}" class="label label-primary" title="Edit"><i class="fa fa-edit"></i></span>
-                                            <span id="d_c_{{ $i }}" class="label label-danger" title="Delete"><i class="fa fa-trash"></i></span>
-                                        </span>
-                                    </a>
-                                </li>
-                                @push('scripts')
-                                <script>
-                                    $('#c_c_{{ $i }}').on('click', function (e) {createCar();});
-                                    $('#e_c_{{ $i }}').on('click', function (e) {editCar('{{ base64_encode($car->id) }}','{{ $car->current_value }}','{{ $car->additional_details }}');});
-                                    $('#d_c_{{ $i }}').on('click', function (e) {deleteCar('{{ base64_encode($car->id) }}');});
-                                </script>
-                                @endpush
-                            @empty
-                                <li class="row-hidden assets-item">
-                                    <a><span class="assets-item" ><i class="fa fa-car"></i> Car </span>
-                                        <span class="pull-right">
-                                            <span id="c_c_{{ $i }}" class="label label-success" title="Create"><i class="fa fa-plus"></i></span>
-                                        </span>
-                                    </a>
-                                </li>
-                                @push('scripts')
-                                <script>
-                                    $('#c_c_{{ $i }}').on('click', function (e) {createCar();});
-                                </script>
-                                @endpush
-                            @endforelse
+                                <!-- /.box-header -->
+                                <div class="box-body no-border">
+                                @foreach(Auth::user()->getHomes() as $home)
+                                    @php
+                                        $i++;
+                                    @endphp
+                                        <div class="info-box bg-aqua row-hidden">
+                                            <span class="info-box-icon"><i class="fa fa-home"></i></span>
+                                            <span class="pull-right hover-btn">
+                                                <span id="e_h_{{ $i }}" class="label label-primary" title="Edit"><i class="fa fa-edit"></i></span>
+                                                <span id="d_h_{{ $i }}" class="label label-danger" title="Delete"><i class="fa fa-trash"></i></span>
+                                            </span>
+                                            <div class="info-box-content">
+                                                <span class="info-box-text">Home</span>
+                                                <span class="info-box-number" title="${{  titleMoney($home->current_value) }}">${{ formatMoney($home->current_value) }}</span>
+                                                <div class="progress">
+                                                    <div class="progress-bar" style="width: 100%" ></div>
+                                                </div>
+                                                <span class="progress-description"></span>
+                                            </div>
+                                            <!-- /.info-box-content -->
+                                        </div>
+                                    @push('scripts')
+                                    <script>
+                                        $('#e_h_{{ $i }}').on('click', function (e) {editHome('{{ base64_encode($home->id) }}','{{ $home->getHomeType->id }}','{{ $home->address }}','{{ $home->state }}','{{ $home->city }}','{{ $home->zip }}','{{ $home->current_value }}');});
+                                        $('#d_h_{{ $i }}').on('click', function (e) {deleteHome('{{ base64_encode($home->id) }}');});
+                                    </script>
+                                    @endpush
+                                @endforeach
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                            </li>
+                            <li>
+                                <div class="box box-primary collapsed-box box-solid bg-transparent">
+                                    <div class="box-header">
+                                        <h3 class="box-title">Cars</h3>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" id="c_c_{{ $i }}" title="Add car manually"><i class="fa fa-plus"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-angle-down"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    @push('scripts')
+                                    <script>
+                                        $('#c_c_{{ $i }}').on('click', function (e) {createCar();});
+                                    </script>
+                                    @endpush
+                                <!-- /.box-header -->
+                                    <div class="box-body no-border">
+                                        @foreach(Auth::user()->getCars() as $car)
+                                            @php
+                                                $i++;
+                                            @endphp
+                                            <div class="info-box bg-aqua row-hidden">
+                                                <span class="info-box-icon" title="{{ $car->additional_details }}"><i class="fa fa-car"></i></span>
+                                                <span class="pull-right hover-btn">
+                                                <span id="e_c_{{ $i }}" class="label label-primary" title="Edit"><i class="fa fa-edit"></i></span>
+                                                <span id="d_c_{{ $i }}" class="label label-danger" title="Delete"><i class="fa fa-trash"></i></span>
+                                            </span>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Car</span>
+                                                    <span class="info-box-number" title="${{ titleMoney($car->current_value) }}">${{ formatMoney($car->current_value) }}</span>
+                                                    <div class="progress">
+                                                        <div class="progress-bar" style="width: 100%" ></div>
+                                                    </div>
+                                                    <span class="progress-description"></span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                            @push('scripts')
+                                            <script>
+                                                $('#e_c_{{ $i }}').on('click', function (e) {editCar('{{ base64_encode($car->id) }}','{{ $car->current_value }}','{{ $car->additional_details }}');});
+                                                $('#d_c_{{ $i }}').on('click', function (e) {deleteCar('{{ base64_encode($car->id) }}');});
+                                            </script>
+                                            @endpush
+                                        @endforeach
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+                            </li>
                         </ul>
                     </li>
                     <li class="unstyled-list"><a title="What i owe">Liabilities</a>
                         <ul class="">
                             @foreach(\App\LoanType::all() as $loanType)
-
                                 @forelse(Auth::user()->getLoansByType($loanType->id) as $loan)
                                     @php
                                         $i++;
                                     @endphp
-
                                     <li class="row-hidden assets-item">
-                                        <a title="{{ $loanType->description }}"><span class="assets-item"><i class="{{ $loanType->loan_icon }}"></i>{{ explode(' ',$loanType->description)[0] }}</span> <span class="label label-warning" title="${{  titleMoney($loan->amount) }}">${{ formatMoney($loan->amount) }}</span>
+                                        <a title="{{ $loanType->description }}"><span class="assets-item"><i class="{{ $loanType->loan_icon }}"></i> {{ explode(' ',$loanType->description)[0] }}</span> <span class="label label-warning" title="${{ titleMoney($loan->amount) }}">${{ formatMoney($loan->amount) }}</span>
                                             <span class="pull-right hover-btn">
                                                 <span id="c_l_{{ $i }}" class="label label-success" title="Create"><i class="fa fa-plus"></i></span>
                                                 <span id="e_l_{{ $i }}" class="label label-primary" title="Edit"><i class="fa fa-edit"></i></span>
@@ -304,17 +333,18 @@
 
         <!-- /.search form -->
            --}}
+        {{--
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
             <!-- <li class="header">HEADER</li> -->
             <!-- Optionally, you can add icons to the links -->
-
             <li class="{{ $dashboard_active }}"><a href="/dashboard"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
             <li class="{{ $investments_active }}"><a href="#"><i class="fa fa-line-chart"></i><span>Investments</span></a></li>
             <li class="{{ $taxes_active }}"><a href="taxes"><i class="fa fa-pencil-square-o"></i><span>Taxes</span></a></li>
             <li class="{{ $budgeting_active }}"><a href="/budgeting"><i class="fa fa-usd "></i><span>Budgeting</span></a></li>
             <li class="{{ $insurance_active }}"><a href="/insurance"><i class="fa fa-umbrella"></i><span>Insurance</span></a></li>
         </ul><!-- /.sidebar-menu -->
+        --}}
     </section>
     <!-- /.sidebar -->
 </aside>

@@ -32,5 +32,23 @@ span.assets-item{
 }
 
 .unstyled-list ul{
-    padding-left: 20px;
+    padding-left: 0px;
+}
+
+.info-box-content{
+    margin-left: 64px;
+
+}
+
+.info-box-icon{
+    width:64px;
+    height: 67px;
+}
+
+.info-box{
+    min-height: 64px;
+}
+
+.bg-transparent{
+    background-color: transparent;
 }

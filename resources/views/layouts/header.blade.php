@@ -18,8 +18,18 @@
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>
         </a>
+        <div class="collapse navbar-collapse pull-left">
+            <ul class="nav navbar-nav">
+                <!-- <li class="header">HEADER</li> -->
+                <!-- Optionally, you can add icons to the links -->
+                <li><a href="#"><i class="fa fa-line-chart"></i> <span>Investments</span></a></li>
+                <li><a href="taxes"><i class="fa fa-pencil-square-o"></i> <span>Taxes</span></a></li>
+                <li><a href="/budgeting"><i class="fa fa-usd "></i> <span>Budgeting</span></a></li>
+                <li><a href="/insurance"><i class="fa fa-umbrella"></i> <span>Insurance</span></a></li>
+            </ul>
+        </div>
         <!-- Navbar Right Menu -->
-        <div class="navbar-custom-menu">
+        <div class="navbar-custom-menu pull-right">
             <ul class="nav navbar-nav">
 
                 <!-- User Account Menu -->
