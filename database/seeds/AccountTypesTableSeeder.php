@@ -17,8 +17,7 @@ class AccountTypesTableSeeder extends Seeder
         DB::table('account_types')->insert([
             ['description' => 'Checking Account', 'created_at' => $dateNow, 'updated_at' => $dateNow],
             ['description' => 'Saving Account', 'created_at' => $dateNow, 'updated_at' => $dateNow],
-            ['description' => 'Money Market Deposit Account', 'created_at' => $dateNow, 'updated_at' => $dateNow],
-            ['description' => 'Certificates of Deposit', 'created_at' => $dateNow, 'updated_at' => $dateNow],
+            ['description' => 'Others', 'created_at' => $dateNow, 'updated_at' => $dateNow],
         ]);
     }
 }

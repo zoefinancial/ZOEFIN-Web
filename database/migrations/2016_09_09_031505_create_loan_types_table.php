@@ -16,6 +16,7 @@ class CreateLoanTypesTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('description', 60);
+            $table->string('icon',100);
             $table->timestamps();
 		});
 	}

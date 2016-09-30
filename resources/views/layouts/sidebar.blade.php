@@ -60,22 +60,26 @@
     $budgeting_active = $side_bar_active_item=='budgeting'? 'active':'';
     $insurance_active = $side_bar_active_item=='insurance'? 'active':'';
 
-
+    //initialize arrays for options select
     $homeTypesSelect = array();
     $banksSelect = array();
     $accountTypesSelect = array();
     $accountStatusSelect = array();
+    //query to parameters
     $homeTypes = App\HomeType::select('id', 'description')->get();
     $banks = App\Bank::select('id','name')->get();
     $accountStatus = App\AccountStatus::select('id','description')->get();
     $accountTypes = App\AccountType::select('id','description')->get();
-
+    //populate array with parameters
     $homeTypesSelect = selectParameters($homeTypes,['value' => 'id','label' => 'description']);
     $banksSelect = selectParameters($banks,['value' => 'id','label' => 'name']);
     $accountStatusSelect = selectParameters($accountStatus,['value' => 'id','label' => 'description']);
     $accountTypesSelect = selectParameters($accountTypes,['value' => 'id','label' => 'description']);
 
+    //query to assets
     $userHomes = App\Http\Controllers\HomeController::getHome(Auth::user()->id);
+    $userBankingAccounts = App\Http\Controllers\BankingAccountController::getBankingAccount(Auth::user()->id);
+
 
 
 @endphp
@@ -154,7 +158,7 @@
                                 @endpush
                                 <!-- /.box-header -->
                                 <div class="box-body no-border">
-                                @foreach(Auth::user()->getHomes() as $home)
+                                @foreach($userHomes as $home)
                                     @php
                                         $i++;
                                     @endphp
@@ -234,6 +238,40 @@
                                     <!-- /.box-body -->
                                 </div>
                             </li>
+                            @forelse($userBankingAccounts as $bankingAccount )
+                                @php
+                                    $i++;
+                                @endphp
+                                <li class="row-hidden assets-item">
+                                    <a><span class="assets-item"><i class="fa fa-money"></i> Bank <span class="label label-info" title="${{  titleMoney($bankingAccount->current_balance) }}">${{ formatMoney($bankingAccount->current_balance) }}</span></span>
+                                        <span class="pull-right hover-btn">
+                                            <span id="c_h_{{ $i }}" class="label label-success" title="Create"><i class="fa fa-plus"></i></span>
+                                            <span id="e_h_{{ $i }}" class="label label-primary" title="Edit"><i class="fa fa-edit"></i></span>
+                                            <span id="d_h_{{ $i }}" class="label label-danger" title="Delete"><i class="fa fa-trash"></i></span>
+                                        </span>
+                                    </a>
+                                </li>
+                                @push('scripts')
+                                <script>
+                                    $('#c_h_{{ $i }}').on('click', function (e) {createBankigAccount();});
+                                    $('#e_h_{{ $i }}').on('click', function (e) {editBankingAccount('{{ base64_encode($bankingAccount->id) }}','{{ $bankingAccount->banks_id }}','{{ $bankingAccount->account_types_id }}','{{ $bankingAccount->account_status_id }}','{{ $bankingAccount->number }}','{{ $bankingAccount->current_balance }}');});
+                                    $('#d_h_{{ $i }}').on('click', function (e) {deleteBankingAccount('{{ base64_encode($bankingAccount->id) }}');});
+                                </script>
+                                @endpush
+                            @empty
+                                <li class="assets-item">
+                                    <a><span class="assets-item"><i class="fa fa-home"></i> Bank </span>
+                                        <span class="pull-right">
+                                            <span id="c_h_{{ $i }}" class="label label-success" title="Create"><i class="fa fa-plus"></i></span>
+                                        </span>
+                                    </a>
+                                </li>
+                                @push('scripts')
+                                <script>
+                                    $('#c_h_{{ $i }}').on('click', function (e) {createBankigAccount();});
+                                </script>
+                                @endpush
+                            @endforelse
                         </ul>
                     </li>
                     <li class="unstyled-list"><a title="What i owe">Liabilities</a>
@@ -404,13 +442,14 @@
             'inputs'=>[
                 ['label'=>'','id'=>'delete_home_id','type'=>'hidden']
             ],
-            'submit_button_label'=>'Delete home','url'=>'/api/home/',))
+            'submit_button_label'=>'Delete home','url'=>'/api/home/',
+    ))
 
 
 {{--Create Banking account form--}}
 @include('layouts.forms.modal_form',
     array(
-        'id'=>'modal_cash_form',
+        'id'=>'modal_banking_account_form',
         'header'=>'Create Banking Account',
         'description'=>'',
         'cancel_button_label'=>'Cancel',
@@ -422,6 +461,38 @@
             ['label'=>'Current Balance', 'name' => 'current_balance','id'=>'current-balance','type'=>'money'],
         ],
         'submit_button_label'=>'Create Cash Account','url'=>'/api/bankingaccount'
+    ))
+
+{{-- Edit banking account form --}}
+@include('layouts.forms.modal_form',
+    array(
+        'id'=>'modal_edit_banking_account_form',
+        'header'=>'Edit Banking Account',
+        'description'=>'',
+        'method'=>'put',
+        'cancel_button_label'=>'Cancel',
+        'inputs'=>[
+            ['label'=>'Bank Name', 'name' => 'banks_id','id'=>'banks-id','type'=>'select', 'options' => $banksSelect],
+            ['label'=>'Account Type', 'name' => 'account_types_id','id'=>'account-types-id','type'=>'select', 'options' => $accountTypesSelect],
+            ['label'=>'Account Status', 'name' => 'account_status_id','id'=>'account-status-id','type'=>'select', 'options' => $accountStatusSelect],
+            ['label'=>'Account Number', 'name' => 'number','id'=>'number','type'=>'text'],
+            ['label'=>'Current Balance', 'name' => 'current_balance','id'=>'current-balance','type'=>'money'],
+        ],
+        'submit_button_label'=>'Edit Banking','url'=>'/api/bankingaccount'
+    ))
+
+{{--Delete banking account form--}}
+@include('layouts.forms.modal_form',
+    array(
+            'id'=>'delete_banking_account_form',
+            'header'=>'Delete Banking Account',
+            'description'=>'',
+            'cancel_button_label'=>'Cancel',
+            'method'=>'delete',
+            'inputs'=>[
+                ['label'=>'','id'=>'delete_banking_account_id','type'=>'hidden']
+            ],
+            'submit_button_label'=>'Delete home','url'=>'/api/bankingaccount/',
     ))
 
 {{-- Create car form --}}
@@ -528,6 +599,11 @@
         return true;
     }
 
+    function createBankigAccount() {
+        $('#modal_banking_account_form').modal('toggle');
+        return true;
+    }
+
     function deleteHome(home_id_encode){
         $('#delete_home_id').attr('value',home_id_encode);
         $('#description_delete_home_form').html('Are you sure than you want to delete this home?');
@@ -538,6 +614,13 @@
     function deleteCar(car_id_encode){
         $('#delete_car_id').attr('value',car_id_encode);
         $('#description_delete_car_form').html('Are you sure than you want to delete this car?');
+        $('#delete_car_form').modal('toggle');
+        return true;
+    }
+
+    function deleteBankingAccount(banking_account_id_encode){
+        $('#delete_banking_account_id').attr('value',banking_account_id_encode);
+        $('#description_delete_car_form').html('Are you sure than you want to delete this banking account?');
         $('#delete_car_form').modal('toggle');
         return true;
     }
@@ -566,6 +649,17 @@
         $('#edit_car_current_value').attr('value',value);
         $('#edit_car_additional_details').attr('value',additional_details);
         $('#modal_edit_car_form').modal('toggle');
+        return true;
+    }
+
+    function editBankingAccount(banking_account_id_encode,banks_id,account_types_id,account_status_id,number,current_value){
+        $('#edit_banking_account_id').attr('value',banking_account_id_encode);
+        $('#edit_banking_account_bank').val(banks_id);
+        $('#edit_banking_account_account_type').val(account_types_id);
+        $('#edit_banking_account_account_status').val(account_status_id);
+        $('#edit_banking_account_number').attr('value',number);
+        $('#edit_banking_account_current_value').attr('value',current_value);
+        $('#modal_edit_banking_account_form').modal('toggle');
         return true;
     }
 
