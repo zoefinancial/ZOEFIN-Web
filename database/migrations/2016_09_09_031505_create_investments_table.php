@@ -14,13 +14,16 @@ class CreateInvestmentsTable extends Migration {
 	{
 		Schema::create('investments', function(Blueprint $table)
 		{
-			$table->integer('id', true);
-			$table->integer('users_id')->index('fk_investments_users1_idx');
-			$table->integer('individuals_id')->index('fk_investments_individuals1_idx');
-			$table->integer('investment_vehicles_id')->index('fk_investments_investment_vehicles1_idx');
-			$table->string('name', 45)->nullable();
-			$table->string('investment_company_name', 45)->nullable();
-			$table->integer('balance')->nullable();
+			$table->increments('id');
+			$table->integer('users_id')->index('fk_investments_users_idx');
+			$table->integer('individuals_id')->index('fk_investments_individuals_idx');
+			$table->integer('investment_vehicles_id')->index('fk_investments_investment_vehicles_idx');
+            $table->integer('investment_companies_id')->index('fk_investments_investment_companies_idx');
+			$table->string('employer', 255)->nullable();
+			$table->integer('total_balance')->nullable();
+            $table->date('initial');
+            $table->date('end');
+            $table->timestamps();
 		});
 	}
 
