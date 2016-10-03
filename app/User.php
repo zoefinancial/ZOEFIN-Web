@@ -137,7 +137,7 @@ class User extends Authenticatable
         $result = array();
         foreach ($this->getFamilyMembers() as $familyMember) {
             foreach (Insurance::where('individuals_id',$familyMember->id)->get() as $insurance){
-                $result[$familyMember->name]=['Coverage'=>$insurance->coverage,
+                $result[]=['Name'=>$familyMember->name,'Coverage'=>$insurance->coverage,
                         'Type'=>$insurance->insurance_type,
                         'Years coverage'=>$insurance->years,
                         'Annual Payment'=>$insurance->anual_payment];

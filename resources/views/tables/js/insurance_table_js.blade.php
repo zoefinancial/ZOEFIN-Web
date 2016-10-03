@@ -12,7 +12,7 @@
             for ( row in ajaxData){
                 object_row=ajaxData[row];
 
-                $("#{{ $canvas_id }}").append('<tr><td>'+row+'</td>' +
+                $("#{{ $canvas_id }}").append('<tr><td>'+object_row['Name']+'</td>' +
                         '<td>'+humanReadableMoney(object_row['Coverage'],0)+'</td>' +
                         '<td>'+object_row['Type']+'</td>' +
                         '<td>'+object_row['Years coverage']+'</td>' +

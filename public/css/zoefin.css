@@ -43,6 +43,7 @@ span.assets-item{
 .info-box-icon{
     width:64px;
     height: 67px;
+    line-height: 64px;
 }
 
 .info-box{

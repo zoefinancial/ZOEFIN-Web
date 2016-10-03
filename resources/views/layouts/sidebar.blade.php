@@ -70,11 +70,15 @@
     $banks = App\Bank::select('id','name')->get();
     $accountStatus = App\AccountStatus::select('id','description')->get();
     $accountTypes = App\AccountType::select('id','description')->get();
+    $interestRateTypes = \App\InterestRateType::select('id','description')->get();
+
     //populate array with parameters
     $homeTypesSelect = selectParameters($homeTypes,['value' => 'id','label' => 'description']);
     $banksSelect = selectParameters($banks,['value' => 'id','label' => 'name']);
     $accountStatusSelect = selectParameters($accountStatus,['value' => 'id','label' => 'description']);
     $accountTypesSelect = selectParameters($accountTypes,['value' => 'id','label' => 'description']);
+
+    $typeOfInterestRateSelect = selectParameters($interestRateTypes,['value' => 'id','label' => 'description']);
 
     //query to assets
     $userHomes = App\Http\Controllers\HomeController::getHome(Auth::user()->id);
@@ -83,10 +87,7 @@
 
 
 @endphp
-
-<!-- Left side column. contains the sidebar -->
 <aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
         <ul class="sidebar-menu">
             <li class="treemenu">
@@ -137,7 +138,6 @@
                                                 </div>
                                                 <span class="progress-description"></span>
                                             </div>
-                                            <!-- /.info-box-content -->
                                         </div>
                                     @push('scripts')
                                     <script>
@@ -184,7 +184,6 @@
                                                     </div>
                                                     <span class="progress-description"></span>
                                                 </div>
-                                                <!-- /.info-box-content -->
                                             </div>
                                             @push('scripts')
                                             <script>
@@ -196,107 +195,146 @@
                                     </div>
                                 </div>
                             </li>
-                            @forelse($userBankingAccounts as $bankingAccount )
-                                @php
-                                    $i++;
-                                @endphp
-                                <li class="row-hidden assets-item">
-                                    <a><span class="assets-item"><i class="fa fa-money"></i> Bank <span class="label label-info" title="${{  titleMoney($bankingAccount->current_balance) }}">${{ formatMoney($bankingAccount->current_balance) }}</span></span>
-                                        <span class="pull-right hover-btn">
-                                            <span id="c_h_{{ $i }}" class="label label-success" title="Create"><i class="fa fa-plus"></i></span>
-                                            <span id="e_h_{{ $i }}" class="label label-primary" title="Edit"><i class="fa fa-edit"></i></span>
-                                            <span id="d_h_{{ $i }}" class="label label-danger" title="Delete"><i class="fa fa-trash"></i></span>
-                                        </span>
-                                    </a>
-                                </li>
-                                @push('scripts')
-                                <script>
-                                    $('#c_h_{{ $i }}').on('click', function (e) {createBankigAccount();});
-                                    $('#e_h_{{ $i }}').on('click', function (e) {editBankingAccount('{{ base64_encode($bankingAccount->id) }}','{{ $bankingAccount->banks_id }}','{{ $bankingAccount->account_types_id }}','{{ $bankingAccount->account_status_id }}','{{ $bankingAccount->number }}','{{ $bankingAccount->current_balance }}');});
-                                    $('#d_h_{{ $i }}').on('click', function (e) {deleteBankingAccount('{{ base64_encode($bankingAccount->id) }}');});
-                                </script>
-                                @endpush
-                            @empty
-                                <li class="assets-item">
-                                    <a><span class="assets-item"><i class="fa fa-home"></i> Bank </span>
-                                        <span class="pull-right">
-                                            <span id="c_h_{{ $i }}" class="label label-success" title="Create"><i class="fa fa-plus"></i></span>
-                                        </span>
-                                    </a>
-                                </li>
-                                @push('scripts')
-                                <script>
-                                    $('#c_h_{{ $i }}').on('click', function (e) {createBankigAccount();});
-                                </script>
-                                @endpush
-                            @endforelse
+                            <li>
+                                <div class="box box-primary collapsed-box box-solid bg-transparent">
+                                    <div class="box-header">
+                                        <h3 class="box-title">Cash account</h3>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" id="c_b_{{ $i }}" title="Add banking account manually"><i class="fa fa-plus"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-angle-down"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    @push('scripts')
+                                    <script>
+                                        $('#c_b_{{ $i }}').on('click', function (e) {createBankigAccount();});
+                                    </script>
+                                    @endpush
+                                    <div class="box-body no-border">
+                                        @foreach($userBankingAccounts as $bankingAccount)
+                                            @php
+                                                $i++;
+                                            @endphp
+                                            <div class="info-box bg-aqua row-hidden">
+                                                <span class="info-box-icon"><i class="fa fa-money"></i></span>
+                                                <span class="pull-right hover-btn">
+                                                <span id="e_b_{{ $i }}" class="label label-primary" title="Edit"><i class="fa fa-edit"></i></span>
+                                                <span id="d_b_{{ $i }}" class="label label-danger" title="Delete"><i class="fa fa-trash"></i></span>
+                                            </span>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Banking account</span>
+                                                    <span class="info-box-number" title="${{ titleMoney($bankingAccount->current_balance) }}">${{ formatMoney($bankingAccount->current_balance) }}</span>
+                                                    <div class="progress">
+                                                        <div class="progress-bar" style="width: 100%" ></div>
+                                                    </div>
+                                                    <span class="progress-description"></span>
+                                                </div>
+                                            </div>
+                                            @push('scripts')
+                                            <script>
+                                                $('#e_b_{{ $i }}').on('click', function (e) {editBankingAccount('{{ base64_encode($bankingAccount->id) }}','{{ $bankingAccount->banks_id }}','{{ $bankingAccount->account_types_id }}','{{ $bankingAccount->account_status_id }}','{{ $bankingAccount->number }}','{{ $bankingAccount->current_balance }}');});
+                                                $('#d_b_{{ $i }}').on('click', function (e) {deleteBankingAccount('{{ base64_encode($bankingAccount->id) }}');});
+                                            </script>
+                                            @endpush
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </li>
                         </ul>
                     </li>
                     <li class="unstyled-list"><a title="What i owe">Liabilities</a>
                         <ul class="">
                             @foreach(\App\LoanType::all() as $loanType)
-                                @forelse(Auth::user()->getLoansByType($loanType->id) as $loan)
-                                    @php
-                                        $i++;
-                                    @endphp
-                                    <li class="row-hidden assets-item">
-                                        <a title="{{ $loanType->description }}"><span class="assets-item"><i class="{{ $loanType->loan_icon }}"></i> {{ explode(' ',$loanType->description)[0] }}</span> <span class="label label-warning" title="${{ titleMoney($loan->amount) }}">${{ formatMoney($loan->amount) }}</span>
-                                            <span class="pull-right hover-btn">
-                                                <span id="c_l_{{ $i }}" class="label label-success" title="Create"><i class="fa fa-plus"></i></span>
+                                <li>
+                                    <div class="box box-warning collapsed-box box-solid bg-transparent">
+                                        <div class="box-header">
+                                            <h3 class="box-title">{{$loanType->description}}</h3>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" id="c_l_{{ $i }}" title="Add {{ $loanType->description }} manually"><i class="fa fa-plus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-angle-down"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="box-body no-border">
+                                            @push('scripts')
+                                            <script>
+                                                function create{{ str_replace('-','',str_replace(' ','',str_slug($loanType->description))) }}(){
+                                                    $('#modal_{{  str_replace('-','',str_replace(' ','',str_slug($loanType->description))) }}_form').modal('toggle');
+                                                    return true;
+                                                }
+                                                $('#c_l_{{ $i }}').on('click', function (e) {create{{ str_replace('-','',str_replace(' ','',str_slug($loanType->description))) }}();});
+                                            </script>
+                                            @endpush
+                                            @push('modals')
+                                            @if($loanType->description=='Mortgage')
+                                                @include('layouts.forms.modal_form',
+                                                array(
+                                                    'id'=>'modal_'.str_replace('-','',str_replace(' ','',str_slug($loanType->description))).'_form',
+                                                    'header'=>$loanType->description,
+                                                    'description'=>'',
+                                                    'cancel_button_label'=>'Cancel',
+                                                    'inputs'=>[
+                                                        ['label'=>$loanType->id,'id'=>'loan_types_id','type'=>'hidden','value'=>$loanType->id],
+                                                        ['label'=>'Amount','id'=>'amount','type'=>'money'],
+                                                        ['label'=>'Interest rate','id'=>'interest_rate','type'=>'percentage'],
+                                                        ['label'=>'Type of interest rate', 'name' => 'details','id'=>str_replace('-','',str_replace(' ','',str_slug($loanType->description))).'_details','type'=>'select', 'options' => $typeOfInterestRateSelect],
+                                                        ['label'=>'Comments','id'=>'comments','type'=>'text'],
+                                                    ],
+                                                    'submit_button_label'=>'Add','url'=>'/api/loan'
+                                                ))
+                                            @else
+                                                @include('layouts.forms.modal_form',
+                                                array(
+                                                    'id'=>'modal_'.str_replace('-','',str_replace(' ','',str_slug($loanType->description))).'_form',
+                                                    'header'=>$loanType->description,
+                                                    'description'=>'',
+                                                    'cancel_button_label'=>'Cancel',
+                                                    'inputs'=>[
+                                                        ['label'=>$loanType->id,'id'=>'loan_types_id','type'=>'hidden','value'=>$loanType->id],
+                                                        ['label'=>'Amount','id'=>'amount','type'=>'money'],
+                                                        ['label'=>'Interest rate','id'=>'interest_rate','type'=>'percentage'],
+                                                        ['label'=>'Comments','id'=>'comments','type'=>'text'],
+                                                        ['label'=>'Detail','id'=>'detail','type'=>'text'],
+                                                    ],
+                                                    'submit_button_label'=>'Add','url'=>'/api/loan'
+                                                ))
+                                            @endif
+                                            @endpush
+                                            @foreach(Auth::user()->getLoansByType($loanType->id) as $loan)
+                                                @php
+                                                    $i++;
+                                                @endphp
+                                                @push('scripts')
+                                                <script>
+                                                    @if($loanType->description=='Mortgage')
+                                                        $('#e_l_{{ $i }}').on('click', function (e) {editMortgage('{{ base64_encode($loan->id) }}','{{ $loanType->id }}','{{ $loan->amount }}','{{ $loan->interest_rate }}','{{ $loan->comments }}','{{ $loan->details }}');});
+                                                    @else
+                                                        $('#e_l_{{ $i }}').on('click', function (e) {editLoan('{{ base64_encode($loan->id) }}','{{ $loanType->id }}','{{ $loan->amount }}','{{ $loan->interest_rate }}','{{ $loan->comments }}','{{ $loan->details }}');});
+                                                    @endif
+                                                    $('#d_l_{{ $i }}').on('click', function (e) {deleteLoan('{{ base64_encode($loan->id) }}');});
+                                                </script>
+                                                @endpush
+                                                <div class="info-box bg-orange row-hidden">
+                                                    <span class="info-box-icon"><i class="{{$loanType->icon}}"></i></span>
+                                                    <span class="pull-right hover-btn">
                                                 <span id="e_l_{{ $i }}" class="label label-primary" title="Edit"><i class="fa fa-edit"></i></span>
                                                 <span id="d_l_{{ $i }}" class="label label-danger" title="Delete"><i class="fa fa-trash"></i></span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    @push('scripts')
-                                    <script>
-                                        $('#c_l_{{ $i }}').on('click', function (e) {create{{ str_replace('-','',str_replace(' ','',str_slug($loanType->description))) }}();});
-                                        $('#e_l_{{ $i }}').on('click', function (e) {editLoan('{{ base64_encode($loan->id) }}','{{ $loanType->id }}','{{ $loan->amount }}','{{ $loan->interest_rate }}','{{ $loan->comments }}','{{ $loan->details }}');});
-                                        $('#d_l_{{ $i }}').on('click', function (e) {deleteLoan('{{ base64_encode($loan->id) }}');});
-                                    </script>
-                                    @endpush
-                                @empty
-                                    @php
-                                        $i++;
-                                    @endphp
-                                    <li class="row-hidden assets-item">
-                                        <a title="{{ $loanType->description }}"><span class="assets-item"><i class="{{ $loanType->loan_icon }}"></i>{{ $loanType->description }}</span>
-                                            <span class="pull-right">
-                                                <span id="c_l_{{ $i }}" class="label label-success" title="Create"><i class="fa fa-plus"></i></span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    @push('scripts')
-                                    <script>
-                                        $('#c_l_{{ $i }}').on('click', function (e) {create{{ str_replace('-','',str_replace(' ','',str_slug($loanType->description))) }}();});
-                                    </script>
-                                    @endpush
-                                @endforelse
-                                    @push('modals')
-                                    @include('layouts.forms.modal_form',
-                                        array(
-                                            'id'=>'modal_'.str_replace('-','',str_replace(' ','',str_slug($loanType->description))).'_form',
-                                            'header'=>$loanType->description,
-                                            'description'=>'',
-                                            'cancel_button_label'=>'Cancel',
-                                            'inputs'=>[
-                                                ['label'=>$loanType->id,'id'=>'loan_types_id','type'=>'hidden','value'=>$loanType->id],
-                                                ['label'=>'Amount','id'=>'amount','type'=>'money'],
-                                                ['label'=>'Interest rate','id'=>'interest_rate','type'=>'percentage'],
-                                                ['label'=>'Comments','id'=>'comments','type'=>'text'],
-                                                ['label'=>'Detail','id'=>'detail','type'=>'text'],
-                                            ],
-                                            'submit_button_label'=>'Add','url'=>'/api/loan'
-                                        ))
-                                    @endpush
-                                    @push('scripts')
-                                    <script>
-                                        function create{{ str_replace('-','',str_replace(' ','',str_slug($loanType->description))) }}(){
-                                            $('#modal_{{  str_replace('-','',str_replace(' ','',str_slug($loanType->description))) }}_form').modal('toggle');
-                                            return true;
-                                        }
-                                    </script>
-                                    @endpush
+                                                </span>
+                                                    <div class="info-box-content">
+                                                        <span class="info-box-text" title="{{$loan->comments}}">{{$loanType->description}}</span>
+                                                        <span class="info-box-number" title="${{ titleMoney($loan->amount) }}">${{ formatMoney($loan->amount) }}</span>
+                                                        <div class="progress">
+                                                            <div class="progress-bar" style="width: 100%" ></div>
+                                                        </div>
+                                                        <span class="progress-description"></span>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </li>
                             @endforeach
                         </ul>
                     </li>
@@ -370,7 +408,7 @@
 @include('layouts.forms.modal_form',
     array(
         'id'=>'modal_banking_account_form',
-        'header'=>'Create Banking Account',
+        'header'=>'Create Bank Account',
         'description'=>'',
         'cancel_button_label'=>'Cancel',
         'inputs'=>[
@@ -380,14 +418,14 @@
             ['label'=>'Account Number', 'name' => 'number','id'=>'number','type'=>'text'],
             ['label'=>'Current Balance', 'name' => 'current_balance','id'=>'current-balance','type'=>'money'],
         ],
-        'submit_button_label'=>'Create Cash Account','url'=>'/api/bankingaccount'
+        'submit_button_label'=>'Create Bank Account','url'=>'/api/bankingaccount'
     ))
 
 {{-- Edit banking account form --}}
 @include('layouts.forms.modal_form',
     array(
         'id'=>'modal_edit_banking_account_form',
-        'header'=>'Edit Banking Account',
+        'header'=>'Edit Bank Account',
         'description'=>'',
         'method'=>'put',
         'cancel_button_label'=>'Cancel',
@@ -398,21 +436,21 @@
             ['label'=>'Account Number', 'name' => 'number','id'=>'number','type'=>'text'],
             ['label'=>'Current Balance', 'name' => 'current_balance','id'=>'current-balance','type'=>'money'],
         ],
-        'submit_button_label'=>'Edit Banking','url'=>'/api/bankingaccount'
+        'submit_button_label'=>'Edit Bank Account','url'=>'/api/bankingaccount'
     ))
 
 {{--Delete banking account form--}}
 @include('layouts.forms.modal_form',
     array(
             'id'=>'delete_banking_account_form',
-            'header'=>'Delete Banking Account',
+            'header'=>'Delete Bank Account',
             'description'=>'',
             'cancel_button_label'=>'Cancel',
             'method'=>'delete',
             'inputs'=>[
                 ['label'=>'','id'=>'delete_banking_account_id','type'=>'hidden']
             ],
-            'submit_button_label'=>'Delete home','url'=>'/api/bankingaccount/',
+            'submit_button_label'=>'Delete Bank Account','url'=>'/api/bankingaccount/',
     ))
 
 {{-- Create car form --}}
@@ -504,6 +542,26 @@
                 'submit_button_label'=>'Edit Loan','url'=>'/api/loan'
             ))
 
+{{--Edit Loan--}}
+@include('layouts.forms.modal_form',
+            array(
+                'id'=>'modal_edit_mortgage_form',
+                'header'=>'Edit Mortgage',
+                'description'=>'',
+                'method'=>'put',
+                'cancel_button_label'=>'Cancel',
+                'inputs'=>[
+                    ['label'=>'','id'=>'edit_mortgage_id','name'=>'id','type'=>'hidden'],
+                    ['label'=>'','id'=>'edit_mortgage_loan_types_id','name'=>'loan_types_id','type'=>'hidden'],
+                    ['label'=>'Amount','id'=>'edit_mortgage_amount','name'=>'amount','type'=>'money'],
+                    ['label'=>'Interest rate','id'=>'edit_mortgage_interest_rate','name'=>'interest_rate','type'=>'percentage'],
+                    ['label'=>'Type of interest rate','id'=>'edit_mortgage_details','name'=>'details','type'=>'select','options'=>$typeOfInterestRateSelect],
+                    ['label'=>'Comments','id'=>'edit_mortgage_comments','name'=>'comments','type'=>'text'],
+
+                ],
+                'submit_button_label'=>'Edit Mortgage','url'=>'/api/loan'
+            ))
+
 @endpush
 
 @push('scripts')
@@ -591,6 +649,17 @@
         $('#edit_loan_comments').attr('value',comments);
         $('#edit_loan_details').attr('value',details);
         $('#modal_edit_loan_form').modal('toggle');
+        return true;
+    }
+
+    function editMortgage(loan_id_encode,loan_types_id,amount,interest_rate,comments,details){
+        $('#edit_mortgage_id').attr('value',loan_id_encode);
+        $('#edit_mortgage_loan_types_id').attr('value',loan_types_id);
+        $('#edit_mortgage_amount').attr('value',amount);
+        $('#edit_mortgage_interest_rate').attr('value',interest_rate);
+        $('#edit_mortgage_comments').attr('value',comments);
+        $('#edit_loan_details').val(details);
+        $('#modal_edit_mortgage_form').modal('toggle');
         return true;
     }
 </script>

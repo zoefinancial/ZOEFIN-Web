@@ -38,6 +38,7 @@ class BankingAccountController extends Controller
             $bankingAccount->save();
             return ['Information'=>'Bankig account created'];
         }catch(\Exception $e){
+            //return ['Error'=>$e->getMessage()];
             return ['Error'=>'Oops! Something went wrong'];
         }
     }
