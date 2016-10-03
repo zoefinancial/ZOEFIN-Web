@@ -65,6 +65,9 @@
     $banksSelect = array();
     $accountTypesSelect = array();
     $accountStatusSelect = array();
+    $individualSelect = array();
+    $vehicleSelect = array();
+    $investCompanySelect = array();
     //query to parameters
     $homeTypes = App\HomeType::select('id', 'description')->get();
     $banks = App\Bank::select('id','name')->get();
@@ -543,6 +546,60 @@
                 ['label'=>'','id'=>'delete_banking_account_id','type'=>'hidden']
             ],
             'submit_button_label'=>'Delete Bank Account','url'=>'/api/bankingaccount/',
+    ))
+
+
+{{--Create Investmente form--}}
+@include('layouts.forms.modal_form',
+    array(
+        'id'=>'modal_investment_form',
+        'header'=>'Create Investment',
+        'description'=>'',
+        'cancel_button_label'=>'Cancel',
+        'inputs'=>[
+            ['label'=>'Individual', 'name' => 'individuals_id','id'=>'individuals-id','type'=>'select', 'options' => $individualSelect],
+            ['label'=>'Investment vehicles', 'name' => 'investment_vehicles_id','id'=>'investment-vehicles-id','type'=>'select', 'options' => $vehicleSelect],
+            ['label'=>'Investment companies', 'name' => 'investment_companies_id','id'=>'investment-companies-id','type'=>'select', 'options' => $investCompanySelect],
+            ['label'=>'employer', 'name' => 'employer','id'=>'employer','type'=>'text'],
+            ['label'=>'total balance', 'name' => 'total_balance','id'=>'total-balance','type'=>'money'],
+            ['label'=>'initial', 'name' => 'initial','id'=>'initial','type'=>'date'],
+            ['label'=>'end', 'name' => 'end','id'=>'end','type'=>'date'],
+        ],
+        'submit_button_label'=>'Create Investment','url'=>'/api/investment'
+    ))
+
+{{-- Edit Investment form --}}
+@include('layouts.forms.modal_form',
+    array(
+        'id'=>'modal_edit_investment_form',
+        'header'=>'Edit Investment',
+        'description'=>'',
+        'method'=>'put',
+        'cancel_button_label'=>'Cancel',
+        'inputs'=>[
+            ['label'=>'Individual', 'name' => 'individuals_id','id'=>'individuals-id','type'=>'select', 'options' => $individualSelect],
+            ['label'=>'Investment vehicles', 'name' => 'investment_vehicles_id','id'=>'investment-vehicles-id','type'=>'select', 'options' => $vehicleSelect],
+            ['label'=>'Investment companies', 'name' => 'investment_companies_id','id'=>'investment-companies-id','type'=>'select', 'options' => $investCompanySelect],
+            ['label'=>'employer', 'name' => 'employer','id'=>'employer','type'=>'text'],
+            ['label'=>'total balance', 'name' => 'total_balance','id'=>'total-balance','type'=>'money'],
+            ['label'=>'initial', 'name' => 'initial','id'=>'initial','type'=>'date'],
+            ['label'=>'end', 'name' => 'end','id'=>'end','type'=>'date'],
+        ],
+        'submit_button_label'=>'Edit Investment','url'=>'/api/investment'
+    ))
+
+{{-- Delete Investment form --}}
+@include('layouts.forms.modal_form',
+    array(
+        'id'=>'delete_investment_form',
+        'header'=>'Delete Investment',
+        'description'=>'',
+        'cancel_button_label'=>'Cancel',
+        'method'=>'delete',
+        'inputs'=>[
+            ['label'=>'','id'=>'delete_banking_account_id','type'=>'hidden']
+        ],
+        'submit_button_label'=>'Delete Investment','url'=>'/api/investment',
     ))
 
 
