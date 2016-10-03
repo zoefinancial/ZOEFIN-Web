@@ -15,9 +15,9 @@ class CreateInvestmentVehiclesTable extends Migration {
 		Schema::create('investment_vehicles', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->string('description', 45)->nullable();
-			$table->binary('tax_deffered', 1)->nullable();
-			$table->binary('pre_tax', 1);
+			$table->string('description', 100);
+            $table->boolean('tax_deffered');
+            $table->timestamps();
 		});
 	}
 
