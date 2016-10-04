@@ -27,4 +27,13 @@ class Investment extends Model
     {
         return $this->belongsTo(InvestmentVehicle::class,'investment_vehicles_id','id');
     }
+
+    public function taxesDistribution(){
+
+            return [
+                'Tax Deferred' => 80,
+                'Taxable' => 20,
+            ];
+
+    }
 }
