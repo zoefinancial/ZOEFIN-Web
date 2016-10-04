@@ -250,7 +250,7 @@
                                     </div>
                                 </div>
                             </li>
-{{----}}
+                            {{-- Investments--}}
                             <li>
                                 <div class="box box-primary collapsed-box box-solid bg-transparent">
                                     <div class="box-header">
@@ -268,7 +268,7 @@
                                     </script>
                                     @endpush
                                     <div class="box-body no-border">
-                                        @foreach($userBankingAccounts as $bankingAccount)
+                                        @foreach($userInvestments as $investment)
                                             @php
                                                 $i++;
                                             @endphp
@@ -280,7 +280,7 @@
                                             </span>
                                                 <div class="info-box-content">
                                                     <span class="info-box-text">Banking account</span>
-                                                    <span class="info-box-number" title="${{ titleMoney($bankingAccount->current_balance) }}">${{ formatMoney($bankingAccount->current_balance) }}</span>
+                                                    <span class="info-box-number" title="${{ titleMoney($investment->total_balance) }}">${{ formatMoney($investment->total_balance) }}</span>
                                                     <div class="progress">
                                                         <div class="progress-bar" style="width: 100%" ></div>
                                                     </div>
@@ -289,15 +289,15 @@
                                             </div>
                                             @push('scripts')
                                             <script>
-                                                $('#e_in_{{ $i }}').on('click', function (e) {editInvestment('{{ base64_encode($bankingAccount->id) }}','{{ $bankingAccount->banks_id }}','{{ $bankingAccount->account_types_id }}','{{ $bankingAccount->account_status_id }}','{{ $bankingAccount->number }}','{{ $bankingAccount->current_balance }}');});
-                                                $('#d_in_{{ $i }}').on('click', function (e) {deleteInvestment('{{ base64_encode($bankingAccount->id) }}');});
+                                                $('#e_in_{{ $i }}').on('click', function (e) {editInvestment('{{ base64_encode($investment->id) }}','{{ $investment->individuals_id }}','{{ $investment->investment_vehicles_id }}','{{ $investment->investment_companies_id }}','{{ $investment->employer }}','{{ $investment->total_balance }}','{{ $investment->initial }}','{{ $investment->end }}');});
+                                                $('#d_in_{{ $i }}').on('click', function (e) {deleteInvestment('{{ base64_encode($investment->id) }}');});
                                             </script>
                                             @endpush
                                         @endforeach
                                     </div>
                                 </div>
                             </li>
-{{----}}
+                        {{-- End --}}
                         </ul>
                     </li>
                     <li class="unstyled-list"><a title="What i owe">Liabilities</a>
@@ -748,6 +748,19 @@
         $('#edit_banking_account_account_status').val(account_status_id);
         $('#edit_banking_account_number').attr('value',number);
         $('#edit_banking_account_current_value').attr('value',current_value);
+        $('#modal_edit_banking_account_form').modal('toggle');
+        return true;
+    }
+
+    function editInvestment(investment_id_encode, individuals_id, investment_vehicles_id, investment_companies_id, employer, total_balance, initial, end){
+        $('#edit_investment_id').attr('value',investment_id_encode);
+        $('#edit_investment_individuals_id').val(individuals_id);
+        $('#edit_investment_investment_vehicles_id').val(investment_vehicles_id);
+        $('#edit_investment_investment_companies_id').val(investment_companies_id);
+        $('#edit_investment_employer').attr('value',employer);
+        $('#edit_investment_total_balance').attr('value',total_balance);
+        $('#edit_investment_initial').attr('value',initial);
+        $('#edit_investment_end').attr('value',end);
         $('#modal_edit_banking_account_form').modal('toggle');
         return true;
     }
