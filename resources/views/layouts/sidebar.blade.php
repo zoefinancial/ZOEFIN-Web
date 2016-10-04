@@ -69,19 +69,24 @@
     $vehicleSelect = array();
     $investCompanySelect = array();
     //query to parameters
+    $individuals = Auth::user()->getFamilyMembers();
     $homeTypes = App\HomeType::select('id', 'description')->get();
     $banks = App\Bank::select('id','name')->get();
     $accountStatus = App\AccountStatus::select('id','description')->get();
     $accountTypes = App\AccountType::select('id','description')->get();
     $interestRateTypes = \App\InterestRateType::select('id','description')->get();
+    $investmentVehicle = App\InvestmentVehicle::select('id','description')->get();
+    $investmentCompany = App\InvestmentCompany::select('id', 'name')->get();
 
     //populate array with parameters
+    $individualSelect = selectParameters($individuals, ['value' => 'id','label' => 'name']);
     $homeTypesSelect = selectParameters($homeTypes,['value' => 'id','label' => 'description']);
     $banksSelect = selectParameters($banks,['value' => 'id','label' => 'name']);
     $accountStatusSelect = selectParameters($accountStatus,['value' => 'id','label' => 'description']);
     $accountTypesSelect = selectParameters($accountTypes,['value' => 'id','label' => 'description']);
-
     $typeOfInterestRateSelect = selectParameters($interestRateTypes,['value' => 'id','label' => 'description']);
+    $vehicleSelect = selectParameters($investmentVehicle,['value' => 'id','label' => 'description']);
+    $investCompanySelect = selectParameters($investmentCompany,['value' => 'id','label' => 'name']);
 
     //query to assets
     $userHomes = App\Http\Controllers\HomeController::getHome(Auth::user()->id);
