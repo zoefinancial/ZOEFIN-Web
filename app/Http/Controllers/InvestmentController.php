@@ -10,6 +10,18 @@ use Illuminate\Support\Facades\Auth;
 
 class InvestmentController extends Controller
 {
+
+    /**
+     * Index
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index()
+    {
+        $investmentTable = ['box_title'=>'Investment','url'=>'/user/taxes/detailed/2015','canvas_id'=>'investment_table','total'=>'true','moneyFormat'=>'Tax Amount','overlay'=>'1'];
+        $chart_taxes      = ['box_title'=>'Investment chart','url'=>'/api/investment/taxable','canvas_id'=>'taxes_chart','overlay'=>'1'];
+        return view('investment', compact('investmentTable','chart_taxes'));
+    }
     /**
      * Store Investment
      *
@@ -48,5 +60,11 @@ class InvestmentController extends Controller
     static public function getInvestment($user_id)
     {
         return Investment::where('users_id',$user_id)->get();
+    }
+
+    public function taxable ()
+    {
+        $investment = new Investment;
+        return response()->json( $investment->taxesDistribution() );
     }
 }
