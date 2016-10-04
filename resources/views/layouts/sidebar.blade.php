@@ -52,13 +52,13 @@
         return $Select;
     }
 
-    $side_bar_active_item = $side_bar_active_item ? $side_bar_active_item:'dashboard';
+   /* $side_bar_active_item = $side_bar_active_item ? $side_bar_active_item:'dashboard';
 
     $dashboard_active = $side_bar_active_item=='dashboard'? 'active':'';
     $investments_active = $side_bar_active_item=='investments'? 'active':'';
     $taxes_active = $side_bar_active_item=='taxes'? 'active':'';
     $budgeting_active = $side_bar_active_item=='budgeting'? 'active':'';
-    $insurance_active = $side_bar_active_item=='insurance'? 'active':'';
+    $insurance_active = $side_bar_active_item=='insurance'? 'active':'';*/
 
     //initialize arrays for options select
     $homeTypesSelect = array();
