@@ -28,6 +28,10 @@ class User extends Authenticatable
 
     protected $profile_image = "";
 
+    public function investments()
+    {
+        return $this->hasMany(Investment::class);
+    }
     /**
      * Function to retrieve the Net Worth data
      */
