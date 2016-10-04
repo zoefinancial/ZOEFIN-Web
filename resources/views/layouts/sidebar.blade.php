@@ -93,8 +93,6 @@
     $userBankingAccounts = App\Http\Controllers\BankingAccountController::getBankingAccount(Auth::user()->id);
     $userInvestments = App\Http\Controllers\InvestmentController::getInvestment(Auth::user()->id);
 
-
-
 @endphp
 <aside class="main-sidebar">
     <section class="sidebar">
@@ -279,7 +277,7 @@
                                                 <span id="d_in_{{ $i }}" class="label label-danger" title="Delete"><i class="fa fa-trash"></i></span>
                                             </span>
                                                 <div class="info-box-content">
-                                                    <span class="info-box-text">Banking account</span>
+                                                    <span class="info-box-text">{{ $investment->investmentVehicle->description }}</span>
                                                     <span class="info-box-number" title="${{ titleMoney($investment->total_balance) }}">${{ formatMoney($investment->total_balance) }}</span>
                                                     <div class="progress">
                                                         <div class="progress-bar" style="width: 100%" ></div>

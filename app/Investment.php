@@ -10,21 +10,21 @@ class Investment extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'users_id', 'id');
     }
 
     public function individual()
     {
-        return $this->belongsTo(Individual::class);
+        return $this->belongsTo(Individual::class, 'individuals_id', 'id');
     }
 
     public function investmentCompany()
     {
-        return $this->belongsTo(InvestmentCompany::class);
+        return $this->belongsTo(InvestmentCompany::class, 'investment_companies_id', 'id');
     }
 
     public function investmentVehicle()
     {
-        return $this->belongsTo(InvestmentVehicle::class);
+        return $this->belongsTo(InvestmentVehicle::class,'investment_vehicles_id','id');
     }
 }
