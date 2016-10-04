@@ -23,7 +23,7 @@ class CreateInvestmentsTable extends Migration {
 			$table->string('employer', 255)->nullable();
 			$table->integer('total_balance')->nullable();
             $table->date('initial');
-            $table->date('end');
+            $table->date('end')->nullable();
             $table->timestamps();
 		});
 	}

@@ -91,6 +91,7 @@
     //query to assets
     $userHomes = App\Http\Controllers\HomeController::getHome(Auth::user()->id);
     $userBankingAccounts = App\Http\Controllers\BankingAccountController::getBankingAccount(Auth::user()->id);
+    $userInvestments = App\Http\Controllers\InvestmentController::getInvestment(Auth::user()->id);
 
 
 
