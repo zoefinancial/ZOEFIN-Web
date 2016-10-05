@@ -62,7 +62,7 @@ Route::put('/api/investment','InvestmentController@update');
 
 Route::get('/investment', 'InvestmentController@index');
 
-Route::get('/api/investment/taxable','investmentController@taxable');
+Route::get('/api/investment/taxable','InvestmentController@taxable');
 
 Route::get('/taxes',
     ['middleware' => 'auth',
