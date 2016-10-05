@@ -121,9 +121,7 @@
         </div>
     </div>
 @endsection
-@push('styles')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css">
-@endpush
+
 @push('scripts')
 <script>
     function deleteFile(file_encode,file_name){
@@ -142,15 +140,14 @@
 
     $('#mod_file_modal').on('hidden.bs.modal', function () {
         location.reload();
-    })
+    });
 
     $('#myDatepicker').datepicker({
         format: "mm/yyyy",
         startView: "year",
         minViewMode: "months"
-    })
+    });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
 @endpush
 @push('modals')
 @include('layouts.forms.modal_form',

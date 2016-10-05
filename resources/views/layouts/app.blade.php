@@ -18,9 +18,9 @@
     -->
     <link href="{{ asset("/js/jquery.tablesorter/themes/blue/style.css")}}" rel="stylesheet" type="text/css" />
     <link href="{{ asset("/bower_components/AdminLTE/dist/css/skins/skin-blue.min.css")}}" rel="stylesheet" type="text/css" />
-
-
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css">
+
     @stack('head-scripts')
     @stack('styles')
 
@@ -31,7 +31,7 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
 
-    <link rel="stylesheet" href="{{ asset("/css/plaid_related_style.css")}}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
     <link rel="stylesheet" href="{{ asset("/css/zoefin.css")}}">
 
 </head>
