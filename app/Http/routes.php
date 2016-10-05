@@ -116,7 +116,9 @@ Route::get('/user/insurance/summary',
     ]
 );
 
-Route::get('/user/incomes','IncomeController@getIncomes');
+Route::get('/api/incomes','IncomeController@getIncomes');
+Route::get('/api/expenses','ExpenseController@getExpenses');
+Route::get('/api/cash_flow','CashFlowController@getCashFlow');
 
 /*
  * END INSURANCE

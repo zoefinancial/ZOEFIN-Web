@@ -162,15 +162,28 @@ class User extends Authenticatable
             $total = $family_need - $family_resources;
         }
 
-        return array(
+        /*return array(
             'Total Family Would Need' => ['Total Family Would Need' => $family_need, 'Family Resources' => 0],
             'Available Resources' => ['Total Family Would Need' => 0, 'Family Resources' => $family_resources],
             'Insurance Need' => ['Total Family Would Need' => 0, 'Family Resources' => $total]
+        );*/
+
+        return array(
+            'Total Family Would Need'=>['Total Family Would Need' =>$family_need],
+            'Available Resources'=>['Available Resources' =>  $family_resources,],
+            'Insurance Needed'=>['Insurance Needed' => $total,]
         );
     }
 
     function getIncomes(){
         $incomes=Income::where('users_id',$this->id)
+            ->orderBy('date')
+            ->get();
+        return $incomes;
+    }
+
+    function getExpenses(){
+        $incomes=Expense::where('users_id',$this->id)
             ->orderBy('date')
             ->get();
         return $incomes;

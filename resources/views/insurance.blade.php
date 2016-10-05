@@ -7,9 +7,14 @@
 
         @endphp
         @foreach ($familyMembers as $member)
-        <div class="col-md-6">
-            @include('charts.bar_chart',['js'=>'charts.js.stackable_bar_chart_js','box_title'=>'Insurance information ('.$member['name'].')','url'=>$url.'/'.$member['id'],'canvas_id'=>'insurance_prediction_'.$member['id']])
-        </div>
+            @if(count($familyMembers)==2)
+            <div class="col-md-6">
+            @else
+            <div class="col-md-12">
+            @endif
+                @include('charts.bar_chart',['js'=>'charts.js.stackable_bar_chart_js','box_title'=>'Insurance information ('.$member['name'].')','url'=>$url.'/'.$member['id'],'canvas_id'=>'insurance_prediction_'.$member['id']])
+            </div>
+
         @endforeach
     </div>
     <div class="row">

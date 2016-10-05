@@ -48,6 +48,7 @@ span.assets-item{
 
 .info-box{
     min-height: 64px;
+    border-radius: 5px;
 }
 
 .bg-transparent{

@@ -55,22 +55,27 @@
                     dataLabels.push(year);
                 }
             }
+            var dataset;
             if(name=='Total'){
-                var dataset={
+                dataset={
                     type:'line',
                     fill: false,
-                    lineTension: 0,
                     label: name,
+                    @if(isset($showTotalLine))
+                            @if($showTotalLine!=true)
+                    showLine:false,
+                            @endif
+                    @endif
                     backgroundColor: colors[count%7],
                     borderColor: colors[count%7],
                     pointColor: colors[count%7],
                     pointStrokeColor: "#c1c7d1",
                     pointHighlightFill: "#fff",
                     pointHighlightStroke: "rgba(220,220,220,1)",
-                    data: data
+                    data: data,
                 };
             }else{
-                var dataset={
+                dataset={
                     type:'bar',
                     label: name,
                     backgroundColor: colors[count%7],
