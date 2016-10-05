@@ -23,26 +23,66 @@
             'rgba(255, 159, 64, 0.5)',
             'rgba(0,0,0, 0.5)'];
 
-        for (name in entry) {
-            var data=[];
-            var values = entry[name];
+        var allNames=[];
+        var allValues=[];
 
-            for (year in values){
+        for (x in entry){
+            val = entry[x];
+            allValues[x]=[];
+            for (y in entry[x]){
+                allNames[y]=y;
+                allValues[x][y]=val[y];
+            }
+        }
+
+        for(v in allValues){
+            for(n in allNames){
+                if(!( n in allValues[v])){
+                    allValues[v][n]=0;
+                }
+            }
+        }
+
+        allNames.sort();
+
+        for (name in allValues) {
+            var data=[];
+            var values = allValues[name];
+
+            for (year in allNames){
                 data.push(values[year]);
                 if(count==0){
                     dataLabels.push(year);
                 }
             }
-            var dataset={
-                label: name,
-                backgroundColor: colors[count%7],
-                borderColor: colors[count%7],
-                pointColor: colors[count%7],
-                pointStrokeColor: "#c1c7d1",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
-                data: data
-            };
+            if(name=='Total'){
+                var dataset={
+                    type:'line',
+                    fill: false,
+                    lineTension: 0,
+                    label: name,
+                    backgroundColor: colors[count%7],
+                    borderColor: colors[count%7],
+                    pointColor: colors[count%7],
+                    pointStrokeColor: "#c1c7d1",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(220,220,220,1)",
+                    data: data
+                };
+            }else{
+                var dataset={
+                    type:'bar',
+                    label: name,
+                    backgroundColor: colors[count%7],
+                    borderColor: colors[count%7],
+                    pointColor: colors[count%7],
+                    pointStrokeColor: "#c1c7d1",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(220,220,220,1)",
+                    data: data
+                };
+            }
+
             dataSets.push(dataset);
             count++;
         }
@@ -67,9 +107,10 @@
                             var datasets=data.datasets;
                             var total=0;
                             for(d in datasets){
-                                total+=datasets[d].data[tooltipItem.index];
+                                total=total+datasets[d].data[tooltipItem.index];
                             }
-                            return  datasetLabel +' : '+ humanReadableMoney(value) + ' (Total : '+ humanReadableMoney(total)+')';
+                            //return  datasetLabel +' : '+ humanReadableMoney(value) + ' (Total : '+ humanReadableMoney(total)+')';
+                            return  datasetLabel +' : '+ humanReadableMoney(value) ;
                         }
                     }
                 },

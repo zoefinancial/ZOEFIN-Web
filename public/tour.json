@@ -1,0 +1,19 @@
+{
+  "success":true,
+  "result":[
+      {
+        "selector":"#cashFlowChart",
+        "title":"Cash flow chart",
+        "content":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vestibulum elementum dolor ut euismod. Duis ut maximus leo. Integer eleifend turpis nec neque elementum condimentum. In luctus enim a rutrum interdum. Fusce dignissim ullamcorper turpis sit amet maximus. Praesent massa lacus, scelerisque in nisi sed, rutrum auctor dolor. Vestibulum ultrices nisi quis porttitor suscipit. Nulla commodo diam sed augue faucibus rhoncus. Quisque consequat, sapien eget vehicula lacinia, magna lacus placerat libero, id viverra urna neque sed risus. Fusce ornare enim a suscipit feugiat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
+        "width":"400px",
+        "placement":"right"
+      },
+      {
+        "selector":"#netWorthChart",
+        "title":"Net worth chart ",
+        "content":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vestibulum elementum dolor ut euismod. Duis ut maximus leo. Integer eleifend turpis nec neque elementum condimentum. In luctus enim a rutrum interdum. Fusce dignissim ullamcorper turpis sit amet maximus. Praesent massa lacus, scelerisque in nisi sed, rutrum auctor dolor. Vestibulum ultrices nisi quis porttitor suscipit. Nulla commodo diam sed augue faucibus rhoncus. Quisque consequat, sapien eget vehicula lacinia, magna lacus placerat libero, id viverra urna neque sed risus. Fusce ornare enim a suscipit feugiat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
+        "width":"400px",
+        "placement":"right"
+      }
+  ]
+}

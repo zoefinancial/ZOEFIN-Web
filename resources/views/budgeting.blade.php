@@ -1,6 +1,12 @@
 @extends('layouts.app')
 @section('content')
     <div class="row">
+        <div class="col-lg-12">
+            <!-- Anual cash flow -->
+            @include('charts.bar_chart',['box_title'=>'After tax income over time','url'=>'/user/incomes','js'=>'charts.js.stackable_bar_chart_js','canvas_id'=>'afterTaxIncomeOverTime','overlay'=>'1'])
+        </div>
+    </div>
+    <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-12">
             <div class="box box-success">
                 <div class="box-header with-border">

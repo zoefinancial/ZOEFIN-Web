@@ -27,11 +27,11 @@ Number.prototype.format = function(n, x, s, c) {
 
 function moneyFormat(s,d){
     if(d>=0){
-        return Number(s).format(d, 3);
+        return parseFloat(s).format(d, 3);
     }else if (d==-3){
-        return (Number(s)/Math.pow(10,(-1*d))).format(0,3);
+        return (parseFloat(s)/Math.pow(10,(-1*d))).format(0,3);
     }else{
-        return (Number(s)/Math.pow(10,(-1*d))).format(1,3);
+        return (parseFloat(s)/Math.pow(10,(-1*d))).format(1,3);
     }
 }
 
@@ -41,9 +41,9 @@ function tableMoneyFormat(s){
 
 
 function humanReadableMoney(s){
-    var n=Number(s);
+    var n=parseFloat(s);
     if(n<1000){
-        return '$'+Number(s).format(0, 3)+'';
+        return '$'+parseFloat(s).format(0, 3)+'';
     }else if(n < 1000000){
         return '$'+moneyFormat(s,-3)+ ' K';
     }else{

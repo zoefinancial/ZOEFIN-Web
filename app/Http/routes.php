@@ -106,6 +106,8 @@ Route::get('/user/insurance/summary',
     ]
 );
 
+Route::get('/user/incomes','IncomeController@getIncomes');
+
 /*
  * END INSURANCE
  * */

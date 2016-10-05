@@ -165,13 +165,21 @@ class User extends Authenticatable
         );
     }
 
+    function getIncomes(){
+        $incomes=Income::where('users_id',$this->id)
+            ->orderBy('date')
+            ->get();
+        return $incomes;
+    }
+
     /**
      * Function to retrieve the Net Worth detailed data
      */
     function getDetailedNetWorth(){
-
         $result = array();
         $net_worth=0;
+        $assets=0;
+        $liabilities=0;
         $homes=$this->getHomes();
         foreach($homes as $account){
             if(isset($result['Home'])){
@@ -185,6 +193,7 @@ class User extends Authenticatable
                 );
                 $result['Home']=$array_account;
             }
+            $assets+=$account->current_value;
         }
         $cars=$this->getCars();
         foreach($cars as $account){
@@ -199,6 +208,7 @@ class User extends Authenticatable
                 );
                 $result['Car']=$array_account;
             }
+            $assets+=$account->current_value;
         }
         $bankingAccount = $this->getBankingAccount();
         foreach($bankingAccount as $account){
@@ -213,6 +223,7 @@ class User extends Authenticatable
                 );
                 $result['Bank']=$array_account;
             }
+            $assets+=$account->current_value;
         }
         $loans=$this->getLoans();
         foreach($loans as $loan){
@@ -228,7 +239,6 @@ class User extends Authenticatable
                     );
                     $result['Home']=$array_account;
                 }
-
             }else{
                 if($loan->getLoanType->description=='Car Loan'){
                     if(isset($result['Car'])){
@@ -252,11 +262,17 @@ class User extends Authenticatable
                     $result[$loan->getLoanType->description]=$array_account;
                 }
             }
+            $liabilities+=$loan->amount;
         }
         $result['Net Worth']=array(
             'Assets'=>0,
             'Liabilities'=>0,
             'Net Worth'=>$net_worth
+        );
+        $result['Total']=array(
+                'Assets'=>$assets,
+                'Liabilities'=>$liabilities,
+                'Net Worth'=>$result['Home']['Net Worth']+$result['Car']['Net Worth']+$net_worth
         );
         return $result;
     }

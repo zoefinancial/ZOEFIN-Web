@@ -82,6 +82,7 @@
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
 <script src="{{ asset ("/js/jquery.tablesorter/jquery.tablesorter.min.js") }}"></script>
+
 <!-- ChartJS 2.2.1 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.min.js"></script>
 @stack('scripts')
