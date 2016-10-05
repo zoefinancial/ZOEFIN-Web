@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Investment extends Model
 {
@@ -28,12 +29,12 @@ class Investment extends Model
         return $this->belongsTo(InvestmentVehicle::class,'investment_vehicles_id','id');
     }
 
-    public function taxesDistribution(){
-
-            return [
-                'Tax Deferred' => 80,
-                'Taxable' => 20,
-            ];
-
+    public function taxesDistribution($user_id){
+            return DB::table('investments')
+                    ->join('investment_vehicles', 'investments.investment_vehicles_id', '=', 'investment_vehicles.id')
+                    ->select(DB::raw("CASE  investment_vehicles.tax_deferred When 1 THEN 'Tax deferred' ELSE 'Taxable' END as description, sum(investments.`total_balance`) total"))
+                    ->where('investments.users_id', '=', $user_id)
+                    ->groupBy('investment_vehicles.tax_deferred')
+                    ->get();
     }
 }

@@ -65,6 +65,11 @@ class InvestmentController extends Controller
     public function taxable ()
     {
         $investment = new Investment;
-        return response()->json( $investment->taxesDistribution() );
+        $result = $investment->taxesDistribution(Auth::user()->id);
+        $graph = [];
+        foreach ($result as $key => $item) {
+            $graph[$item->description] = $item->total;
+        }
+        return response()->json($graph);
     }
 }
