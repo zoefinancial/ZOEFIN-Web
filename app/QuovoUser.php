@@ -1,15 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: migfru
- * Date: 15/09/16
- * Time: 1:37 PM
- */
 
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class QuovoUser
+ * @package App
+ */
 class QuovoUser extends Model
 {
 
@@ -19,6 +17,8 @@ class QuovoUser extends Model
      * @var string
      */
     protected $table = 'quovo_users';
+
+    protected $fillable = ['user_id', 'quovo_user_id'];
 
     protected $primaryKey = 'user_id';
 

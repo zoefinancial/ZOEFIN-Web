@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\QuovoUser;
 use App\User;
 use App\Individual;
+use Wela\Quovo;
 
 use Validator;
 use App\Http\Controllers\Controller;
@@ -100,6 +102,47 @@ class AuthController extends Controller
             'date_birth'        => $data['individual']['date_birth'],
             'principal'         => 1
         ]);
+
+        if (!$user['individual']) {
+            throw new \Exception('Error in saving user.');
+        }
+
+        try{
+            $userQuovo = $this->createUserQuovo([
+                "email" => $data['email'],
+                "id"    => $user['attributes']['id'],
+                "name"  => $data['individual']['name'] . ' ' . $data['individual']['lastname'],
+                "phone" => null,
+                "username" => $data['email'],
+                "value" => null
+            ]);
+        }catch(\Exception $e){
+            throw new \Exception('Error creating user on quovo.');
+        }
+
+        QuovoUser::create([
+            'user_id' => $user['attributes']['id'],
+            'quovo_user_id' => $userQuovo->user->id
+        ]);
+
         return $user;
+    }
+
+    /**
+     * @param $parameters
+     * @return Quovo User
+     */
+    private function createUserQuovo($parameters)
+    {
+        $quovo = new Quovo(['user'=>env('QUOVO_USER', ''),'password'=>env('QUOVO_PASSWORD', '')]);
+
+        return $quovo->user()->create([
+                                "email" => $parameters['email'],
+                                "id"    => $parameters['id'],
+                                "name"  => $parameters['name'],
+                                "phone" => null,
+                                "username" => $parameters['email'],
+                                "value" => null
+                            ]);
     }
 }
