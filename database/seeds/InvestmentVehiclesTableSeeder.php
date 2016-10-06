@@ -19,7 +19,7 @@ class InvestmentVehiclesTableSeeder extends Seeder
             ['description' => '529', 'tax_deferred' => 1, 'created_at' => $dateNow, 'updated_at' => $dateNow],
             ['description' => 'IRA', 'tax_deferred' => 1, 'created_at' => $dateNow, 'updated_at' => $dateNow],
             ['description' => 'Roth IRA', 'tax_deferred' => 1, 'created_at' => $dateNow, 'updated_at' => $dateNow],
-            ['description' => 'Security', 'tax_deferred' => 0, 'created_at' => $dateNow, 'updated_at' => $dateNow],
+            ['description' => 'Securities', 'tax_deferred' => 0, 'created_at' => $dateNow, 'updated_at' => $dateNow],
         ]);
     }
 }
