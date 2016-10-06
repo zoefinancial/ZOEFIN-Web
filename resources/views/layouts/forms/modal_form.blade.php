@@ -103,7 +103,7 @@
                 @else
 
                 @endif
-            })
+            });
         })
         .fail(function(response) {
             $('#{{ $id or '' }}_overlay').get(0).className='hidden';

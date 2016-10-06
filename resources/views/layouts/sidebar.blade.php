@@ -6,7 +6,7 @@
             $label = 'M';
         }else{
             if($number>999){
-                $number=$number/1000;
+                $number=round($number/1000,1);
                 $label = 'K';
             }
         }

@@ -10,5 +10,4 @@ class LoanType extends Model{
 
     protected $fillable = ['description'];
 
-
 }

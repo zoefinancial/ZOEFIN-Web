@@ -214,14 +214,8 @@ Route::get('/user/investments',
  * END INVESTMENTS
  * */
 
-Route::get('/user/quovo_iframe',
-    ['middleware' => 'auth',
-        function () {
-            return \App\Http\Controllers\QuovoClientController::getIFrameToken(Auth::user()->id);
-        }
-    ]
-);
-
+Route::get('/api/quovo_iframe','QuovoClientController@getIFrameToken');
+Route::get('/api/quovo_sync','QuovoClientController@clientSync');
 
 /*
  * Test web services
