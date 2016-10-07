@@ -1,11 +1,11 @@
 @php
     function formatMoney($number, $fractional=false) {
         $label='';
-        if($number>999999){
+        if(abs($number)>999999){
             $number=round($number/1000000,1);
             $label = 'M';
         }else{
-            if($number>999){
+            if(abs($number)>999){
                 $number=round($number/1000,1);
                 $label = 'K';
             }
@@ -230,7 +230,7 @@
                                                 <span id="d_b_{{ $i }}" class="label label-danger" title="Delete"><i class="fa fa-trash"></i></span>
                                             </span>
                                                 <div class="info-box-content">
-                                                    <span class="info-box-text">Banking account</span>
+                                                    <span class="info-box-text" title="{{ $bankingAccount->number }}">Banking account</span>
                                                     <span class="info-box-number" title="${{ titleMoney($bankingAccount->current_balance) }}">${{ formatMoney($bankingAccount->current_balance) }}</span>
                                                     <div class="progress">
                                                         <div class="progress-bar" style="width: 100%" ></div>

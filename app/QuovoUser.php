@@ -26,6 +26,4 @@ class QuovoUser extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['user_id','quovo_user_id'];
-
 }

@@ -212,6 +212,7 @@ class User extends Authenticatable
             }
             $assets+=$account->current_value;
         }
+
         $cars=$this->getCars();
         foreach($cars as $account){
             if(isset($result['Car'])){
@@ -227,6 +228,7 @@ class User extends Authenticatable
             }
             $assets+=$account->current_value;
         }
+
         $bankingAccount = $this->getBankingAccount();
         foreach($bankingAccount as $account){
             if(isset($result['Bank'])){
@@ -240,14 +242,15 @@ class User extends Authenticatable
                 );
                 $result['Bank']=$array_account;
             }
-            $assets+=$account->current_value;
+            $assets+=$account->current_balance;
         }
+
         $loans=$this->getLoans();
         foreach($loans as $loan){
             if($loan->getLoanType->description=='Mortgage'){
                 if(isset($result['Home'])){
-                    $result['Home']['Liabilities']=$result['Home']['Liabilities']+$loan->amount;
-                    $result['Home']['Net Worth']=$result['Home']['Net Worth']-$loan->amount;
+                    $result['Home']['Liabilities']=$result['Home']['Liabilities']-$loan->amount;
+                    $result['Home']['Net Worth']=$result['Home']['Net Worth']+$loan->amount;
                 }else{
                     $array_account=array(
                         'Assets'=>0,
@@ -259,12 +262,12 @@ class User extends Authenticatable
             }else{
                 if($loan->getLoanType->description=='Car Loan'){
                     if(isset($result['Car'])){
-                        $result['Car']['Liabilities']=$loan->amount;
-                        $result['Car']['Net Worth']=$result['Car']['Net Worth']-$loan->amount;
+                        $result['Car']['Liabilities']=$result['Car']['Liabilities']-$loan->amount;
+                        $result['Car']['Net Worth']=$result['Car']['Net Worth']+$loan->amount;
                     }else{
                         $array_account=array(
                             'Assets'=>0,
-                            'Liabilities'=>$loan->amount,
+                            'Liabilities'=>-$loan->amount,
                             'Net Worth'=>0-$loan->amount
                         );
                         $result['Car']=$array_account;
@@ -272,10 +275,10 @@ class User extends Authenticatable
                 }else{
                     $array_account=array(
                         'Assets'=>0,
-                        'Liabilities'=>$loan->amount,
+                        'Liabilities'=>$loan->amount*-1,
                         'Net Worth'=>0
                     );
-                    $net_worth-=$loan->amount;
+                    $net_worth+=$loan->amount;
                     $result[$loan->getLoanType->description]=$array_account;
                 }
             }
@@ -288,8 +291,8 @@ class User extends Authenticatable
         );
         $result['Total']=array(
                 'Assets'=>$assets,
-                'Liabilities'=>$liabilities,
-                'Net Worth'=>$result['Home']['Net Worth']+$result['Car']['Net Worth']+$net_worth
+                'Liabilities'=>-$liabilities,
+                'Net Worth'=>$result['Home']['Net Worth']+$result['Car']['Net Worth']+$result['Bank']['Net Worth']+$net_worth
         );
         return $result;
     }

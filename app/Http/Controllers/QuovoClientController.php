@@ -9,7 +9,9 @@
 namespace App\Http\Controllers;
 
 
+use App\AccountType;
 use App\Bank;
+use App\BankingAccount;
 use App\Loan;
 use App\LoanType;
 use App\QuovoUser;
@@ -71,20 +73,32 @@ class QuovoClientController extends Controller
         }
     }
 
-    static function processLoanPortfolio($portfolio){
-        $loanType = LoanType::firstOrCreate(['description' => $portfolio->portfolio_type]);
-        $bank = Bank::firstOrCreate(['name'=>$portfolio->brokerage_name]);
+    static function getBank($name,$quovo_id){
+        $bank = Bank::firstOrCreate(['name'=>$name]);
         if($bank->quovo_id==null){
-            $bank->quovo_id=$portfolio->brokerage;
+            $bank->quovo_id=$quovo_id;
             $bank->save();
         }
-        var_dump($portfolio);
+        return $bank;
+    }
+
+    static function getAccountType($description){
+        $accountType = AccountType::firstOrCreate(['description'=>$description]);
+        return $accountType;
+    }
+
+    static function processLoanPortfolio($portfolio){
+        $loanType = LoanType::firstOrCreate(['description' => $portfolio->portfolio_type]);
+        $bank=self::getBank($portfolio->brokerage_name,$portfolio->brokerage);
         $loan = Loan::firstOrCreate(['users_id'=>Auth::user()->id,
             'number'=>$portfolio->portfolio_name,
-            'loan_types_id'=>$loanType->id]);
+            'loan_types_id'=>$loanType->id,
+            'bank_id'=>$bank->id,
+            ]);
         $loan->amount=$portfolio->value;
         $loan->individuals_id=0;
         $loan->loan_status_id=0;
+        $loan->comments='Synchronized with Quovo';
         $loan->save();
         return true;
     }
@@ -94,6 +108,16 @@ class QuovoClientController extends Controller
     }
 
     static function processBankingPortfolio($portfolio){
+        $bank=self::getBank($portfolio->brokerage_name,$portfolio->brokerage);
+        $accountType=self::getAccountType($portfolio->portfolio_type);
+        $bankingAccount = BankingAccount::firstOrCreate(['users_id'=>Auth::user()->id,
+            'banks_id'=>$bank->id,
+            'account_types_id'=>$accountType->id,
+            'number'=>$portfolio->portfolio_name,
+            ]);
+        $bankingAccount->current_balance=$portfolio->value;
+        $bankingAccount->account_status_id=1;
+        $bankingAccount->save();
         return true;
     }
 
@@ -104,14 +128,18 @@ class QuovoClientController extends Controller
     static function processPortfolio($portfolio){
         switch ($portfolio->portfolio_category){
             case 'Loan':
-                echo 'processing: Loan';
                 self::processLoanPortfolio($portfolio);
                 break;
             case 'Investment':
                 self::processInvestmentPortfolio($portfolio);
                 break;
             case 'Banking':
-                self::processBankingPortfolio($portfolio);
+                if($portfolio->portfolio_type=='Credit Card'){
+                    self::processLoanPortfolio($portfolio);
+                }
+                else{
+                    self::processBankingPortfolio($portfolio);
+                }
                 break;
             case 'Insurance':
                 self::processInsurancePortfolio($portfolio);
@@ -122,24 +150,13 @@ class QuovoClientController extends Controller
     static function clientSync(){
         $quovo_user_id=self::getQuovoUserId();
         $quovoResponse=self::getQuovo()->user()->portfolios($quovo_user_id);
-        //$str=array();
+
         foreach($quovoResponse->portfolios as $portfolio) {
             if (!$portfolio->is_inactive) {
-
-                if (!isset($str[$portfolio->portfolio_category])) {
-                    $str[$portfolio->portfolio_category] = array();
-                }
                 if ($portfolio->portfolio_category != 'Unknown') {
                     self::processPortfolio($portfolio);
                 }
-                /*$str[$portfolio->portfolio_category][] = array('user_name' => $portfolio->username,
-                    'brokerage_name' => $portfolio->brokerage_name,
-                    'portfolio_name' => $portfolio->portfolio_name,
-                    'nickname' => $portfolio->nickname,
-                    'value' => $portfolio->value,
-                );*/
             }
         }
-        //return response()->json($str);
     }
 }
