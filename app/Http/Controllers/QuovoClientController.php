@@ -12,6 +12,9 @@ namespace App\Http\Controllers;
 use App\AccountType;
 use App\Bank;
 use App\BankingAccount;
+use App\Investment;
+use App\InvestmentCompany;
+use App\InvestmentVehicle;
 use App\Loan;
 use App\LoanType;
 use App\QuovoUser;
@@ -103,7 +106,12 @@ class QuovoClientController extends Controller
     }
 
     static function processInvestmentPortfolio($portfolio){
-        return $portfolio;
+        exit(response()->json($portfolio));
+
+        $vehicle = InvestmentVehicle::firstOrCreate('description', $portfolio->portfolio_type);
+        $company = InvestmentCompany::firstOrCreate();
+        //$investment = Investment::firsOrCreate([]);
+        //return $portfolio;
     }
 
     static function processBankingPortfolio($portfolio){
@@ -150,6 +158,7 @@ class QuovoClientController extends Controller
         try{
             $quovo_user_id=self::getQuovoUserId();
             $quovoResponse=self::getQuovo()->user()->portfolios($quovo_user_id);
+           // return response()->json($quovoResponse);
             foreach($quovoResponse->portfolios as $portfolio) {
                 if (!$portfolio->is_inactive) {
                     if ($portfolio->portfolio_category != 'Unknown') {
