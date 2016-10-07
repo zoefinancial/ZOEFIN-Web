@@ -41,11 +41,6 @@ class Investment extends Model
 
     public function vehicleGroup($user_id)
     {
-       /* return array(['Tax Type'=>'Federal','Marginal Tax Rate'=>'28%','Effective Tax Rate'=>'18%','Tax Amount'=>'44123'],
-            ['Tax Type'=>'Social Security','Marginal Tax Rate'=>'1.45%','Effective Tax Rate'=>'6.7%','Tax Amount'=>'16715'],
-            ['Tax Type'=>'State','Marginal Tax Rate'=>'6.7%','Effective Tax Rate'=>'6.3%','Tax Amount'=>'15664'],
-            ['Tax Type'=>'Local','Marginal Tax Rate'=>'0%','Effective Tax Rate'=>'0%','Tax Amount'=>'0']);*/
-
         return DB::table('investments')
             ->join('investment_vehicles', 'investments.investment_vehicles_id', '=', 'investment_vehicles.id')
             ->select(DB::raw("investment_vehicles.description Vehicle, sum(investments.`total_balance`) Total, CASE  investment_vehicles.tax_deferred When 1 THEN 'Tax deferred' ELSE 'Taxable' END as Category"))
