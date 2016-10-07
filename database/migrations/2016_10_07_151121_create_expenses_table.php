@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInterestExpensesTable extends Migration
+class CreateExpensesTable extends Migration
 {
     /**
      * Run the migrations.
