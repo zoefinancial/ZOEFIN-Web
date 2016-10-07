@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
         //test value
         $this->call(UsersTableSeeder::class);
         $this->call(IndividualsTableSeeder::class);
+        $this->call(QuovoUsersTableSeeder::class);
 
     }
 }
