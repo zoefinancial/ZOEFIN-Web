@@ -20,7 +20,6 @@ use Wela\Quovo;
 
 class QuovoClientController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth');
@@ -104,7 +103,7 @@ class QuovoClientController extends Controller
     }
 
     static function processInvestmentPortfolio($portfolio){
-        return true;
+        return $portfolio;
     }
 
     static function processBankingPortfolio($portfolio){
@@ -148,15 +147,20 @@ class QuovoClientController extends Controller
     }
 
     static function clientSync(){
-        $quovo_user_id=self::getQuovoUserId();
-        $quovoResponse=self::getQuovo()->user()->portfolios($quovo_user_id);
-
-        foreach($quovoResponse->portfolios as $portfolio) {
-            if (!$portfolio->is_inactive) {
-                if ($portfolio->portfolio_category != 'Unknown') {
-                    self::processPortfolio($portfolio);
+        try{
+            $quovo_user_id=self::getQuovoUserId();
+            $quovoResponse=self::getQuovo()->user()->portfolios($quovo_user_id);
+            foreach($quovoResponse->portfolios as $portfolio) {
+                if (!$portfolio->is_inactive) {
+                    if ($portfolio->portfolio_category != 'Unknown') {
+                        self::processPortfolio($portfolio);
+                    }
                 }
             }
+            return response()->json(['Information'=>'Synchronizing process succeed']);
+        }catch(\Exception $e){
+            return response()->json(['Information'=>'Synchronizing process failed']);
         }
+
     }
 }

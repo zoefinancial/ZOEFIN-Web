@@ -30,6 +30,7 @@
         $('#{{ $id }}').unbind('hidden.bs.modal');
 
         $('#{{ $id }}').on('hidden.bs.modal', function () {
+            $('#{{ $id or '' }}_info_modal').modal('toggle');
             $.ajax({
                 url: "/api/quovo_sync"
             }).then(function(ajaxData) {
