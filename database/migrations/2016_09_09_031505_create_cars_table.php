@@ -17,7 +17,7 @@ class CreateCarsTable extends Migration {
 			$table->increments('id');
 			$table->integer('users_id')->index('fk_cars_users_idx');
             $table->string('additional_details',250);
-			$table->integer('current_value');
+			$table->decimal('current_value');
             $table->timestamps();
 		});
 	}

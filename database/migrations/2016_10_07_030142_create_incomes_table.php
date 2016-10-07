@@ -19,6 +19,7 @@ class CreateIncomesTable extends Migration
             $table->integer('individuals_id')->index('fk_individuals_individuals_idx');
             $table->integer('income_types_id')->index('fk_income_types_income_types_idx');
             $table->integer('fiscal_tax_periods_id')->index('fk_fiscal_tax_periods_fiscal_tax_periods_idx');
+            $table->integer('bank_id')->index('fk_incomes_bank_idx');
             $table->date('date');
             $table->decimal('value',32,2);
             $table->timestamps();

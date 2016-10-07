@@ -20,7 +20,7 @@ class CreateBankingAccountsTable extends Migration {
 			$table->integer('account_types_id')->index('fk_accounts_account_types_idx');
 			$table->integer('account_status_id')->index('fk_accounts_account_status_idx');
             $table->string('number',100);
-            $table->integer('current_balance');
+            $table->decimal('current_balance');
             $table->timestamps();
 		});
 	}
