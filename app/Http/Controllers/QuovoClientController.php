@@ -66,15 +66,6 @@ class QuovoClientController extends Controller
         }
     }
 
-    static function getBank($name,$quovo_id){
-        $bank = Bank::firstOrCreate(['name'=>$name]);
-        if($bank->quovo_id==null){
-            $bank->quovo_id=$quovo_id;
-            $bank->save();
-        }
-        return $bank;
-    }
-
     static function getAccountType($description){
         $accountType = AccountType::firstOrCreate(['description'=>$description]);
         return $accountType;
@@ -82,7 +73,7 @@ class QuovoClientController extends Controller
 
     static function processLoanPortfolio($portfolio){
         $loanType = LoanType::firstOrCreate(['description' => $portfolio->portfolio_type]);
-        $bank=self::getBank($portfolio->brokerage_name,$portfolio->brokerage);
+        $bank = Bank::getQuovoBank(['quovo_id' => $portfolio->brokerage, 'name' =>$portfolio->brokerage_name]);
         $loan = Loan::firstOrCreate(['users_id'=>Auth::user()->id,
             'number'=>$portfolio->portfolio_name,
             'loan_types_id'=>$loanType->id,
@@ -106,7 +97,7 @@ class QuovoClientController extends Controller
     }
 
     static function processBankingPortfolio($portfolio){
-        $bank=self::getBank($portfolio->brokerage_name,$portfolio->brokerage);
+        $bank = Bank::getQuovoBank(['quovo_id' => $portfolio->brokerage, 'name' =>$portfolio->brokerage_name]);
         $accountType=self::getAccountType($portfolio->portfolio_type);
         $bankingAccount = BankingAccount::firstOrCreate(['users_id'=>Auth::user()->id,
             'banks_id'=>$bank->id,
