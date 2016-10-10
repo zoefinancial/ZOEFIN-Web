@@ -83,7 +83,14 @@ class InvestmentController extends Controller
         return response()->json($investment->vehicleGroup(Auth::user()->id));
     }
 
-    public function storeFromQuovo($data)
+    public function getInvestment($user_id, $quovo_id)
+    {
+        return Investment::select('id','users_id', 'individuals_id', 'investment_vehicles_id', 'investment_companies_id', 'account_quovo_id', 'quovo_id', 'employer', 'name','total_balance')
+                            ->where([['users_id', '=', $user_id],['quovo_id', '=', $quovo_id]])
+                            ->first();
+    }
+
+    public function storeMapping($data)
     {
         $investmentCompany = new InvestmentCompany();
         $company = $investmentCompany->getInvestmentCompany(['quovo_id' => $data->brokerage, 'name' => $data->brokerage_name]);
@@ -100,8 +107,17 @@ class InvestmentController extends Controller
             'name' => $data->portfolio_name,
             'quovo_last_change' => new Carbon($data->last_change),
         ]);
-        return $investment->save();
 
-      
+        $investment->save();
+        return true;
+    }
+
+    public function findOrCreate($data)
+    {
+        $investment = $this->getInvestment(Auth::user()->id, $data->id);
+        if(is_null($investment)) {
+            $investment = $this->storeMapping($data);
+        }
+        return $investment;
     }
 }
