@@ -15,11 +15,11 @@ class InvestmentCompaniesTableSeeder extends Seeder
         $dateNow = Carbon::now();
 
         DB::table('investment_companies')->insert([
-            ['name' => 'Betterment', 'created_at' => $dateNow, 'updated_at' => $dateNow],
-            ['name' => 'JP Morgan Funds', 'created_at' => $dateNow, 'updated_at' => $dateNow],
-            ['name' => 'Wealthfront', 'created_at' => $dateNow, 'updated_at' => $dateNow],
-            ['name' => 'Fidelity', 'created_at' => $dateNow, 'updated_at' => $dateNow],
-            ['name' => 'Etrade', 'created_at' => $dateNow, 'updated_at' => $dateNow],
+            ['name' => 'Betterment', 'quovo_id' => 99, 'created_at' => $dateNow, 'updated_at' => $dateNow],
+            ['name' => 'JP Morgan Funds', 'quovo_id' => 101, 'created_at' => $dateNow, 'updated_at' => $dateNow],
+            ['name' => 'Wealthfront', 'quovo_id' => 102, 'created_at' => $dateNow, 'updated_at' => $dateNow],
+            ['name' => 'Fidelity', 'quovo_id' => 2, 'created_at' => $dateNow, 'updated_at' => $dateNow],
+            ['name' => 'Etrade', 'quovo_id' => 1, 'created_at' => $dateNow, 'updated_at' => $dateNow],
 
         ]);
     }

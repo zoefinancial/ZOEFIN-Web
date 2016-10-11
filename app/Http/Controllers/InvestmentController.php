@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Investment;
+use App\InvestmentCompany;
+use App\InvestmentVehicle;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -57,7 +60,7 @@ class InvestmentController extends Controller
         }
     }
 
-    static public function getInvestment($user_id)
+    static public function getInvestments($user_id)
     {
         return Investment::where('users_id',$user_id)->get();
     }
@@ -78,5 +81,43 @@ class InvestmentController extends Controller
         $investment = new Investment;
 
         return response()->json($investment->vehicleGroup(Auth::user()->id));
+    }
+
+    public function getInvestment($user_id, $quovo_id)
+    {
+        return Investment::select('id','users_id', 'individuals_id', 'investment_vehicles_id', 'investment_companies_id', 'account_quovo_id', 'quovo_id', 'employer', 'name','total_balance')
+                            ->where([['users_id', '=', $user_id],['quovo_id', '=', $quovo_id]])
+                            ->first();
+    }
+
+    public function storeMapping($data)
+    {
+        $investmentCompany = new InvestmentCompany();
+        $company = $investmentCompany->getInvestmentCompany(['quovo_id' => $data->brokerage, 'name' => $data->brokerage_name]);
+        $vehicle = InvestmentVehicle::firstOrCreate(['description' => $data->portfolio_type]);
+
+        $investment = new Investment([
+            'users_id' => Auth::user()->id,
+            'investment_vehicles_id' => $vehicle->id,
+            'investment_companies_id' => $company->id,
+            'account_quovo_id' => $data->account,
+            'quovo_id' => $data->id,
+            'active' => !($data->is_inactive),
+            'total_balance' => $data->value,
+            'name' => $data->portfolio_name,
+            'quovo_last_change' => new Carbon($data->last_change),
+        ]);
+
+        $investment->save();
+        return true;
+    }
+
+    public function findOrCreate($data)
+    {
+        $investment = $this->getInvestment(Auth::user()->id, $data->id);
+        if(is_null($investment)) {
+            $investment = $this->storeMapping($data);
+        }
+        return $investment;
     }
 }

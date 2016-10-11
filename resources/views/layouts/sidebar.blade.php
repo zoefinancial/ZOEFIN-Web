@@ -91,7 +91,7 @@
     //query to assets
     $userHomes = App\Http\Controllers\HomeController::getHome(Auth::user()->id);
     $userBankingAccounts = App\Http\Controllers\BankingAccountController::getBankingAccount(Auth::user()->id);
-    $userInvestments = App\Http\Controllers\InvestmentController::getInvestment(Auth::user()->id);
+    $userInvestments = App\Http\Controllers\InvestmentController::getInvestments(Auth::user()->id);
 
 @endphp
 <aside class="main-sidebar pre-scrollable">
@@ -565,6 +565,7 @@
             ['label'=>'Investment vehicles', 'name' => 'investment_vehicles_id','id'=>'investment-vehicles-id','type'=>'select', 'options' => $vehicleSelect],
             ['label'=>'Investment companies', 'name' => 'investment_companies_id','id'=>'investment-companies-id','type'=>'select', 'options' => $investCompanySelect],
             ['label'=>'employer', 'name' => 'employer','id'=>'employer','type'=>'text'],
+            ['label'=>'Last Numbers', 'name' => 'name','id'=>'name','type'=>'text'],
             ['label'=>'total balance', 'name' => 'total_balance','id'=>'total-balance','type'=>'money'],
             ['label'=>'initial', 'name' => 'initial','id'=>'initial','type'=>'date'],
             ['label'=>'end', 'name' => 'end','id'=>'end','type'=>'date'],
@@ -584,7 +585,8 @@
             ['label'=>'Individual', 'name' => 'individuals_id','id'=>'individuals-id','type'=>'select', 'options' => $individualSelect],
             ['label'=>'Investment vehicles', 'name' => 'investment_vehicles_id','id'=>'investment-vehicles-id','type'=>'select', 'options' => $vehicleSelect],
             ['label'=>'Investment companies', 'name' => 'investment_companies_id','id'=>'investment-companies-id','type'=>'select', 'options' => $investCompanySelect],
-            ['label'=>'employer', 'name' => 'employer','id'=>'employer','type'=>'text'],
+            ['label'=>'employer', 'name' => 'employer','id'=>'employer','type'=>'text', 'disabled' => true],
+            ['label'=>'Last Numbers', 'name' => 'name','id'=>'name','type'=>'text'],
             ['label'=>'total balance', 'name' => 'total_balance','id'=>'total-balance','type'=>'money'],
             ['label'=>'initial', 'name' => 'initial','id'=>'initial','type'=>'date'],
             ['label'=>'end', 'name' => 'end','id'=>'end','type'=>'date'],

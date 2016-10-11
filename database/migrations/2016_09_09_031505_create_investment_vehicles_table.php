@@ -16,7 +16,7 @@ class CreateInvestmentVehiclesTable extends Migration {
 		{
 			$table->integer('id', true);
 			$table->string('description', 100);
-            $table->boolean('tax_deferred');
+            $table->boolean('tax_deferred')->nullable();
             $table->timestamps();
 		});
 	}

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: miguelfruto
- * Date: 20/09/16
- * Time: 5:48 PM
- */
 
 namespace App\Http\Controllers;
 
@@ -76,15 +70,6 @@ class QuovoClientController extends Controller
         }
     }
 
-    static function getBank($name,$quovo_id){
-        $bank = Bank::firstOrCreate(['name'=>$name]);
-        if($bank->quovo_id==null){
-            $bank->quovo_id=$quovo_id;
-            $bank->save();
-        }
-        return $bank;
-    }
-
     static function getAccountType($description){
         $accountType = AccountType::firstOrCreate(['description'=>$description]);
         return $accountType;
@@ -112,7 +97,12 @@ class QuovoClientController extends Controller
     }
 
     static function processInvestmentPortfolio($portfolio){
-        return $portfolio;
+
+        $portfolio->portfolio_name = \str_replace(array('*'), '', $portfolio->portfolio_name);
+        $investment = new InvestmentController();
+        $investment->findOrCreate($portfolio);
+        return true;
+
     }
 
     static function processBankingPortfolio($portfolio,$user_id){

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class Investment extends Model
 {
-    protected $fillable = ['individuals_id', 'investment_vehicles_id', 'investment_companies_id', 'employer', 'total_balance', 'initial', 'end'];
+    protected $fillable = ['individuals_id', 'investment_vehicles_id', 'investment_companies_id', 'account_quovo_id', 'quovo_id', 'active', 'employer', 'total_balance', 'name', 'quovo_last_change', 'initial', 'end'];
 
     public function user()
     {
