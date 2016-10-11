@@ -15,7 +15,7 @@ class Bank extends Model
                         ->first();
 
         if( is_null($bank)) {
-            $bank = InvestmentCompany::create($data);
+            $bank = Bank::create($data);
         }
 
         return $bank;
