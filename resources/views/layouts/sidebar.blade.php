@@ -287,7 +287,7 @@
                                             </div>
                                             @push('scripts')
                                             <script>
-                                                $('#e_in_{{ $i }}').on('click', function (e) {editInvestment('{{ base64_encode($investment->id) }}','{{ $investment->individuals_id }}','{{ $investment->investment_vehicles_id }}','{{ $investment->investment_companies_id }}','{{ $investment->employer }}','{{ $investment->total_balance }}','{{ $investment->initial }}','{{ $investment->end }}');});
+                                                $('#e_in_{{ $i }}').on('click', function (e) {editInvestment('{{ base64_encode($investment->id) }}','{{ $investment->individuals_id }}','{{ $investment->investment_vehicles_id }}','{{ $investment->investment_companies_id }}','{{ $investment->employer }}','{{ $investment->name }}','{{ $investment->total_balance }}','{{ $investment->initial }}','{{ $investment->end }}');});
                                                 $('#d_in_{{ $i }}').on('click', function (e) {deleteInvestment('{{ base64_encode($investment->id) }}');});
                                             </script>
                                             @endpush
@@ -529,11 +529,11 @@
         'method'=>'put',
         'cancel_button_label'=>'Cancel',
         'inputs'=>[
-            ['label'=>'Bank Name', 'name' => 'banks_id','id'=>'banks-id','type'=>'select', 'options' => $banksSelect],
-            ['label'=>'Account Type', 'name' => 'account_types_id','id'=>'account-types-id','type'=>'select', 'options' => $accountTypesSelect],
-            ['label'=>'Account Status', 'name' => 'account_status_id','id'=>'account-status-id','type'=>'select', 'options' => $accountStatusSelect],
-            ['label'=>'Account Number', 'name' => 'number','id'=>'number','type'=>'text'],
-            ['label'=>'Current Balance', 'name' => 'current_balance','id'=>'current-balance','type'=>'money'],
+            ['label'=>'Bank Name', 'name' => 'banks_id','id'=>'edit_banking_account_banks_id','type'=>'select', 'options' => $banksSelect],
+            ['label'=>'Account Type', 'name' => 'account_types_id','id'=>'edit_banking_account_account_types_id','type'=>'select', 'options' => $accountTypesSelect],
+            ['label'=>'Account Status', 'name' => 'account_status_id','id'=>'edit_banking_account_account_status_id','type'=>'select', 'options' => $accountStatusSelect],
+            ['label'=>'Account Number', 'name' => 'number','id'=>'edit_banking_account_number','type'=>'text'],
+            ['label'=>'Current Balance', 'name' => 'current_balance','id'=>'edit_banking_account_current_balance','type'=>'money'],
         ],
         'submit_button_label'=>'Edit Bank Account','url'=>'/api/bankingaccount'
     ))
@@ -564,11 +564,11 @@
             ['label'=>'Individual', 'name' => 'individuals_id','id'=>'individuals-id','type'=>'select', 'options' => $individualSelect],
             ['label'=>'Investment vehicles', 'name' => 'investment_vehicles_id','id'=>'investment-vehicles-id','type'=>'select', 'options' => $vehicleSelect],
             ['label'=>'Investment companies', 'name' => 'investment_companies_id','id'=>'investment-companies-id','type'=>'select', 'options' => $investCompanySelect],
-            ['label'=>'employer', 'name' => 'employer','id'=>'employer','type'=>'text'],
-            ['label'=>'Last Numbers', 'name' => 'name','id'=>'name','type'=>'text'],
-            ['label'=>'total balance', 'name' => 'total_balance','id'=>'total-balance','type'=>'money'],
-            ['label'=>'initial', 'name' => 'initial','id'=>'initial','type'=>'date'],
-            ['label'=>'end', 'name' => 'end','id'=>'end','type'=>'date'],
+            ['label'=>'Employer', 'name' => 'employer','id'=>'employer','type'=>'text'],
+            ['label'=>'Account Number (Last 4 digits)', 'name' => 'name','id'=>'name','type'=>'text'],
+            ['label'=>'Total balance', 'name' => 'total_balance','id'=>'total-balance','type'=>'money'],
+            ['label'=>'Initial', 'name' => 'initial','id'=>'initial','type'=>'date'],
+            ['label'=>'End', 'name' => 'end','id'=>'end','type'=>'date'],
         ],
         'submit_button_label'=>'Create Investment','url'=>'/api/investment'
     ))
@@ -582,14 +582,14 @@
         'method'=>'put',
         'cancel_button_label'=>'Cancel',
         'inputs'=>[
-            ['label'=>'Individual', 'name' => 'individuals_id','id'=>'individuals-id','type'=>'select', 'options' => $individualSelect],
-            ['label'=>'Investment vehicles', 'name' => 'investment_vehicles_id','id'=>'investment-vehicles-id','type'=>'select', 'options' => $vehicleSelect],
-            ['label'=>'Investment companies', 'name' => 'investment_companies_id','id'=>'investment-companies-id','type'=>'select', 'options' => $investCompanySelect],
-            ['label'=>'employer', 'name' => 'employer','id'=>'employer','type'=>'text', 'disabled' => true],
-            ['label'=>'Last Numbers', 'name' => 'name','id'=>'name','type'=>'text'],
-            ['label'=>'total balance', 'name' => 'total_balance','id'=>'total-balance','type'=>'money'],
-            ['label'=>'initial', 'name' => 'initial','id'=>'initial','type'=>'date'],
-            ['label'=>'end', 'name' => 'end','id'=>'end','type'=>'date'],
+            ['label'=>'Individual', 'name' => 'individuals_id','id'=>'edit_investment_individuals_id','type'=>'select', 'options' => $individualSelect],
+            ['label'=>'Investment vehicles', 'name' => 'investment_vehicles_id','id'=>'edit_investment_vehicles_id','type'=>'select', 'options' => $vehicleSelect],
+            ['label'=>'Investment companies', 'name' => 'investment_companies_id','id'=>'edit_investment_companies_id','type'=>'select', 'options' => $investCompanySelect],
+            ['label'=>'Employer', 'name' => 'employer','id'=>'edit_investment_employer','type'=>'text'],
+            ['label'=>'Account Number (Last 4 digits)', 'name' => 'name','id'=>'edit_investment_name','type'=>'text', 'disabled' => true],
+            ['label'=>'Total balance', 'name' => 'total_balance','id'=>'edit_investment_total_balance','type'=>'money'],
+            ['label'=>'Initial', 'name' => 'initial','id'=>'edit_investment_initial','type'=>'date'],
+            ['label'=>'End', 'name' => 'end','id'=>'edit_investment_end','type'=>'date'],
         ],
         'submit_button_label'=>'Edit Investment','url'=>'/api/investment'
     ))
@@ -741,27 +741,28 @@
         return true;
     }
 
-    function editBankingAccount(banking_account_id_encode,banks_id,account_types_id,account_status_id,number,current_value){
+    function editBankingAccount(banking_account_id_encode,banks_id,account_types_id,account_status_id,number,current_balance){
         $('#edit_banking_account_id').attr('value',banking_account_id_encode);
         $('#edit_banking_account_bank').val(banks_id);
         $('#edit_banking_account_account_type').val(account_types_id);
         $('#edit_banking_account_account_status').val(account_status_id);
         $('#edit_banking_account_number').attr('value',number);
-        $('#edit_banking_account_current_value').attr('value',current_value);
+        $('#edit_banking_account_current_balance').attr('value',current_balance);
         $('#modal_edit_banking_account_form').modal('toggle');
         return true;
     }
 
-    function editInvestment(investment_id_encode, individuals_id, investment_vehicles_id, investment_companies_id, employer, total_balance, initial, end){
+    function editInvestment(investment_id_encode, individuals_id, investment_vehicles_id, investment_companies_id, employer, name, total_balance, initial, end){
         $('#edit_investment_id').attr('value',investment_id_encode);
         $('#edit_investment_individuals_id').val(individuals_id);
         $('#edit_investment_investment_vehicles_id').val(investment_vehicles_id);
         $('#edit_investment_investment_companies_id').val(investment_companies_id);
         $('#edit_investment_employer').attr('value',employer);
+        $('#edit_investment_name').attr('value',name);
         $('#edit_investment_total_balance').attr('value',total_balance);
         $('#edit_investment_initial').attr('value',initial);
         $('#edit_investment_end').attr('value',end);
-        $('#modal_edit_banking_account_form').modal('toggle');
+        $('#modal_edit_investment_form').modal('toggle');
         return true;
     }
 
