@@ -271,7 +271,7 @@
                                                 $i++;
                                             @endphp
                                             <div class="info-box bg-aqua row-hidden">
-                                                <span class="info-box-icon"><i class="fa fa-money"></i></span>
+                                                <span class="info-box-icon"><i class="fa fa-line-chart"></i></span>
                                                 <span class="pull-right hover-btn">
                                                 <span id="e_in_{{ $i }}" class="label label-primary" title="Edit"><i class="fa fa-edit"></i></span>
                                                 <span id="d_in_{{ $i }}" class="label label-danger" title="Delete"><i class="fa fa-trash"></i></span>
