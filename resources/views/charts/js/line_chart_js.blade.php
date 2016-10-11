@@ -1,7 +1,7 @@
 <script>
-    $(document).ready(function() {
+    function load_{{ $canvas_id }}(url) {
         $.ajax({
-            url: "{{ $url }}"
+            url: url
         }).then(function(ajaxData) {
             var entry;
             var year;
@@ -134,5 +134,5 @@
                 }
             });
         });
-    });
+    }
 </script>
