@@ -22,6 +22,10 @@ class CreateIncomesTable extends Migration
             $table->integer('bank_id')->index('fk_incomes_bank_idx');
             $table->date('date');
             $table->decimal('value',32,2);
+            $table->integer('quovo_transaction_id');
+            $table->integer('loan_id');
+            $table->integer('banking_account_id');
+            $table->string('description',128);
             $table->timestamps();
         });
     }

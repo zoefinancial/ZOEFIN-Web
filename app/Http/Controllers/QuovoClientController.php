@@ -124,7 +124,7 @@ class QuovoClientController extends Controller
         return $bankingAccount;
     }
 
-    static function processInsurancePortfolio($portfolio){
+    static function processInsurancePortfolio($portfolio,$user_id){
         return true;
     }
 

@@ -23,6 +23,7 @@ class CreateExpensesTable extends Migration
             $table->integer('loan_id')->index('fk_expenses_loan_id'); //Credit card
             $table->date('date');
             $table->decimal('value',32,2);
+            $table->string('description',128);
             $table->timestamps();
         });
     }
