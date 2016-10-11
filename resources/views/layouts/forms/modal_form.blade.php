@@ -48,7 +48,7 @@
                         <span class="input-group-addon input-group-addon-left">$</span>
                 @endif
 
-                <input type="{{ $type }}" class="form-control" id="{{ $input['id'] }}" name="{{ $input['name'] or $input['id'] }}" value="{{ $input['value'] or ''}}">
+                <input type="{{ $type }}" class="form-control" id="{{ $input['id'] }}" name="{{ $input['name'] or $input['id'] }}" value="{{ $input['value'] or ''}}" {{ isset($input['disabled'])? 'disabled':'' }}>
                 @if( $input['type']=='money')
                     <span class="input-group-addon input-group-addon-right">.00</span>
                 @endif
