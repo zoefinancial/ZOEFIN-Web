@@ -8,7 +8,7 @@
 
 namespace App\Http\Controllers;
 
-class BudgetingController extends Controller
+class TaxesController extends Controller
 {
     public function __construct()
     {
