@@ -85,9 +85,14 @@ class QuovoClientController extends Controller
         return $loan;
     }
 
+    static function getBank($portfolio){
+        $bank = Bank::getQuovoBank(['quovo_id' => $portfolio->brokerage, 'name' =>$portfolio->brokerage_name]);
+        return $bank;
+    }
+
     static function getLoan($portfolio,$user_id){
         $loanType = LoanType::firstOrCreate(['description' => $portfolio->portfolio_type]);
-        $bank=self::getBank($portfolio->brokerage_name,$portfolio->brokerage);
+        $bank=self::getBank($portfolio);
         $loan = Loan::firstOrCreate(['users_id'=>$user_id,
             'number'=>$portfolio->portfolio_name,
             'loan_types_id'=>$loanType->id,
@@ -106,7 +111,7 @@ class QuovoClientController extends Controller
     }
 
     static function processBankingPortfolio($portfolio,$user_id){
-        $bank=self::getBank($portfolio->brokerage_name,$portfolio->brokerage);
+        $bank = self::getBank($portfolio);
         $accountType=self::getAccountType($portfolio->portfolio_type);
         $bankingAccount = BankingAccount::firstOrCreate(['users_id'=>$user_id,
             'banks_id'=>$bank->id,
