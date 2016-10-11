@@ -169,8 +169,8 @@ class QuovoClientController extends Controller
     }
 
     static function completeSync(){
-        /*$quovoUsers = QuovoUser::all();*/
-        $quovoUsers = QuovoUser::where('user_id','2')->get();
+        $quovoUsers = QuovoUser::all();
+        /*$quovoUsers = QuovoUser::where('user_id','2')->get();*/
         foreach($quovoUsers as $quovoUser){
             $userPortfolios = self::getQuovo()->user()->portfolios($quovoUser->quovo_user_id);
             foreach ($userPortfolios->portfolios as $userPortfolio){
