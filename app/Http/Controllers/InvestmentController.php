@@ -97,7 +97,7 @@ class InvestmentController extends Controller
         $vehicle = InvestmentVehicle::firstOrCreate(['description' => $data->portfolio_type]);
 
         $investment = new Investment([
-            'users_id' => Auth::user()->id,
+            'users_id' => $data->user_id,
             'investment_vehicles_id' => $vehicle->id,
             'investment_companies_id' => $company->id,
             'account_quovo_id' => $data->account,
@@ -114,7 +114,7 @@ class InvestmentController extends Controller
 
     public function findOrCreate($data)
     {
-        $investment = $this->getInvestment(Auth::user()->id, $data->id);
+        $investment = $this->getInvestment($data->user_id, $data->id);
         if(is_null($investment)) {
             $investment = $this->storeMapping($data);
         }

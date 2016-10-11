@@ -101,9 +101,10 @@ class QuovoClientController extends Controller
         return $loan;
     }
 
-    static function processInvestmentPortfolio($portfolio){
+    static function processInvestmentPortfolio($portfolio, $user_id){
 
         $portfolio->portfolio_name = \str_replace(array('*'), '', $portfolio->portfolio_name);
+        $portfolio->user_id = $user_id;
         $investment = new InvestmentController();
         $investment->findOrCreate($portfolio);
         return true;
@@ -134,7 +135,7 @@ class QuovoClientController extends Controller
                 self::processLoanPortfolio($portfolio,$user_id);
                 break;
             case 'Investment':
-                self::processInvestmentPortfolio($portfolio);
+                self::processInvestmentPortfolio($portfolio, $user_id);
                 break;
             case 'Banking':
                 if($portfolio->portfolio_type=='Credit Card'){
