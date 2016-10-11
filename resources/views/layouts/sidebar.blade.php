@@ -94,7 +94,7 @@
     $userInvestments = App\Http\Controllers\InvestmentController::getInvestment(Auth::user()->id);
 
 @endphp
-<aside class="main-sidebar">
+<aside class="main-sidebar pre-scrollable">
     <section class="sidebar">
         <ul class="sidebar-menu">
             <li class="treemenu">
@@ -323,39 +323,39 @@
                                             </script>
                                             @endpush
                                             @push('modals')
-                                            @if($loanType->description=='Mortgage')
-                                                @include('layouts.forms.modal_form',
-                                                array(
-                                                    'id'=>'modal_'.str_replace('-','',str_replace(' ','',str_slug($loanType->description))).'_form',
-                                                    'header'=>$loanType->description,
-                                                    'description'=>'',
-                                                    'cancel_button_label'=>'Cancel',
-                                                    'inputs'=>[
-                                                        ['label'=>$loanType->id,'id'=>'loan_types_id','type'=>'hidden','value'=>$loanType->id],
-                                                        ['label'=>'Amount','id'=>'amount','type'=>'money'],
-                                                        ['label'=>'Interest rate','id'=>'interest_rate','type'=>'percentage'],
-                                                        ['label'=>'Type of interest rate', 'name' => 'details','id'=>str_replace('-','',str_replace(' ','',str_slug($loanType->description))).'_details','type'=>'select', 'options' => $typeOfInterestRateSelect],
-                                                        ['label'=>'Comments','id'=>'comments','type'=>'text'],
-                                                    ],
-                                                    'submit_button_label'=>'Add','url'=>'/api/loan'
-                                                ))
-                                            @else
-                                                @include('layouts.forms.modal_form',
-                                                array(
-                                                    'id'=>'modal_'.str_replace('-','',str_replace(' ','',str_slug($loanType->description))).'_form',
-                                                    'header'=>$loanType->description,
-                                                    'description'=>'',
-                                                    'cancel_button_label'=>'Cancel',
-                                                    'inputs'=>[
-                                                        ['label'=>$loanType->id,'id'=>'loan_types_id','type'=>'hidden','value'=>$loanType->id],
-                                                        ['label'=>'Amount','id'=>'amount','type'=>'money'],
-                                                        ['label'=>'Interest rate','id'=>'interest_rate','type'=>'percentage'],
-                                                        ['label'=>'Comments','id'=>'comments','type'=>'text'],
-                                                        ['label'=>'Detail','id'=>'detail','type'=>'text'],
-                                                    ],
-                                                    'submit_button_label'=>'Add','url'=>'/api/loan'
-                                                ))
-                                            @endif
+                                                @if($loanType->description=='Mortgage')
+                                                    @include('layouts.forms.modal_form',
+                                                    array(
+                                                        'id'=>'modal_'.str_replace('-','',str_replace(' ','',str_slug($loanType->description))).'_form',
+                                                        'header'=>$loanType->description,
+                                                        'description'=>'',
+                                                        'cancel_button_label'=>'Cancel',
+                                                        'inputs'=>[
+                                                            ['label'=>$loanType->id,'id'=>'loan_types_id','type'=>'hidden','value'=>$loanType->id],
+                                                            ['label'=>'Amount','id'=>'amount','type'=>'money'],
+                                                            ['label'=>'Interest rate','id'=>'interest_rate','type'=>'percentage'],
+                                                            ['label'=>'Type of interest rate', 'name' => 'details','id'=>str_replace('-','',str_replace(' ','',str_slug($loanType->description))).'_details','type'=>'select', 'options' => $typeOfInterestRateSelect],
+                                                            ['label'=>'Comments','id'=>'comments','type'=>'text'],
+                                                        ],
+                                                        'submit_button_label'=>'Add','url'=>'/api/loan'
+                                                    ))
+                                                @else
+                                                    @include('layouts.forms.modal_form',
+                                                    array(
+                                                        'id'=>'modal_'.str_replace('-','',str_replace(' ','',str_slug($loanType->description))).'_form',
+                                                        'header'=>$loanType->description,
+                                                        'description'=>'',
+                                                        'cancel_button_label'=>'Cancel',
+                                                        'inputs'=>[
+                                                            ['label'=>$loanType->id,'id'=>'loan_types_id','type'=>'hidden','value'=>$loanType->id],
+                                                            ['label'=>'Amount','id'=>'amount','type'=>'money'],
+                                                            ['label'=>'Interest rate','id'=>'interest_rate','type'=>'percentage'],
+                                                            ['label'=>'Comments','id'=>'comments','type'=>'text'],
+                                                            ['label'=>'Detail','id'=>'detail','type'=>'text'],
+                                                        ],
+                                                        'submit_button_label'=>'Add','url'=>'/api/loan'
+                                                    ))
+                                                @endif
                                             @endpush
                                             @foreach(Auth::user()->getLoansByType($loanType->id) as $loan)
                                                 @php
@@ -378,7 +378,7 @@
                                                 <span id="d_l_{{ $i }}" class="label label-danger" title="Delete"><i class="fa fa-trash"></i></span>
                                                 </span>
                                                     <div class="info-box-content">
-                                                        <span class="info-box-text" title="{{$loan->comments}}">{{$loanType->description}}</span>
+                                                        <span class="info-box-text" title="{{$loan->number}}">{{$loanType->description}}</span>
                                                         <span class="info-box-number" title="${{ titleMoney($loan->amount) }}">${{ formatMoney($loan->amount) }}</span>
                                                         <div class="progress">
                                                             <div class="progress-bar" style="width: 100%" ></div>

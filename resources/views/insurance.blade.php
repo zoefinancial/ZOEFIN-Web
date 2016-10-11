@@ -12,7 +12,7 @@
             @else
             <div class="col-md-12">
             @endif
-                @include('charts.bar_chart',['js'=>'charts.js.stackable_bar_chart_js','box_title'=>'Insurance information ('.$member['name'].')','url'=>$url.'/'.$member['id'],'canvas_id'=>'insurance_prediction_'.$member['id']])
+                @include('charts.bar_chart',['showXAxis'=>'false','js'=>'charts.js.stackable_bar_chart_js','box_title'=>'Insurance information ('.$member['name'].')','url'=>$url.'/'.$member['id'],'canvas_id'=>'insurance_prediction_'.$member['id']])
             </div>
 
         @endforeach

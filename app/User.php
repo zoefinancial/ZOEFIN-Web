@@ -162,14 +162,8 @@ class User extends Authenticatable
             $total = $family_need - $family_resources;
         }
 
-        /*return array(
-            'Total Family Would Need' => ['Total Family Would Need' => $family_need, 'Family Resources' => 0],
-            'Available Resources' => ['Total Family Would Need' => 0, 'Family Resources' => $family_resources],
-            'Insurance Need' => ['Total Family Would Need' => 0, 'Family Resources' => $total]
-        );*/
-
         return array(
-            'Total Family Would Need'=>['Total Family Would Need' =>$family_need],
+            'Family Needs'=>['Family Needs' =>$family_need],
             'Available Resources'=>['Available Resources' =>  $family_resources,],
             'Insurance Needed'=>['Insurance Needed' => $total,]
         );
@@ -177,16 +171,24 @@ class User extends Authenticatable
 
     function getIncomes(){
         $incomes=Income::where('users_id',$this->id)
+            ->whereNull('loan_id')
             ->orderBy('date')
             ->get();
         return $incomes;
     }
 
     function getExpenses(){
-        $incomes=Expense::where('users_id',$this->id)
+        $expenses=Expense::where('users_id',$this->id)
             ->orderBy('date')
             ->get();
-        return $incomes;
+        return $expenses;
+    }
+
+    function getExpensesBetweenDates($from,$to){
+        $expenses=Expense::where([['users_id',$this->id],['date','>=',$from],['date','<=',$to]])
+            ->orderBy('date')
+            ->get();
+        return $expenses;
     }
 
     /**
@@ -254,8 +256,8 @@ class User extends Authenticatable
                 }else{
                     $array_account=array(
                         'Assets'=>0,
-                        'Liabilities'=>$loan->amount,
-                        'Net Worth'=>0-$loan->amount
+                        'Liabilities'=>$loan->amount*-1,
+                        'Net Worth'=>$loan->amount
                     );
                     $result['Home']=$array_account;
                 }
@@ -267,7 +269,7 @@ class User extends Authenticatable
                     }else{
                         $array_account=array(
                             'Assets'=>0,
-                            'Liabilities'=>-$loan->amount,
+                            'Liabilities'=>$loan->amount*-1,
                             'Net Worth'=>0-$loan->amount
                         );
                         $result['Car']=$array_account;
@@ -282,17 +284,20 @@ class User extends Authenticatable
                     $result[$loan->getLoanType->description]=$array_account;
                 }
             }
-            $liabilities+=$loan->amount;
+            $liabilities-=$loan->amount;
         }
         $result['Net Worth']=array(
             'Assets'=>0,
             'Liabilities'=>0,
             'Net Worth'=>$net_worth
         );
+        foreach ($result as $item) {
+            $net_worth+=$item['Net Worth'];
+        }
         $result['Total']=array(
                 'Assets'=>$assets,
-                'Liabilities'=>-$liabilities,
-                'Net Worth'=>$result['Home']['Net Worth']+$result['Car']['Net Worth']+$result['Bank']['Net Worth']+$net_worth
+                'Liabilities'=>$liabilities,
+                'Net Worth'=>$net_worth
         );
         return $result;
     }

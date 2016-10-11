@@ -59,10 +59,6 @@
 
 @stack('modals')
 
-
-
-
-
 <!-- REQUIRED JS SCRIPTS -->
 <!-- jQuery 2.1.3 -->
 <script src="{{ asset ("/bower_components/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js") }}"></script>

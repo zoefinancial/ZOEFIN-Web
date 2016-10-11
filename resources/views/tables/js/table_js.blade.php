@@ -1,15 +1,16 @@
 <script>
-    $(document).ready(function() {
+    function load_{{ $canvas_id }}(url) {
         $.ajax({
-            url: "{{ $url }}"
+            url: url
         }).then(function(ajaxData) {
-            $("#{{ $canvas_id }}_loading").get(0).className = "hidden";
+            $("#{{ $canvas_id }}_loading").get(0).className ="fa fa-spinner fa-pulse fa-fw";
 
             var row_object;
 
             var total={{ $total or 'false'}};
 
             var moneyFormat=['{{ $moneyFormat or '' }}'];
+            var completeMoneyFormat=['{{ $completeMoneyFormat or '' }}'];
 
             var newLine;
             var count,titles;
@@ -17,6 +18,8 @@
 
             count=0;
             titles='';
+
+            $("#{{ $canvas_id }}").empty();
             for ( var row in ajaxData){
                 newLine='';
                 row_object=ajaxData[row];
@@ -27,7 +30,11 @@
                         if(moneyFormat.contains(col)){
                             newLine+='<td title="$'+tableMoneyFormat(row_object[col],0)+'">'+humanReadableMoney(row_object[col])+'</td>';
                         }else{
-                            newLine+='<td>'+row_object[col]+'</td>';
+                            if(completeMoneyFormat.contains(col)){
+                                newLine+='<td title="$'+tableMoneyFormat(row_object[col],0)+'">'+tableMoneyFormat(row_object[col])+'</td>';
+                            }else {
+                                newLine += '<td>' + row_object[col] + '</td>';
+                            }
                         }
                     }
                     if(count==0){
@@ -68,7 +75,8 @@
                 $("#{{ $canvas_id }}").append('<tfoot><tr>'+newLine+'</tr></tfoot>');
             }
             $("#{{ $canvas_id }}").tablesorter();
+            $("#{{ $canvas_id }}_loading").get(0).className = "hidden";
         });
-    } );
+    }
 
 </script>

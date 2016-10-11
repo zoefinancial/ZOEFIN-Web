@@ -2,7 +2,7 @@
 @section('content')
     <div class="row row-height" >
         <div class="col-lg-6 col-md-12">
-        @include('tables.table',['box_title'=>'Taxes detailed 2015','url'=>'/user/taxes/detailed/2015','canvas_id'=>'taxes_table_2015','total'=>'true','moneyFormat'=>'Tax Amount','overlay'=>'1'])
+            @include('tables.table',['box_title'=>'Taxes detailed 2015','url'=>'/user/taxes/detailed/2015','canvas_id'=>'taxes_table_2015','total'=>'true','moneyFormat'=>'Tax Amount','overlay'=>'1'])
         </div>
         <div class="col-lg-6 col-md-12">
             @include('tables.table',['box_title'=>'Taxes detailed E2016','url'=>'/user/taxes/detailed/2016','canvas_id'=>'taxes_table_2016','total'=>'true','moneyFormat'=>'Tax Amount','overlay'=>'0'])

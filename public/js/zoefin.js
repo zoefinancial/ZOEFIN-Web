@@ -17,7 +17,17 @@ var colors=['rgba(75, 192, 192, 0.5)',
     'rgba(54, 162, 235, 0.5)',
     'rgba(255, 206, 86, 0.5)',
     'rgba(153, 102, 255, 0.5)',
-    'rgba(255, 159, 64, 0.5)'];
+    'rgba(255, 159, 64, 0.5)',
+    'rgba(0, 0, 0, 0.5)',
+    'rgba(128, 0, 0, 0.5)',
+    'rgba(128, 0, 128, 0.5)',
+    'rgba(128, 255, 0, 0.5)',
+    'rgba(0, 255, 0, 0.5)',
+    'rgba(0, 255, 255, 0.5)',
+    'rgba(128, 255, 255, 0.5)',
+    'rgba(255, 41, 0, 0.5)',
+    'rgba(193, 54, 189, 0.5)',
+    ];
 
 Number.prototype.format = function(n, x, s, c) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')',
@@ -42,9 +52,9 @@ function tableMoneyFormat(s){
 
 function humanReadableMoney(s){
     var n=parseFloat(s);
-    if(n<1000){
+    if(Math.abs(n)<1000){
         return '$'+parseFloat(s).format(0, 3)+'';
-    }else if(n < 1000000){
+    }else if(Math.abs(n) < 1000000){
         return '$'+moneyFormat(s,-3)+ ' K';
     }else{
         return '$'+moneyFormat(s,-6)+ ' M';

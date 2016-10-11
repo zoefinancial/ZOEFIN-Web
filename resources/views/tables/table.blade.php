@@ -19,5 +19,12 @@
     @endif
 </div>
 @push('scripts')
+<script>
+    $(document).ready(function() {
+        load_{{ $canvas_id }}("{{ $url }}");
+    });
+</script>
+@endpush
+@push('scripts')
     @include('tables.js.table_js',['canvas_id'=>$canvas_id])
 @endpush

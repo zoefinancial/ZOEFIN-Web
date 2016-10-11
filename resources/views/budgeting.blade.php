@@ -8,11 +8,11 @@
             <div class="row">
                 <div class="col-lg-6">
                     <!-- Annual Income -->
-                    @include('charts.bar_chart',['box_title'=>'After tax income over time','url'=>'/api/incomes','js'=>'charts.js.stackable_bar_chart_js','canvas_id'=>'afterTaxIncomeOverTime','overlay'=>'1'])
+                    @include('charts.bar_chart',['showLegend'=>'false','box_title'=>'After tax income over time','url'=>'/api/incomes','js'=>'charts.js.stackable_bar_chart_js','canvas_id'=>'afterTaxIncomeOverTime','overlay'=>'1'])
                 </div>
                 <div class="col-lg-6">
                     <!-- Annual Expenses -->
-                    @include('charts.bar_chart',['box_title'=>'Expenses over time','url'=>'/api/expenses','js'=>'charts.js.stackable_bar_chart_js','canvas_id'=>'ExpensesOverTime','overlay'=>'1'])
+                    @include('charts.bar_chart',['link'=>'/budgeting/expenses','showLegend'=>'false','box_title'=>'Expenses over time','url'=>'/api/expenses','js'=>'charts.js.stackable_bar_chart_js','canvas_id'=>'ExpensesOverTime','overlay'=>'1'])
                 </div>
             </div>
         </div>

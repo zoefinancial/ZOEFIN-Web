@@ -64,23 +64,13 @@ Route::get('/investment', 'InvestmentController@index');
 
 Route::get('/api/investment/taxable','InvestmentController@taxable');
 
-Route::get('/api/investment/vehicle','investmentController@vehicleTable');
+Route::get('/api/investment/vehicle','InvestmentController@vehicleTable');
 
-Route::get('/taxes',
-    ['middleware' => 'auth',
-        function () {
-            return view('taxes',["page_title"=>"Taxes",'side_bar_active_item'=>'taxes']);
-        }
-    ]
-);
+Route::get('/taxes','TaxesController@index');
 
-Route::get('/budgeting',
-    ['middleware' => 'auth',
-        function () {
-            return view('budgeting',["page_title"=>"Budgeting",'side_bar_active_item'=>'budgeting']);
-        }
-    ]
-);
+Route::get('/budgeting','BudgetingController@index');
+
+Route::get('/budgeting/expenses','BudgetingController@expenses');
 
 Route::get('/insurance',
     ['middleware' => 'auth',
@@ -118,13 +108,35 @@ Route::get('/user/insurance/summary',
     ]
 );
 
-Route::get('/api/incomes','IncomeController@getIncomes');
-Route::get('/api/expenses','ExpenseController@getExpenses');
-Route::get('/api/cash_flow','CashFlowController@getCashFlow');
-
 /*
  * END INSURANCE
  * */
+
+/*
+ * Income & Expenses
+ * */
+
+Route::get('/api/incomes','IncomeController@getIncomes');
+
+Route::get('/api/expenses','ExpenseController@getExpenses');
+Route::get('/api/expenses/dates/{from}/{to}','ExpenseController@getExpensesBetweenDates');
+Route::get('/api/expenses/dates/','ExpenseController@getExpenses');
+
+Route::get('/api/expenses/dates/accounts/{from}/{to}','ExpenseController@getExpensesByAccountAndDate');
+Route::get('/api/expenses/dates/accounts','ExpenseController@getExpensesTimeLineByAccount');
+
+Route::get('/api/expenses/accounts','ExpenseController@getExpensesPieByAccount');
+Route::get('/api/expenses/accounts/{from}/{to}','ExpenseController@getExpensesPieBetweenDatesByAccount');
+
+Route::get('/api/expenses/categorization/{from}/{to}','ExpenseController@getExpensesCategorizationBetweenDates');
+Route::get('/api/expenses/categorization/','ExpenseController@getExpensesCategorization');
+
+Route::get('/api/budgeting/expenses','ExpenseController@getAllExpenses');
+Route::get('/api/budgeting/expenses/{from}/{to}','ExpenseController@getAllExpensesBetweenDates');
+
+Route::get('/api/cash_flow','CashFlowController@getCashFlow');
+
+
 
 /*
  * NET WORTH
@@ -218,6 +230,7 @@ Route::get('/user/investments',
 
 Route::get('/api/quovo_iframe','QuovoClientController@getIFrameToken');
 Route::get('/api/quovo_sync','QuovoClientController@clientSync');
+Route::get('/api/quovo_sync/detailed','QuovoClientController@completeSync');
 
 /*
  * Test web services
@@ -238,21 +251,6 @@ Route::get('/test/members',
         }
     ]
 );
-
-/*
-Route::post('/authenticate',
-    ['middleware' => 'auth',
-        function () {
-            $plaidToken = new App\PlaidTokens;
-            $plaidToken->user_id=Auth::user()->id;
-            $plaidToken->institution_name=$response['institution']['name'];
-            $plaidToken->institution_type=$response['institution']['type'];
-            $plaidToken->public_token=$response['public_token'];
-            $plaidToken->save();
-            return redirect('dashboard');
-        }
-    ]
-);*/
 
 Route::post('/taxesUpload',
     array('middleware' => 'auth',

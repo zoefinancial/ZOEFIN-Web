@@ -35,8 +35,8 @@ class CashFlowController extends Controller
                 $result['Expenses'][$expense->date->format('Y-M')]=0;
                 $result['Total'][$expense->date->format('Y-M')]=0;
             }
-            $result['Expenses'][$expense->date->format('Y-M')]-=$expense->value;
-            $result['Total'][$expense->date->format('Y-M')]-=$expense->value;
+            $result['Expenses'][$expense->date->format('Y-M')]+=$expense->value;
+            $result['Total'][$expense->date->format('Y-M')]+=$expense->value;
         }
         return $result;
     }

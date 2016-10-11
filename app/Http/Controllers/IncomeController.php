@@ -21,10 +21,13 @@ class IncomeController extends Controller
     function getIncomes(){
         $result = array();
         foreach (Auth::user()->getIncomes() as $income){
-            $result[$income->IncomeType->description][$income->date->format('Y-M')]=$income->value;
+            if(!isset($result[$income->IncomeType->description][$income->date->format('Y-M')])){
+                $result[$income->IncomeType->description][$income->date->format('Y-M')]=0;
+            }
             if(!isset($result['Total'][$income->date->format('Y-M')])){
                 $result['Total'][$income->date->format('Y-M')]=0;
             }
+            $result[$income->IncomeType->description][$income->date->format('Y-M')]+=$income->value;
             $result['Total'][$income->date->format('Y-M')]+=$income->value;
         }
         return $result;
