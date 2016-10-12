@@ -28,9 +28,9 @@ class User extends Authenticatable
 
     protected $profile_image = "";
 
-    public function investments()
+    public function investment()
     {
-        return $this->hasMany(Investment::class);
+        return $this->hasMany(Investment::class, 'users_id', 'id');
     }
     /**
      * Function to retrieve the Net Worth data
@@ -74,7 +74,7 @@ class User extends Authenticatable
     /**
      * Function to retrieve the Investment data
      */
-    function getInvestments(){
+   /* function getInvestments(){
         return array(
             'Investments'=>[
                 '401k'=>'40000',
@@ -87,7 +87,7 @@ class User extends Authenticatable
                 'Tax Defered'=>'35000'
             ]
         );
-    }
+    }*/
 
     function getFamilyMembers(){
         $individuals = Individual::where('users_id',$this->id)
@@ -119,6 +119,17 @@ class User extends Authenticatable
     public function getBankingAccount()
     {
         return BankingAccount::where('users_id',$this->id)
+            ->get();
+    }
+
+    /**
+     * getInvestments extract all investments from user to
+     * display on net worth chart
+     * @return mixed
+     */
+    public function getInvestments()
+    {
+        return Investment::where('users_id',$this->id)
             ->get();
     }
 
@@ -194,7 +205,7 @@ class User extends Authenticatable
     /**
      * Function to retrieve the Net Worth detailed data
      */
-    function getDetailedNetWorth(){
+    public function getDetailedNetWorth(){
         $result = array();
         $net_worth=0;
         $assets=0;
@@ -245,6 +256,22 @@ class User extends Authenticatable
                 $result['Bank']=$array_account;
             }
             $assets+=$account->current_balance;
+        }
+
+        $investments = $this->getInvestments();
+        foreach($investments as $account){
+            if(isset($result['Bank'])){
+                $result['Investment']['Assets'] += $account->total_balance;
+                $result['Investment']['Net Worth'] += $account->total_balance;
+            }else{
+                $array_account = array(
+                    'Assets' => $account->total_balance,
+                    'Liabilities' => 0,
+                    'Net Worth' => $account->total_balance
+                );
+                $result['Investment'] = $array_account;
+            }
+            $assets+=$account->total_balance;
         }
 
         $loans=$this->getLoans();
