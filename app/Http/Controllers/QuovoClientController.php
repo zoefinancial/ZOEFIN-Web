@@ -108,12 +108,7 @@ class QuovoClientController extends Controller
         $portfolio->user_id = $user_id;
         $portfolio->last_change = new Carbon($portfolio->last_change);
         $investment = new InvestmentController();
-        try{
-            $investment->findOrCreate($portfolio);
-
-        }catch (\Exception $e){
-            dd($e);
-        }
+        $investment->findOrCreate($portfolio);
         return true;
 
     }
