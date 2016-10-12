@@ -244,16 +244,16 @@ class User extends Authenticatable
 
         $bankingAccount = $this->getBankingAccount();
         foreach($bankingAccount as $account){
-            if(isset($result['Bank'])){
-                $result['Bank']['Assets']+=$account->current_balance;
-                $result['Bank']['Net Worth']+=$account->current_balance;
+            if(isset($result['Cash'])){
+                $result['Cash']['Assets']+=$account->current_balance;
+                $result['Cash']['Net Worth']+=$account->current_balance;
             }else{
                 $array_account=array(
                     'Assets'=>$account->current_balance,
                     'Liabilities'=>0,
                     'Net Worth'=>$account->current_balance
                 );
-                $result['Bank']=$array_account;
+                $result['Cash']=$array_account;
             }
             $assets+=$account->current_balance;
         }
