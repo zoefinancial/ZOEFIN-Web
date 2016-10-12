@@ -27,6 +27,7 @@ class BanksTableSeeder extends Seeder
             ['name' => 'State Street', 'quovo_id' => 107, 'created_at' => $dateNow, 'updated_at' => $dateNow],
             ['name' => 'BB&T Bank', 'quovo_id' => 108, 'created_at' => $dateNow, 'updated_at' => $dateNow],
             ['name' => 'Charles Schwab', 'quovo_id' => 6, 'created_at' => $dateNow, 'updated_at' => $dateNow],
+            ['name' => 'Others', 'quovo_id' => 999999, 'created_at' => $dateNow, 'updated_at' => $dateNow],
         ]);
     }
 }
