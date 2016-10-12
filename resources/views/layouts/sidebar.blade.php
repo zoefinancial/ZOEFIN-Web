@@ -252,7 +252,7 @@
                             <li>
                                 <div class="box box-primary collapsed-box box-solid bg-transparent">
                                     <div class="box-header">
-                                        <h3 class="box-title">Investment account</h3>
+                                        <h3 class="box-title">Investments</h3>
                                         <div class="box-tools pull-right">
                                             <button type="button" class="btn btn-box-tool" id="c_in_{{ $i }}" title="Add Investment manually"><i class="fa fa-plus"></i>
                                             </button>
