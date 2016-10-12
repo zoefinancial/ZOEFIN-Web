@@ -216,13 +216,7 @@ Route::get('/user/taxes/comparison',
  * INVESTMENTS
  * */
 
-Route::get('/user/investments',
-    ['middleware' => 'auth',
-        function () {
-            return response()->json(Auth::user()->getInvestments());
-        }
-    ]
-);
+Route::get('/user/investments','InvestmentController@taxable');
 
 /*
  * END INVESTMENTS
