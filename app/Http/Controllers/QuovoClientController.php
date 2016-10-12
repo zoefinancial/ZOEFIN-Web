@@ -103,14 +103,10 @@ class QuovoClientController extends Controller
     }
 
     static function processInvestmentPortfolio($portfolio, $user_id){
-
-        $portfolio->portfolio_name = \str_replace(array('*'), '', $portfolio->portfolio_name);
         $portfolio->user_id = $user_id;
-        $portfolio->last_change = new Carbon($portfolio->last_change);
         $investment = new InvestmentController();
         $investment->findOrCreate($portfolio);
         return true;
-
     }
 
     static function processBankingPortfolio($portfolio,$user_id){
@@ -158,11 +154,14 @@ class QuovoClientController extends Controller
             $quovo_user_id=self::getQuovoUserId();
             $quovoResponse=self::getQuovo()->user()->portfolios($quovo_user_id);
             foreach($quovoResponse->portfolios as $portfolio) {
-                if (!$portfolio->is_inactive) {
-                    if ($portfolio->portfolio_category != 'Unknown') {
-                        self::processPortfolio($portfolio,Auth::user()->id);
-                    }
+
+                $portfolio->portfolio_name = \str_replace(array('*'), '', $portfolio->portfolio_name);
+                $portfolio->last_change = new Carbon($portfolio->last_change);
+
+                if ($portfolio->portfolio_category != 'Unknown') {
+                    self::processPortfolio($portfolio,Auth::user()->id);
                 }
+
             }
             return response()->json(['Information'=>'Synchronizing process succeed']);
         }catch(\Exception $e){
