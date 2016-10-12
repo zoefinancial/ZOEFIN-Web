@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Investment;
 use App\InvestmentCompany;
 use App\InvestmentVehicle;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 
 class InvestmentController extends Controller
@@ -83,9 +81,9 @@ class InvestmentController extends Controller
         return response()->json($investment->vehicleGroup(Auth::user()->id));
     }
 
-    public function getInvestment($user_id, $quovo_id)
+    public function getInvestment($user_id, $quovo_id, $name)
     {
-        return Investment::select('id','users_id', 'individuals_id', 'investment_vehicles_id', 'investment_companies_id', 'account_quovo_id', 'quovo_id', 'employer', 'name','total_balance')
+        return Investment::select('id','users_id', 'individuals_id', 'investment_vehicles_id', 'investment_companies_id', 'account_quovo_id', 'quovo_id', 'employer', 'name','total_balance', 'quovo_last_change')
                             ->where([['users_id', '=', $user_id],['quovo_id', '=', $quovo_id]])
                             ->first();
     }
@@ -105,7 +103,7 @@ class InvestmentController extends Controller
             'active' => !($data->is_inactive),
             'total_balance' => $data->value,
             'name' => $data->portfolio_name,
-            'quovo_last_change' => new Carbon($data->last_change),
+            'quovo_last_change' => $data->last_change->timestamp,
         ]);
 
         $investment->save();
@@ -114,10 +112,19 @@ class InvestmentController extends Controller
 
     public function findOrCreate($data)
     {
-        $investment = $this->getInvestment($data->user_id, $data->id);
+        $investment = $this->getInvestment($data->user_id, $data->id, $data->portfolio_name);
+
         if(is_null($investment)) {
             $investment = $this->storeMapping($data);
+        }elseif ( ($data->last_change->timestamp > $investment->quovo_last_change) || ($data->portfolio_name == $investment->name) ) {
+            $investment->quovo_last_change = $data->last_change->timestamp;
+            $investment->total_balance     = $data->value;
+            $investment->active            = !($data->is_inactive);
+            $investment->account_quovo_id  = $data->account;
+            $investment->quovo_id          = $data->id;
+            $investment->save();
         }
+
         return $investment;
     }
 }

@@ -28,7 +28,7 @@ class CreateInvestmentsTable extends Migration {
             $table->decimal('total_balance',16,4)->nullable();
             $table->date('initial')->nullable();
             $table->date('end')->nullable();
-            $table->timestamp('quovo_last_change')->nullable();
+            $table->integer('quovo_last_change')->nullable();
             $table->timestamps();
 		});
 	}

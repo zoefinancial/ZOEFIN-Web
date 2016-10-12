@@ -13,6 +13,7 @@ use App\IncomeType;
 use App\Loan;
 use App\LoanType;
 use App\QuovoUser;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Wela\Quovo;
 
@@ -105,8 +106,14 @@ class QuovoClientController extends Controller
 
         $portfolio->portfolio_name = \str_replace(array('*'), '', $portfolio->portfolio_name);
         $portfolio->user_id = $user_id;
+        $portfolio->last_change = new Carbon($portfolio->last_change);
         $investment = new InvestmentController();
-        $investment->findOrCreate($portfolio);
+        try{
+            $investment->findOrCreate($portfolio);
+
+        }catch (\Exception $e){
+            dd($e);
+        }
         return true;
 
     }
