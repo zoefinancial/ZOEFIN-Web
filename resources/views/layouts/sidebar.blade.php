@@ -514,7 +514,7 @@
             ['label'=>'Bank Name', 'name' => 'banks_id','id'=>'banks-id','type'=>'select', 'options' => $banksSelect],
             ['label'=>'Account Type', 'name' => 'account_types_id','id'=>'account-types-id','type'=>'select', 'options' => $accountTypesSelect],
             ['label'=>'Account Status', 'name' => 'account_status_id','id'=>'account-status-id','type'=>'select', 'options' => $accountStatusSelect],
-            ['label'=>'Account Number', 'name' => 'number','id'=>'number','type'=>'text'],
+            ['label'=>'Account Number (Last 4 digits)', 'name' => 'number','id'=>'number','type'=>'text'],
             ['label'=>'Current Balance', 'name' => 'current_balance','id'=>'current-balance','type'=>'money'],
         ],
         'submit_button_label'=>'Create Bank Account','url'=>'/api/bankingaccount'
@@ -532,7 +532,7 @@
             ['label'=>'Bank Name', 'name' => 'banks_id','id'=>'edit_banking_account_banks_id','type'=>'select', 'options' => $banksSelect],
             ['label'=>'Account Type', 'name' => 'account_types_id','id'=>'edit_banking_account_account_types_id','type'=>'select', 'options' => $accountTypesSelect],
             ['label'=>'Account Status', 'name' => 'account_status_id','id'=>'edit_banking_account_account_status_id','type'=>'select', 'options' => $accountStatusSelect],
-            ['label'=>'Account Number', 'name' => 'number','id'=>'edit_banking_account_number','type'=>'text'],
+            ['label'=>'Account Number (Last 4 digits)', 'name' => 'number','id'=>'edit_banking_account_number','type'=>'text'],
             ['label'=>'Current Balance', 'name' => 'current_balance','id'=>'edit_banking_account_current_balance','type'=>'money'],
         ],
         'submit_button_label'=>'Edit Bank Account','url'=>'/api/bankingaccount'
