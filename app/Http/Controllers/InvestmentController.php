@@ -21,8 +21,8 @@ class InvestmentController extends Controller
      */
     public function index()
     {
-        $investmentTable = ['box_title'=>'Investment','url'=>'/api/investment/vehicle','canvas_id'=>'investment_table','total'=>'true','moneyFormat'=>'Tax Amount','overlay'=>'1'];
-        $chart_taxes      = ['box_title'=>'Investment chart','url'=>'/api/investment/taxable','canvas_id'=>'taxes_chart','overlay'=>'1'];
+        $investmentTable = ['box_title'=>'Investment','url'=>'/api/investment/vehicle','canvas_id'=>'investment_table','total'=>'true','moneyFormat'=>'Total','overlay'=>'1'];
+        $chart_taxes      = ['box_title'=>'Investment chart','url'=>'/api/investment/taxable','canvas_id'=>'investment_chart','overlay'=>'1'];
         return view('investment', compact('investmentTable','chart_taxes'));
     }
     /**
