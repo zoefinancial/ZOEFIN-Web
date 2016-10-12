@@ -260,7 +260,7 @@ class User extends Authenticatable
 
         $investments = $this->getInvestments();
         foreach($investments as $account){
-            if(isset($result['Bank'])){
+            if(isset($result['Investment'])){
                 $result['Investment']['Assets'] += $account->total_balance;
                 $result['Investment']['Net Worth'] += $account->total_balance;
             }else{
