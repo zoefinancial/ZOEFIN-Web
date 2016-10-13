@@ -21,7 +21,7 @@ class CreateBankingAccountsTable extends Migration {
 			$table->integer('account_status_id')->index('fk_accounts_account_status_idx');
             $table->integer('account_quovo_id')->nullable();
             $table->integer('quovo_id')->nullable();
-            $table->boolean('active')->nullable;
+            $table->boolean('active')->nullable();
             $table->string('name', 20)->nullable();
             $table->decimal('current_balance',16,4);
             $table->integer('quovo_last_change')->nullable();
