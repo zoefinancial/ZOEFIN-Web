@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BankingAccount extends Model
 {
-    protected $fillable = ['users_id', 'banks_id', 'account_types_id', 'account_status_id', 'number', 'current_balance'];
+    protected $fillable = ['users_id', 'banks_id', 'account_types_id', 'account_status_id', 'account_quovo_id', 'quovo_id', 'active', 'number', 'name', 'current_balance', 'quovo_last_change'];
 
     public function getAccountType()
     {

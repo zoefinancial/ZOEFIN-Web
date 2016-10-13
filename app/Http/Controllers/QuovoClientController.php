@@ -122,7 +122,11 @@ class QuovoClientController extends Controller
         $bankingAccount = BankingAccount::firstOrCreate(['users_id'=> $portfolio->user_id,
             'banks_id'=>$bank->id,
             'account_types_id'=>$accountType->id,
-            'number'=>$portfolio->portfolio_name,
+            'name'=>$portfolio->portfolio_name,
+            'account_quovo_id'  => $portfolio->account,
+            'quovo_id'          => $portfolio->id,
+            'active'            => !($portfolio->is_inactive),
+            'quovo_last_change' => $portfolio->last_change->timestamp,
             ]);
         $bankingAccount->current_balance=$portfolio->value;
         $bankingAccount->account_status_id=1;

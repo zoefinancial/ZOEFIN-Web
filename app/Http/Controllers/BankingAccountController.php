@@ -26,7 +26,7 @@ class BankingAccountController extends Controller
             'banks_id'          => 'required',
             'account_types_id'  => 'required',
             'account_status_id' => 'required',
-            'number'            => 'required|max:100',
+            'name'            => 'required|max:4',
             'current_balance'   => 'required|max:99999999999|numeric',
         ]);
         try {
