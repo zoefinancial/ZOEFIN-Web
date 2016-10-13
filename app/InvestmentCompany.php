@@ -17,7 +17,7 @@ class InvestmentCompany extends Model
     {
         $investmentCompany = InvestmentCompany::where('quovo_id', $data['quovo_id'])->first();
 
-        if( is_null($investmentCompany)) {
+        if (is_null($investmentCompany)) {
             $investmentCompany = InvestmentCompany::create($data);
         }
 

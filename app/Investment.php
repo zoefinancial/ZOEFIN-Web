@@ -26,7 +26,7 @@ class Investment extends Model
 
     public function investmentVehicle()
     {
-        return $this->belongsTo(InvestmentVehicle::class,'investment_vehicles_id','id');
+        return $this->belongsTo(InvestmentVehicle::class, 'investment_vehicles_id', 'id');
     }
 
     public function taxesDistribution($user_id)

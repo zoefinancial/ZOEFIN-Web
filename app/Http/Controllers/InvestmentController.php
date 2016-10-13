@@ -20,8 +20,8 @@ class InvestmentController extends Controller
     public function index()
     {
         $investmentTable = ['box_title'=>'Investment','url'=>'/api/investment/vehicle','canvas_id'=>'investment_table','total'=>'true','moneyFormat'=>'Total','overlay'=>'1'];
-        $chart_taxes      = ['box_title'=>'Investment chart','url'=>'/api/investment/taxable','canvas_id'=>'investment_chart','overlay'=>'1'];
-        return view('investment', compact('investmentTable','chart_taxes'));
+        $chart_taxes     = ['box_title'=>'Investment chart','url'=>'/api/investment/taxable','canvas_id'=>'investment_chart','overlay'=>'1'];
+        return view('investment', compact('investmentTable', 'chart_taxes'));
     }
     /**
      * Store Investment
@@ -38,32 +38,32 @@ class InvestmentController extends Controller
             'total_balance' =>     'required|max:99999999999|numeric',
             'initial' =>     'required|date',
         ]);
-        try{
+        try {
             $investment = new Investment($request->all());
             $investment->users_id = Auth::user()->id;
             $investment->save();
 
             return ['Information'=>'Investment created'];
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return ['Error'=>$e->getMessage()];
         }
     }
 
     public function delete(Request $request)
     {
-        if(Investment::where('id',base64_decode($request->get('delete_investment_id')))->delete()==1){
+        if (Investment::where('id', base64_decode($request->get('delete_investment_id')))->delete()==1) {
             return ['Information'=>'Investment deleted'];
-        }else{
+        } else {
             return ['Error'=>'Oops! Something went wrong'];
         }
     }
 
-    static public function getInvestments($user_id)
+    public static function getInvestments($user_id)
     {
-        return Investment::where('users_id',$user_id)->get();
+        return Investment::where('users_id', $user_id)->get();
     }
 
-    public function taxable ()
+    public function taxable()
     {
         $investment = new Investment;
         $result = $investment->taxesDistribution(Auth::user()->id);
@@ -83,8 +83,8 @@ class InvestmentController extends Controller
 
     public function getInvestment($user_id, $quovo_id, $name)
     {
-        return Investment::select('id','users_id', 'individuals_id', 'investment_vehicles_id', 'investment_companies_id', 'account_quovo_id', 'quovo_id', 'employer', 'name','total_balance', 'quovo_last_change')
-                            ->where([['users_id', '=', $user_id],['quovo_id', '=', $quovo_id]])
+        return Investment::select('id', 'users_id', 'individuals_id', 'investment_vehicles_id', 'investment_companies_id', 'account_quovo_id', 'quovo_id', 'employer', 'name', 'total_balance', 'quovo_last_change')
+                            ->where([['users_id', '=', $user_id], ['quovo_id', '=', $quovo_id]])
                             ->first();
     }
 
@@ -114,9 +114,9 @@ class InvestmentController extends Controller
     {
         $investment = $this->getInvestment($data->user_id, $data->id, $data->portfolio_name);
 
-        if(is_null($investment)) {
+        if (is_null($investment)) {
             $investment = $this->storeMapping($data);
-        }elseif ( ($data->last_change->timestamp > $investment->quovo_last_change) || ($data->portfolio_name == $investment->name) ) {
+        } elseif (($data->last_change->timestamp > $investment->quovo_last_change) || ($data->portfolio_name == $investment->name)) {
             $investment->quovo_last_change = $data->last_change->timestamp;
             $investment->total_balance     = $data->value;
             $investment->active            = !($data->is_inactive);
