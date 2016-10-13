@@ -23,7 +23,7 @@ class CreateBankingAccountsTable extends Migration {
             $table->integer('quovo_id')->nullable();
             $table->boolean('active')->nullable;
             $table->string('name', 20)->nullable();
-            $table->decimal('current_balance');
+            $table->decimal('current_balance',16,4);
             $table->integer('quovo_last_change')->nullable();
             $table->timestamps();
 		});
