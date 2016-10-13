@@ -23,8 +23,8 @@ class CreateIncomesTable extends Migration
             $table->date('date');
             $table->decimal('value',32,2);
             $table->integer('quovo_transaction_id');
-            $table->integer('loan_id');
-            $table->integer('banking_account_id');
+            $table->integer('loan_id')->nullable();
+            $table->integer('banking_account_id')->nullable();
             $table->string('description',128);
             $table->timestamps();
         });

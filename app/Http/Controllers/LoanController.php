@@ -41,7 +41,7 @@ class LoanController extends Controller
         ]);
         try{
             $loan = new Loan($request->all());
-            $loan->ammount=$loan->ammount*-1;
+            $loan->amount=$loan->ammount*-1;
             $loan->users_id=Auth::user()->id;
             $loan->interest_rate=$request->get('interest_rate');
             $loan->loan_types_id=$request->get('loan_types_id');

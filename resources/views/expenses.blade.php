@@ -66,7 +66,20 @@
                 </div>
                 <div id="menu4" class="tab-pane fade">
                     <div class="col-lg-12">
-                        @include('tables.table',['box_title'=>'Transactions','url'=>'/api/budgeting/expenses','canvas_id'=>'transactionTable','total'=>'false','completeMoneyFormat'=>'Value','overlay'=>'1'])
+                        @php
+                            $expenseTypes = \App\ExpenseType::select('id','description')->get();
+                            $expenseSubtypes = \App\ExpenseSubtype::select('id','description')->get();
+                        @endphp
+                        @include('tables.table',['box_title'=>'Transactions',
+                            'url'=>'/api/budgeting/expenses/',
+                            'canvas_id'=>'transactionTable',
+                            'total'=>'false',
+                            'nowrap'=>['Date','Account type'],
+                            'hiddenColumns'=>['id'],
+                            'selectColumns'=>[
+                                'Expense category'=>['options'=>$expenseTypes,'url'=>'/test/forms'],
+                                'Expense subtype'=>['options'=>$expenseSubtypes,'url'=>'/test/forms']
+                            ],/*'completeMoneyFormat'=>'Value',*/'overlay'=>'1','searching'=>'false','paging'=>'true','info'=>'true'])
                     </div>
                 </div>
             </div>
@@ -97,12 +110,12 @@
                     timePicker12Hour: true,
                     ranges: {
                         'Today': [moment(), moment()],
-                        'Yesterday': [moment().subtract(1,'days'), moment().subtract(1,'days')],
+                        //'Yesterday': [moment().subtract(1,'days'), moment().subtract(1,'days')],
                         'Last 7 Days': [moment().subtract(6,'days'), moment()],
                         'Last 30 Days': [moment().subtract(29,'days'), moment()],
                         'This Month': [moment().startOf('month'), moment().endOf('month')],
                         'Last Month': [moment().subtract(1,'month').startOf('month'), moment().subtract(1,'month').endOf('month')],
-                        'Last Year': [moment().subtract(1,'year').startOf('month'), moment()]
+                        'Year to date': [moment().startOf('year'), moment()]
                     },
                     opens: 'left',
                     buttonClasses: ['btn btn-default'],

@@ -1,19 +1,45 @@
 {
   "success":true,
   "result":[
-      {
-        "selector":"#cashFlowChart",
-        "title":"Cash flow chart",
-        "content":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vestibulum elementum dolor ut euismod. Duis ut maximus leo. Integer eleifend turpis nec neque elementum condimentum. In luctus enim a rutrum interdum. Fusce dignissim ullamcorper turpis sit amet maximus. Praesent massa lacus, scelerisque in nisi sed, rutrum auctor dolor. Vestibulum ultrices nisi quis porttitor suscipit. Nulla commodo diam sed augue faucibus rhoncus. Quisque consequat, sapien eget vehicula lacinia, magna lacus placerat libero, id viverra urna neque sed risus. Fusce ornare enim a suscipit feugiat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
-        "width":"400px",
-        "placement":"right"
-      },
-      {
-        "selector":"#netWorthChart",
-        "title":"Net worth chart ",
-        "content":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vestibulum elementum dolor ut euismod. Duis ut maximus leo. Integer eleifend turpis nec neque elementum condimentum. In luctus enim a rutrum interdum. Fusce dignissim ullamcorper turpis sit amet maximus. Praesent massa lacus, scelerisque in nisi sed, rutrum auctor dolor. Vestibulum ultrices nisi quis porttitor suscipit. Nulla commodo diam sed augue faucibus rhoncus. Quisque consequat, sapien eget vehicula lacinia, magna lacus placerat libero, id viverra urna neque sed risus. Fusce ornare enim a suscipit feugiat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
-        "width":"400px",
-        "placement":"right"
-      }
+    {
+      "selector":"#zoefin",
+      "title":"Welcome to ZoeFin!",
+      "content":"Welcome to ZoeFin!",
+      "width":"400px",
+      "placement":"right",
+      "step":"0"
+    },
+    {
+      "selector":"#quovo_button_id",
+      "title":"1st step",
+      "content":"Click on + icon and link all your checking/savings/credit card/investment accounts by logging into each account",
+      "width":"400px",
+      "placement":"bottom",
+      "step":"1"
+    },
+    {
+      "selector":"#c_h_0",
+      "title":"2nd step",
+      "content":"Accounts that you could not link, click on + icon to manually enter details",
+      "width":"400px",
+      "placement":"bottom",
+      "step":"2"
+    },
+    {
+      "selector":"#taxes-header-item",
+      "title":"3rd Step",
+      "content":"Click on Taxes thumbnail and upload your previous years 1040",
+      "width":"400px",
+      "placement":"bottom",
+      "step":"3"
+    },
+    {
+      "selector":"#insurance-header-item",
+      "title":"4th Step",
+      "content":"Click on Insurance thumbnail and upload your insurance contract",
+      "width":"400px",
+      "placement":"bottom",
+      "step":"4"
+    }
   ]
 }

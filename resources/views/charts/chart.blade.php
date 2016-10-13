@@ -1,6 +1,7 @@
 @php
     $s=(isset($style) ? $style : '');
 @endphp
+@push('styles')
 <style>
     #{{ $canvas_id }}_tooltip {
         opacity: 0;
@@ -16,6 +17,7 @@
         transform: translate(-50%, 0);
     }
 </style>
+@endpush
 <div class="box box-success" style="{{ $s }}">
     <div class="box-header with-border">
         <h3 class="box-title">

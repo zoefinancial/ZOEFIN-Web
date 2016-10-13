@@ -25,5 +25,9 @@ class Expense extends Model
         return $this->hasOne('App\BankingAccount','id','banking_account_id');
     }
 
+    public function Subtype(){
+        return $this->hasOne('App\ExpenseSubtype','id','expense_subtype_id');
+    }
+
     protected $dates = ['date'];
 }

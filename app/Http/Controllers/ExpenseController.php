@@ -161,6 +161,7 @@ class ExpenseController extends Controller
         $banking_accounts=array();
         $banking_account_types=array();
         $expense_types = array();
+        $expense_subtypes = array();
 
         foreach ($expenses as $expense){
 
@@ -208,14 +209,25 @@ class ExpenseController extends Controller
             }else{
                 $expense_type = $expense_types[$expense->expense_types_id];
             }
+
+            if(!isset($expense_subtypes[$expense->expense_subtypes_id])){
+                $expense_subtype = $expense->Subtype;
+                $expense_subtypes[$expense->expense_subtypes_id]=$expense_subtype;
+            }else{
+                $expense_subtype = $expense_subtypes[$expense->expense_subtypes_id];
+            }
+            $expense_subtype_description=$expense_subtype->description;
             $expense_type_description=$expense_type->description;
 
-            $result[] = ['Date'=>$expense->date->format('Y-m-d'),
+            $result[] = [
+                'id'=>$expense->id,
+                'Date'=>$expense->date->format('Y-m-d'),
                 'Value'=>$expense->value,
                 'Account type'=>$account_type_description,
                 'Account Number'=>$account,
                 'Expense category'=>$expense_type_description,
-                'Transaction description'=>$expense->description
+                'Transaction description'=>$expense->description,
+                'Expense subtype'=>$expense_subtype_description
             ];
         }
         return $result;

@@ -5,7 +5,7 @@
 <header class="main-header">
 
     <!-- Logo -->
-    <a href="/dashboard" class="logo">
+    <a href="/dashboard" class="logo bootstro" id="zoefin">
         <!-- mini logo for sidebar mini 50x65 pixels -->
         <span class="logo-mini"><b>Zoe</b>Fin</span>
         <!-- logo for regular state and mobile devices -->
@@ -22,16 +22,16 @@
             <ul class="nav navbar-nav">
                 <!-- <li class="header">HEADER</li> -->
                 <!-- Optionally, you can add icons to the links -->
-                <li><a href="{{ url('investment') }}"><i class="fa fa-line-chart"></i> <span>Investments</span></a></li>
-                <li><a href="/taxes"><i class="fa fa-pencil-square-o"></i> <span>Taxes</span></a></li>
-                <li><a href="/budgeting"><i class="fa fa-usd "></i> <span>Budgeting</span></a></li>
-                <li><a href="/insurance"><i class="fa fa-umbrella"></i> <span>Insurance</span></a></li>
+                <li><a class="faa-parent animated-hover" href="{{ url('investment') }}"><i class="fa fa-line-chart faa-vertical"></i> <span>Investments</span></a></li>
+                <li><a class="faa-parent animated-hover" href="/taxes" id="taxes-header-item" class="bootstro"><i class="fa fa-pencil-square-o faa-vertical"></i> <span>Taxes</span></a></li>
+                <li><a class="faa-parent animated-hover" href="/budgeting"><i class="fa fa-usd faa-vertical"></i> <span>Budgeting</span></a></li>
+                <li><a class="faa-parent animated-hover" href="/insurance" id="insurance-header-item" class="bootstro"><i class="fa fa-umbrella faa-vertical"></i> <span>Insurance</span></a></li>
             </ul>
         </div>
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu pull-right">
             <ul class="nav navbar-nav">
-
+                <li ><a id="bootstro_start" style="font-size: 1.5em;height: 51px;"><i class="fa fa-question faa-tada animated"></i></a></li>
                 <!-- User Account Menu -->
                 <li class="dropdown user user-menu">
                     <!-- Menu Toggle Button -->

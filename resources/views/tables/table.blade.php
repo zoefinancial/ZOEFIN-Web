@@ -9,8 +9,8 @@
         </div>
     </div>
     <div class="box-body">
-        <div class="table-responsive">
-            <table id="{{ $canvas_id }}" class="tablesorter table table-striped table-hover" cellspacing="0" width="100%">
+        <div class="display">
+            <table id="{{ $canvas_id }}" class="tablesorter table table-striped table-hover" width="100%">
             </table>
         </div>
     </div>
@@ -18,13 +18,43 @@
         @include('layouts.overlay')
     @endif
 </div>
+@php
+if(!isset($nowrap)){
+    $nowrap = array();
+}
+
+if(!isset($selectColumns)){
+    $selectColumns = array();
+}
+
+if(!isset($hiddenColumns)){
+    $hiddenColumns = array();
+}
+if(!isset($searching)){
+    $searching = 'false';
+}
+if(!isset($paging)){
+    $paging = 'false';
+}
+if(!isset($info)){
+   $info = $paging;
+}
+
+@endphp
+
+@push('scripts')
+    @include('tables.js.table_js',['canvas_id'=>$canvas_id,
+        'nowrap'=>$nowrap,
+        'selectColumns'=>$selectColumns,
+        'hiddenColumns'=>$hiddenColumns,
+        'searching'=>$searching,
+        'paging'=>$paging,
+        'info'=>$info,])
+@endpush
 @push('scripts')
 <script>
     $(document).ready(function() {
         load_{{ $canvas_id }}("{{ $url }}");
     });
 </script>
-@endpush
-@push('scripts')
-    @include('tables.js.table_js',['canvas_id'=>$canvas_id])
 @endpush

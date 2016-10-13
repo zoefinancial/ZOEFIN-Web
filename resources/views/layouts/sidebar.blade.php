@@ -52,14 +52,6 @@
         return $Select;
     }
 
-   /* $side_bar_active_item = $side_bar_active_item ? $side_bar_active_item:'dashboard';
-
-    $dashboard_active = $side_bar_active_item=='dashboard'? 'active':'';
-    $investments_active = $side_bar_active_item=='investments'? 'active':'';
-    $taxes_active = $side_bar_active_item=='taxes'? 'active':'';
-    $budgeting_active = $side_bar_active_item=='budgeting'? 'active':'';
-    $insurance_active = $side_bar_active_item=='insurance'? 'active':'';*/
-
     //initialize arrays for options select
     $homeTypesSelect = array();
     $banksSelect = array();
@@ -94,16 +86,17 @@
     $userInvestments = App\Http\Controllers\InvestmentController::getInvestments(Auth::user()->id);
 
 @endphp
-<aside class="main-sidebar pre-scrollable">
+<aside class="main-sidebar">
     <section class="sidebar">
-        <ul class="sidebar-menu">
-            <li class="treemenu">
-                <a href="#"><i class="fa fa-info"></i><span>My Accounts</span>
+        <ul class="sidebar-menu" style="overflow: visible">
+            <li class="treemenu active">
+                <a href="#"><span>My Accounts</span>
                     <span class="pull-right">
                         <span id="manual_account_add" class="label" title="Add manually"><i class="fa fa-edit"></i></span>
-                        <span id="quovo_button_id" class="label" title="Link your accounts"><i class="fa fa-plus" style="font-size: 2em;"></i></span>
+                        <span id="quovo_button_id" class="label bootstro" ><i class="fa fa-plus"></i></span>
                     </span>
                 </a>
+
                 <ul class="treeview-menu">
                     <li class="unstyled-list"><a title="What i own">Assets</a>
                         <ul class="">
@@ -115,7 +108,7 @@
                                 <div class="box-header">
                                     <h3 class="box-title">Homes</h3>
                                     <div class="box-tools pull-right">
-                                        <button type="button" class="btn btn-box-tool" id="c_h_{{ $i }}" title="Add home manually"><i class="fa fa-plus"></i>
+                                        <button type="button" class="btn btn-box-tool bootstro" id="c_h_{{ $i }}" {{--title="Add home manually"--}}><i class="fa fa-plus"></i>
                                         </button>
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-angle-down"></i>
                                         </button>
@@ -301,6 +294,9 @@
                     <li class="unstyled-list"><a title="What i owe">Liabilities</a>
                         <ul class="">
                             @foreach(\App\LoanType::all() as $loanType)
+                                @php
+                                $i++;
+                                @endphp
                                 <li>
                                     <div class="box box-warning collapsed-box box-solid bg-transparent">
                                         <div class="box-header">

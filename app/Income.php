@@ -17,5 +17,4 @@ class Income extends Model
 
     protected $dates = ['date'];
 
-
 }
