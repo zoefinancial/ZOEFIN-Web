@@ -5,10 +5,7 @@ namespace App\Http\Controllers;
 use App\BankingAccount;
 use Illuminate\Support\Facades\Auth;
 use Validator;
-
-use App\Http\Requests;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class BankingAccountController extends Controller
 {
@@ -20,7 +17,7 @@ class BankingAccountController extends Controller
     /**
      * Store banking accounts
      *
-     * @return \Illuminate\Http\Response
+     * @return array
      */
 
     public function store(Request $request)
@@ -29,15 +26,15 @@ class BankingAccountController extends Controller
             'banks_id'          => 'required',
             'account_types_id'  => 'required',
             'account_status_id' => 'required',
-            'number'            => 'required|max:100',
+            'name'            => 'required|max:4',
             'current_balance'   => 'required|max:99999999999|numeric',
         ]);
-        try{
+        try {
             $bankingAccount = new BankingAccount($request->all());
             $bankingAccount->users_id = Auth::user()->id;
             $bankingAccount->save();
-            return ['Information'=>'Bankig account created'];
-        }catch(\Exception $e){
+            return ['Information'=>'Banking account created'];
+        } catch (\Exception $e) {
             //return ['Error'=>$e->getMessage()];
             return ['Error'=>'Oops! Something went wrong'];
         }
@@ -45,15 +42,15 @@ class BankingAccountController extends Controller
 
     public function delete(Request $request)
     {
-        if(BankingAccount::where('id',base64_decode($request->get('delete_banking_account_id')))->delete()==1){
+        if (BankingAccount::where('id', base64_decode($request->get('delete_banking_account_id')))->delete()==1) {
             return ['Information'=>'Banking Account deleted'];
-        }else{
+        } else {
             return ['Error'=>'Oops! Something went wrong'];
         }
     }
 
-    static public function getBankingAccount($user_id)
+    public static function getBankingAccount($user_id)
     {
-        return BankingAccount::where('users_id',$user_id)->get();
+        return BankingAccount::where('users_id', $user_id)->get();
     }
 }

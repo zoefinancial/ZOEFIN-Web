@@ -28,21 +28,23 @@ class User extends Authenticatable
 
     protected $profile_image = "";
 
-    public function investments()
+    public function investment()
     {
-        return $this->hasMany(Investment::class);
+        return $this->hasMany(Investment::class, 'users_id', 'id');
     }
     /**
      * Function to retrieve the Net Worth data
      */
-    function getNetWorth(){
+    public function getNetWorth()
+    {
         return array('Assets' => '817000', 'Liabilities' => '226600','Net Worth'=>'590400');
     }
 
     /**
      * Function to retrieve the cash flow data
      */
-    function getCashFlow(){
+    public function getCashFlow()
+    {
         return array(
             'Income after tax' => [
                 '2012' => 130000,
@@ -74,7 +76,7 @@ class User extends Authenticatable
     /**
      * Function to retrieve the Investment data
      */
-    function getInvestments(){
+   /* function getInvestments(){
         return array(
             'Investments'=>[
                 '401k'=>'40000',
@@ -87,28 +89,32 @@ class User extends Authenticatable
                 'Tax Defered'=>'35000'
             ]
         );
-    }
+    }*/
 
-    function getFamilyMembers(){
-        $individuals = Individual::where('users_id',$this->id)
+    public function getFamilyMembers()
+    {
+        $individuals = Individual::where('users_id', $this->id)
             ->get();
         return $individuals;
     }
 
-    function getFamilyMember($m_id){
-        $individual = Individual::where('id',$m_id)
+    public function getFamilyMember($m_id)
+    {
+        $individual = Individual::where('id', $m_id)
             ->first();
         return $individual;
     }
 
-    function getHomes(){
-        $homes = Home::where('users_id',$this->id)
+    public function getHomes()
+    {
+        $homes = Home::where('users_id', $this->id)
             ->get();
         return $homes;
     }
 
-    function getCars(){
-        $cars = Car::where('users_id',$this->id)
+    public function getCars()
+    {
+        $cars = Car::where('users_id', $this->id)
             ->get();
         return $cars;
     }
@@ -118,18 +124,31 @@ class User extends Authenticatable
      */
     public function getBankingAccount()
     {
-        return BankingAccount::where('users_id',$this->id)
+        return BankingAccount::where('users_id', $this->id)
             ->get();
     }
 
-    function getLoans(){
-        $loans = Loan::where('users_id',$this->id)
+    /**
+     * getInvestments extract all investments from user to
+     * display on net worth chart
+     * @return mixed
+     */
+    public function getInvestments()
+    {
+        return Investment::where('users_id', $this->id)
+            ->get();
+    }
+
+    public function getLoans()
+    {
+        $loans = Loan::where('users_id', $this->id)
             ->get();
         return $loans;
     }
 
-    function getLoansByType($type_id){
-        $loans = Loan::where(['users_id'=>$this->id,'loan_types_id'=>$type_id])
+    public function getLoansByType($type_id)
+    {
+        $loans = Loan::where(['users_id'=>$this->id, 'loan_types_id'=>$type_id])
             ->get();
         return $loans;
     }
@@ -137,26 +156,30 @@ class User extends Authenticatable
     /**
      * Function to retrieve the Insurance Summary data
      */
-    function getInsuranceSummary(){
+    public function getInsuranceSummary()
+    {
         $result = array();
         foreach ($this->getFamilyMembers() as $familyMember) {
-            foreach (Insurance::where('individuals_id',$familyMember->id)->get() as $insurance){
-                $result[]=['Name'=>$familyMember->name,'Coverage'=>$insurance->coverage,
-                        'Type'=>$insurance->insurance_type,
-                        'Years coverage'=>$insurance->years,
-                        'Annual Payment'=>$insurance->anual_payment];
+            foreach (Insurance::where('individuals_id', $familyMember->id)->get() as $insurance) {
+                $result[] = [
+                                'Name'           =>$familyMember->name,
+                                'Coverage'       =>$insurance->coverage,
+                                'Type'           =>$insurance->insurance_type,
+                                'Years coverage' =>$insurance->years,
+                                'Annual Payment' =>$insurance->anual_payment
+                            ];
             }
         }
         return $result;
     }
 
-    function getInsurancePrediction($m_id)
+    public function getInsurancePrediction($m_id)
     {
-        $insuranceInformation=InsuranceInformation::where('individuals_id',$m_id)->first();
-        $family_resources=0;
-        $family_need=0;
-        $total=0;
-        if($insuranceInformation){
+        $insuranceInformation = InsuranceInformation::where('individuals_id', $m_id)->first();
+        $family_resources = 0;
+        $family_need = 0;
+        $total = 0;
+        if ($insuranceInformation) {
             $family_resources = $insuranceInformation->available_resources;
             $family_need = $insuranceInformation->total_family_need;
             $total = $family_need - $family_resources;
@@ -169,42 +192,46 @@ class User extends Authenticatable
         );
     }
 
-    function getIncomes(){
-        $incomes=Income::where('users_id',$this->id)
-            ->whereNull('loan_id')
-            ->orderBy('date')
-            ->get();
+    public function getIncomes()
+    {
+        $incomes = Income::where('users_id', $this->id)
+                           ->whereNull('loan_id')
+                           ->orderBy('date')
+                           ->get();
         return $incomes;
     }
 
-    function getExpenses(){
-        $expenses=Expense::where('users_id',$this->id)
-            ->orderBy('date')
-            ->get();
+    public function getExpenses()
+    {
+        $expenses=Expense::where('users_id', $this->id)
+                           ->orderBy('date')
+                           ->get();
         return $expenses;
     }
 
-    function getExpensesBetweenDates($from,$to){
-        $expenses=Expense::where([['users_id',$this->id],['date','>=',$from],['date','<=',$to]])
-            ->orderBy('date')
-            ->get();
+    public function getExpensesBetweenDates($from, $to)
+    {
+        $expenses=Expense::where([['users_id', $this->id], ['date', '>=', $from], ['date', '<=', $to]])
+                           ->orderBy('date')
+                           ->get();
         return $expenses;
     }
 
     /**
      * Function to retrieve the Net Worth detailed data
      */
-    function getDetailedNetWorth(){
+    public function getDetailedNetWorth()
+    {
         $result = array();
-        $net_worth=0;
-        $assets=0;
-        $liabilities=0;
-        $homes=$this->getHomes();
-        foreach($homes as $account){
-            if(isset($result['Home'])){
-                $result['Home']['Assets']+=$account->current_value;
-                $result['Home']['Net Worth']+=$account->current_value;
-            }else{
+        $net_worth = 0;
+        $assets = 0;
+        $liabilities = 0;
+        $homes = $this->getHomes();
+        foreach ($homes as $account) {
+            if (isset($result['Home'])) {
+                $result['Home']['Assets']+=    $account->current_value;
+                $result['Home']['Net Worth']+= $account->current_value;
+            } else {
                 $array_account=array(
                     'Assets'=>$account->current_value,
                     'Liabilities'=>0,
@@ -216,11 +243,11 @@ class User extends Authenticatable
         }
 
         $cars=$this->getCars();
-        foreach($cars as $account){
-            if(isset($result['Car'])){
-                $result['Car']['Assets']+=$account->current_value;
-                $result['Car']['Net Worth']+=$account->current_value;
-            }else{
+        foreach ($cars as $account) {
+            if (isset($result['Car'])) {
+                $result['Car']['Assets']+=    $account->current_value;
+                $result['Car']['Net Worth']+= $account->current_value;
+            } else {
                 $array_account=array(
                     'Assets'=>$account->current_value,
                     'Liabilities'=>0,
@@ -232,28 +259,44 @@ class User extends Authenticatable
         }
 
         $bankingAccount = $this->getBankingAccount();
-        foreach($bankingAccount as $account){
-            if(isset($result['Bank'])){
-                $result['Bank']['Assets']+=$account->current_balance;
-                $result['Bank']['Net Worth']+=$account->current_balance;
-            }else{
+        foreach ($bankingAccount as $account) {
+            if (isset($result['Cash'])) {
+                $result['Cash']['Assets']+=$account->current_balance;
+                $result['Cash']['Net Worth']+=$account->current_balance;
+            } else {
                 $array_account=array(
                     'Assets'=>$account->current_balance,
                     'Liabilities'=>0,
                     'Net Worth'=>$account->current_balance
                 );
-                $result['Bank']=$array_account;
+                $result['Cash']=$array_account;
             }
             $assets+=$account->current_balance;
         }
 
+        $investments = $this->getInvestments();
+        foreach ($investments as $account) {
+            if (isset($result['Investment'])) {
+                $result['Investment']['Assets'] += $account->total_balance;
+                $result['Investment']['Net Worth'] += $account->total_balance;
+            } else {
+                $array_account = array(
+                    'Assets' => $account->total_balance,
+                    'Liabilities' => 0,
+                    'Net Worth' => $account->total_balance
+                );
+                $result['Investment'] = $array_account;
+            }
+            $assets+=$account->total_balance;
+        }
+
         $loans=$this->getLoans();
-        foreach($loans as $loan){
-            if($loan->getLoanType->description=='Mortgage'){
-                if(isset($result['Home'])){
+        foreach ($loans as $loan) {
+            if ($loan->getLoanType->description=='Mortgage') {
+                if (isset($result['Home'])) {
                     $result['Home']['Liabilities']=$result['Home']['Liabilities']-$loan->amount;
                     $result['Home']['Net Worth']=$result['Home']['Net Worth']+$loan->amount;
-                }else{
+                } else {
                     $array_account=array(
                         'Assets'=>0,
                         'Liabilities'=>$loan->amount*-1,
@@ -261,12 +304,12 @@ class User extends Authenticatable
                     );
                     $result['Home']=$array_account;
                 }
-            }else{
-                if($loan->getLoanType->description=='Car Loan'){
-                    if(isset($result['Car'])){
+            } else {
+                if ($loan->getLoanType->description=='Car Loan') {
+                    if (isset($result['Car'])) {
                         $result['Car']['Liabilities']=$result['Car']['Liabilities']-$loan->amount;
                         $result['Car']['Net Worth']=$result['Car']['Net Worth']+$loan->amount;
-                    }else{
+                    } else {
                         $array_account=array(
                             'Assets'=>0,
                             'Liabilities'=>$loan->amount*-1,
@@ -274,7 +317,7 @@ class User extends Authenticatable
                         );
                         $result['Car']=$array_account;
                     }
-                }else{
+                } else {
                     $array_account=array(
                         'Assets'=>0,
                         'Liabilities'=>$loan->amount*-1,
@@ -302,7 +345,8 @@ class User extends Authenticatable
         return $result;
     }
 
-    function getTaxesInformation(){
+    public function getTaxesInformation()
+    {
         return array(
             '2014'=>['Marginal Tax Rate'=>'25%','Effective Tax Rate'=>'20%','Taxes Paid'=>'30000'],
             '2015'=>['Marginal Tax Rate'=>'26%','Effective Tax Rate'=>'22%','Taxes Paid'=>'35000'],
@@ -310,21 +354,23 @@ class User extends Authenticatable
         );
     }
 
-    function getTotalTaxes($year){
+    public function getTotalTaxes($year)
+    {
         $years = [2014=>['Income Tax'=>92000,'Property Tax'=>11900,'Dividend Tax'=>90,'Capital Gains Tax'=>50],
             2015=>['Income Tax'=>92000,'Property Tax'=>11900,'Dividend Tax'=>90,'Capital Gains Tax'=>50],
             2016=>['Income Tax'=>92000,'Property Tax'=>11900,'Dividend Tax'=>90,'Capital Gains Tax'=>50]];
         return $years[$year];
     }
 
-    function getDetailedTaxes($year){
-        if($year==2015){
+    public function getDetailedTaxes($year)
+    {
+        if ($year==2015) {
             return array(['Tax Type'=>'Federal','Marginal Tax Rate'=>'28%','Effective Tax Rate'=>'18%','Tax Amount'=>'44123'],
                 ['Tax Type'=>'Social Security','Marginal Tax Rate'=>'1.45%','Effective Tax Rate'=>'6.7%','Tax Amount'=>'16715'],
                 ['Tax Type'=>'State','Marginal Tax Rate'=>'6.7%','Effective Tax Rate'=>'6.3%','Tax Amount'=>'15664'],
                 ['Tax Type'=>'Local','Marginal Tax Rate'=>'0%','Effective Tax Rate'=>'0%','Tax Amount'=>'0']);
         }
-        if($year==2016){
+        if ($year==2016) {
             return array(['Tax Type'=>'Federal','Marginal Tax Rate'=>'28%','Effective Tax Rate'=>'18%','Tax Amount'=>'44123'],
                 ['Tax Type'=>'Social Security','Marginal Tax Rate'=>'0%','Effective Tax Rate'=>'0%','Tax Amount'=>'1'],
                 ['Tax Type'=>'State','Marginal Tax Rate'=>'0%','Effective Tax Rate'=>'6.3%','Tax Amount'=>'16715'],
@@ -332,7 +378,8 @@ class User extends Authenticatable
         }
     }
 
-    function getTaxesComparison(){
+    public function getTaxesComparison()
+    {
         return array(
             'Adjusted Gross Income'=>[
                 2011=>195000,

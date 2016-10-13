@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class Investment extends Model
 {
-    protected $fillable = ['individuals_id', 'investment_vehicles_id', 'investment_companies_id', 'account_quovo_id', 'quovo_id', 'active', 'employer', 'total_balance', 'name', 'quovo_last_change', 'initial', 'end'];
+    protected $fillable = ['users_id', 'individuals_id', 'investment_vehicles_id', 'investment_companies_id', 'account_quovo_id', 'quovo_id', 'active', 'employer', 'total_balance', 'name', 'quovo_last_change', 'initial', 'end'];
 
     public function user()
     {
@@ -26,7 +26,7 @@ class Investment extends Model
 
     public function investmentVehicle()
     {
-        return $this->belongsTo(InvestmentVehicle::class,'investment_vehicles_id','id');
+        return $this->belongsTo(InvestmentVehicle::class, 'investment_vehicles_id', 'id');
     }
 
     public function taxesDistribution($user_id)

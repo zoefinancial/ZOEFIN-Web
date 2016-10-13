@@ -15,7 +15,7 @@
 
         <div class="col-lg-6">
             <!-- INVESTMENTS CHART -->
-            @include('charts.investments_chart',['box_title'=>'Investments','overlay'=>'1'])
+            @include('charts.pie_chart',['box_title'=>'Investment','url'=>'/api/investment/taxable','canvas_id'=>'taxes_chart','overlay'=>'1'])
         </div>
         <div class="row">
             <div class="col-lg-12">

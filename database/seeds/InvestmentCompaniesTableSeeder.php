@@ -20,6 +20,7 @@ class InvestmentCompaniesTableSeeder extends Seeder
             ['name' => 'Wealthfront', 'quovo_id' => 102, 'created_at' => $dateNow, 'updated_at' => $dateNow],
             ['name' => 'Fidelity', 'quovo_id' => 2, 'created_at' => $dateNow, 'updated_at' => $dateNow],
             ['name' => 'Etrade', 'quovo_id' => 1, 'created_at' => $dateNow, 'updated_at' => $dateNow],
+            ['name' => 'Others', 'quovo_id' => 999999, 'created_at' => $dateNow, 'updated_at' => $dateNow],
 
         ]);
     }

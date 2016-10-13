@@ -10,6 +10,6 @@ class Home extends Model
 
     public function getHomeType()
     {
-        return $this->hasOne('App\HomeType','id','home_types_id');
+        return $this->hasOne('App\HomeType', 'id', 'home_types_id');
     }
 }

@@ -27,55 +27,55 @@ Route::post('/onboarding', 'OnBoardingController@store');
 Route::get('/dashboard',
     ['middleware' => 'auth',
         function () {
-            return view('dashboard',["page_title"=>"Zoe Financial Dashboard","side_bar_active_item"=>'dashboard']);
+            return view('dashboard', ["page_title"=>"Zoe Financial Dashboard", "side_bar_active_item"=>'dashboard']);
         }
     ]
 );
 
-Route::get('/home','HomeController@getHome');
+Route::get('/home', 'HomeController@getHome');
 
-Route::post('/api/home','HomeController@store');
+Route::post('/api/home', 'HomeController@store');
 
-Route::put('/api/home','HomeController@update');
+Route::put('/api/home', 'HomeController@update');
 
-Route::delete('/api/home','HomeController@delete');
+Route::delete('/api/home', 'HomeController@delete');
 
-Route::post('/api/car/','CarController@store');
+Route::post('/api/car/', 'CarController@store');
 
-Route::put('/api/car/','CarController@update');
+Route::put('/api/car/', 'CarController@update');
 
-Route::delete('/api/car/','CarController@delete');
+Route::delete('/api/car/', 'CarController@delete');
 
-Route::post('/api/loan/','LoanController@store');
+Route::post('/api/loan/', 'LoanController@store');
 
-Route::delete('/api/loan/','LoanController@delete');
+Route::delete('/api/loan/', 'LoanController@delete');
 
-Route::put('/api/loan/','LoanController@update');
+Route::put('/api/loan/', 'LoanController@update');
 
 Route::post('/api/bankingaccount', 'BankingAccountController@store');
 
-Route::post('/api/investment','InvestmentController@store');
+Route::post('/api/investment', 'InvestmentController@store');
 
-Route::delete('/api/investment','InvestmentController@delete');
+Route::delete('/api/investment', 'InvestmentController@delete');
 
-Route::put('/api/investment','InvestmentController@update');
+Route::put('/api/investment', 'InvestmentController@update');
 
 Route::get('/investment', 'InvestmentController@index');
 
-Route::get('/api/investment/taxable','InvestmentController@taxable');
+Route::get('/api/investment/taxable', 'InvestmentController@taxable');
 
-Route::get('/api/investment/vehicle','InvestmentController@vehicleTable');
+Route::get('/api/investment/vehicle', 'InvestmentController@vehicleTable');
 
-Route::get('/taxes','TaxesController@index');
+Route::get('/taxes', 'TaxesController@index');
 
-Route::get('/budgeting','BudgetingController@index');
+Route::get('/budgeting', 'BudgetingController@index');
 
-Route::get('/budgeting/expenses','BudgetingController@expenses');
+Route::get('/budgeting/expenses', 'BudgetingController@expenses');
 
 Route::get('/insurance',
     ['middleware' => 'auth',
         function () {
-            return view('insurance',["page_title"=>"Insurance",'side_bar_active_item'=>'insurance']);
+            return view('insurance', ["page_title"=>"Insurance", 'side_bar_active_item'=>'insurance']);
         }
     ]
 );
@@ -116,25 +116,25 @@ Route::get('/user/insurance/summary',
  * Income & Expenses
  * */
 
-Route::get('/api/incomes','IncomeController@getIncomes');
+Route::get('/api/incomes', 'IncomeController@getIncomes');
 
-Route::get('/api/expenses','ExpenseController@getExpenses');
-Route::get('/api/expenses/dates/{from}/{to}','ExpenseController@getExpensesBetweenDates');
-Route::get('/api/expenses/dates/','ExpenseController@getExpenses');
+Route::get('/api/expenses', 'ExpenseController@getExpenses');
+Route::get('/api/expenses/dates/{from}/{to}', 'ExpenseController@getExpensesBetweenDates');
+Route::get('/api/expenses/dates/', 'ExpenseController@getExpenses');
 
-Route::get('/api/expenses/dates/accounts/{from}/{to}','ExpenseController@getExpensesByAccountAndDate');
-Route::get('/api/expenses/dates/accounts','ExpenseController@getExpensesTimeLineByAccount');
+Route::get('/api/expenses/dates/accounts/{from}/{to}', 'ExpenseController@getExpensesByAccountAndDate');
+Route::get('/api/expenses/dates/accounts', 'ExpenseController@getExpensesTimeLineByAccount');
 
-Route::get('/api/expenses/accounts','ExpenseController@getExpensesPieByAccount');
-Route::get('/api/expenses/accounts/{from}/{to}','ExpenseController@getExpensesPieBetweenDatesByAccount');
+Route::get('/api/expenses/accounts', 'ExpenseController@getExpensesPieByAccount');
+Route::get('/api/expenses/accounts/{from}/{to}', 'ExpenseController@getExpensesPieBetweenDatesByAccount');
 
-Route::get('/api/expenses/categorization/{from}/{to}','ExpenseController@getExpensesCategorizationBetweenDates');
-Route::get('/api/expenses/categorization/','ExpenseController@getExpensesCategorization');
+Route::get('/api/expenses/categorization/{from}/{to}', 'ExpenseController@getExpensesCategorizationBetweenDates');
+Route::get('/api/expenses/categorization/', 'ExpenseController@getExpensesCategorization');
 
-Route::get('/api/budgeting/expenses','ExpenseController@getAllExpenses');
-Route::get('/api/budgeting/expenses/{from}/{to}','ExpenseController@getAllExpensesBetweenDates');
+Route::get('/api/budgeting/expenses', 'ExpenseController@getAllExpenses');
+Route::get('/api/budgeting/expenses/{from}/{to}', 'ExpenseController@getAllExpensesBetweenDates');
 
-Route::get('/api/cash_flow','CashFlowController@getCashFlow');
+Route::get('/api/cash_flow', 'CashFlowController@getCashFlow');
 
 
 
@@ -216,21 +216,15 @@ Route::get('/user/taxes/comparison',
  * INVESTMENTS
  * */
 
-Route::get('/user/investments',
-    ['middleware' => 'auth',
-        function () {
-            return response()->json(Auth::user()->getInvestments());
-        }
-    ]
-);
+Route::get('/user/investments', 'InvestmentController@taxable');
 
 /*
  * END INVESTMENTS
  * */
 
-Route::get('/api/quovo_iframe','QuovoClientController@getIFrameToken');
-Route::get('/api/quovo_sync','QuovoClientController@clientSync');
-Route::get('/api/quovo_sync/detailed','QuovoClientController@completeSync');
+Route::get('/api/quovo_iframe', 'QuovoClientController@getIFrameToken');
+Route::get('/api/quovo_sync', 'QuovoClientController@clientSync');
+Route::get('/api/quovo_sync/detailed', 'QuovoClientController@completeSync');
 
 /*
  * Test web services
@@ -256,7 +250,7 @@ Route::post('/taxesUpload',
     array('middleware' => 'auth',
         function (Request $request) {
             if ($request->hasFile('taxfile')) {
-                $destinationPath = env('S3_ENV','dev').'/'.Auth::user()->id.'_'.str_slug(Auth::user()->email).'/taxes/'.$request->get('year').'/'; // upload path
+                $destinationPath = env('S3_ENV', 'dev').'/'.Auth::user()->id.'_'.str_slug(Auth::user()->email).'/taxes/'.$request->get('year').'/'; // upload path
                 $fileName = $request->file('taxfile')->getClientOriginalName(); // renameing image
                 $path=$destinationPath.$fileName;
                 $uploadedFile = $request->file('taxfile');
@@ -272,7 +266,7 @@ Route::post('/profileUpload',
     array('middleware' => 'auth',
         function (Request $request) {
             if ($request->hasFile('imageFileName')) {
-                $destinationPath = env('S3_ENV','dev').'/'.Auth::user()->id.'_'.str_slug(Auth::user()->email).'/profile/'; // upload path
+                $destinationPath = env('S3_ENV', 'dev').'/'.Auth::user()->id.'_'.str_slug(Auth::user()->email).'/profile/'; // upload path
                 $fileExtension = $request->file('imageFileName')->getClientOriginalExtension();
                 $fileName = 'ProfilePicture.'.$fileExtension;
                 $path=$destinationPath.$fileName;
@@ -290,7 +284,7 @@ Route::post('/insuranceUpload',
     array('middleware' => 'auth',
         function (Request $request) {
             if ($request->hasFile('insurancefile')) {
-                $destinationPath = env('S3_ENV','dev').'/'.Auth::user()->id.'_'.str_slug(Auth::user()->email).'/insurance/'.$request->get('individual').'/'; // upload path
+                $destinationPath = env('S3_ENV', 'dev').'/'.Auth::user()->id.'_'.str_slug(Auth::user()->email).'/insurance/'.$request->get('individual').'/'; // upload path
                 $fileName = $request->file('insurancefile')->getClientOriginalName(); // renameing image
                 $path=$destinationPath.$fileName;
                 $uploadedFile = $request->file('insurancefile');
@@ -307,7 +301,7 @@ Route::post('/budgetingUpload',
     array('middleware' => 'auth',
         function (Request $request) {
             if ($request->hasFile('budgetingFile')) {
-                $destinationPath = env('S3_ENV','dev').'/'.Auth::user()->id.'_'.str_slug(Auth::user()->email).'/budgeting/'.$request->get('filePeriod').'/'.$request->get('fileType').'/'; // upload path
+                $destinationPath = env('S3_ENV', 'dev').'/'.Auth::user()->id.'_'.str_slug(Auth::user()->email).'/budgeting/'.$request->get('filePeriod').'/'.$request->get('fileType').'/'; // upload path
                 $fileName = $request->file('budgetingFile')->getClientOriginalName(); // renameing image
                 $path=$destinationPath.$fileName;
                 $uploadedFile = $request->file('budgetingFile');
@@ -331,7 +325,7 @@ Route::get('/getFile',
                 'Content-Type' => 'application/pdf',
                 //'Content-Length' => $file_content->length,
                 'Content-Description' => 'File Transfer',
-                'Content-Disposition' => 'attachment; filename='.basename($file_name) ,
+                'Content-Disposition' => 'attachment; filename='.basename($file_name),
                 'Content-Transfer-Encoding' => 'binary',
             ]);
             return $response;
@@ -344,14 +338,14 @@ Route::post('/renameFile',
         function (Request $request) {
             $file_name=base64_decode($request->get('rename_old_file_name'));
             $new_file_name=$request->get('rename_new_file_name');
-            if(!str_is('*.pdf',$new_file_name)){
-                if(!str_is('*.PDF',$new_file_name)){
+            if (!str_is('*.pdf', $new_file_name)) {
+                if (!str_is('*.PDF', $new_file_name)) {
                     $new_file_name = str_finish($new_file_name, '.pdf');
                 }
             }
             $s3 = Storage::disk('s3');
             $directory=dirname($file_name);
-            $s3->move($file_name,$directory.'/'.$new_file_name);
+            $s3->move($file_name, $directory.'/'.$new_file_name);
             return ['Information'=>'File '.basename($file_name).' renamed to '.$new_file_name];
         }
     )
