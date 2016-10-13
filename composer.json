@@ -1,7 +1,6 @@
 {
     "name": "zoefinancial/zoefin",
-    "description": "ZoeFinancial Front End",
-    "keywords": ["framework", "laravel"],
+    "description": "Zoe Financial Project",
     "license": "MIT",
     "type": "project",
     "require": {

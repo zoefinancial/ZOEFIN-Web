@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\AccountType;
 use App\Bank;
 use App\BankingAccount;
@@ -26,35 +25,35 @@ class QuovoClientController extends Controller
         $this->middleware('auth');
     }
 
-    static function getQuovo()
+    public static function getQuovo()
     {
-        if(self::$quovo==null) {
-            self::$quovo = new Quovo(['user'=>env('QUOVO_USER', ''),'password'=>env('QUOVO_PASSWORD', '')]);
+        if (self::$quovo==null) {
+            self::$quovo = new Quovo(['user'=>env('QUOVO_USER', ''), 'password'=>env('QUOVO_PASSWORD', '')]);
         }
         return self::$quovo;
     }
 
-    static function getQuovoUserId()
+    public static function getQuovoUserId()
     {
-        $quovoUsers =QuovoUser::where('user_id',Auth::user()->id)
+        $quovoUsers =QuovoUser::where('user_id', Auth::user()->id)
             ->take(1)
             ->get();
 
-        if(count($quovoUsers)==0) {
+        if (count($quovoUsers)==0) {
             $users=self::getQuovo()->user()->all();
             $found=null;
-            foreach($users->users as $user){
-                if($user->email==Auth::user()->email){
+            foreach ($users->users as $user) {
+                if ($user->email==Auth::user()->email) {
                     $found=$user->id;
                     break;
                 }
             }
-            if($found==null) {
+            if ($found==null) {
                 $parameters=array('username'=>Auth::user()->email,'name'=>Auth::user()->name,'email'=>Auth::user()->email,'phone'=>null);
                 $user=self::getQuovo()->user()->create($parameters);
                 $found=$user->id;
             }
-            $quovoUser= new QuovoUser(array('user_id'=>Auth::user()->id,'quovo_user_id'=>$found));
+            $quovoUser= new QuovoUser(array('user_id'=>Auth::user()->id, 'quovo_user_id'=>$found));
             $quovoUser->save();
             $quovoUserid=$found;
         } else {
@@ -63,24 +62,24 @@ class QuovoClientController extends Controller
         return $quovoUserid;
     }
 
-    static function  getIFrameToken()
+    public static function getIFrameToken()
     {
-        try{
+        try {
             $quovo_user_id=self::getQuovoUserId();
             $token =  self::getQuovo()->iframe()->getIframeToken($quovo_user_id);
             return ['user_id'=>$quovo_user_id,'token'=>$token->iframe_token->token];
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return $e->getMessage();
         }
     }
 
-    static function getAccountType($description)
+    public static function getAccountType($description)
     {
         $accountType = AccountType::firstOrCreate(['description'=>$description]);
         return $accountType;
     }
 
-    static function processLoanPortfolio($portfolio)
+    public static function processLoanPortfolio($portfolio)
     {
         $loan = self::getLoan($portfolio, $portfolio->user_id);
         $loan->amount=$portfolio->value;
@@ -91,13 +90,13 @@ class QuovoClientController extends Controller
         return $loan;
     }
 
-    static function getBank($portfolio)
+    public static function getBank($portfolio)
     {
         $bank = Bank::getQuovoBank(['quovo_id' => $portfolio->brokerage, 'name' =>$portfolio->brokerage_name]);
         return $bank;
     }
 
-    static function getLoan($portfolio,$user_id)
+    public static function getLoan($portfolio, $user_id)
     {
         $loanType = LoanType::firstOrCreate(['description' => $portfolio->portfolio_type]);
         $bank = self::getBank($portfolio);
@@ -109,14 +108,14 @@ class QuovoClientController extends Controller
         return $loan;
     }
 
-    static function processInvestmentPortfolio($portfolio)
+    public static function processInvestmentPortfolio($portfolio)
     {
         $investment = new InvestmentController();
         $investment->findOrCreate($portfolio);
         return true;
     }
 
-    static function processBankingPortfolio($portfolio)
+    public static function processBankingPortfolio($portfolio)
     {
         $bank = self::getBank($portfolio);
         $accountType=self::getAccountType($portfolio->portfolio_type);
@@ -131,12 +130,12 @@ class QuovoClientController extends Controller
         return $bankingAccount;
     }
 
-    static function processInsurancePortfolio($portfolio)
+    public static function processInsurancePortfolio($portfolio)
     {
         return true;
     }
 
-    static function processPortfolio($portfolio)
+    public static function processPortfolio($portfolio)
     {
         switch ($portfolio->portfolio_category) {
             case 'Loan':
@@ -146,10 +145,9 @@ class QuovoClientController extends Controller
                 self::processInvestmentPortfolio($portfolio);
                 break;
             case 'Banking':
-                if($portfolio->portfolio_type == 'Credit Card') {
+                if ($portfolio->portfolio_type == 'Credit Card') {
                     self::processLoanPortfolio($portfolio);
-                }
-                else{
+                } else {
                     self::processBankingPortfolio($portfolio);
                 }
                 break;
@@ -159,13 +157,12 @@ class QuovoClientController extends Controller
         }
     }
 
-    static function clientSync()
+    public static function clientSync()
     {
-        try{
+        try {
             $quovo_user_id=self::getQuovoUserId();
             $quovoResponse=self::getQuovo()->user()->portfolios($quovo_user_id);
-            foreach($quovoResponse->portfolios as $portfolio) {
-
+            foreach ($quovoResponse->portfolios as $portfolio) {
                 $portfolio->portfolio_name = \str_replace(array('*'), '', $portfolio->portfolio_name);
                 $portfolio->last_change = new Carbon($portfolio->last_change);
 
@@ -173,59 +170,57 @@ class QuovoClientController extends Controller
                     $portfolio->user_id = Auth::user()->id;
                     self::processPortfolio($portfolio);
                 }
-
             }
             return response()->json(['Information'=>'Synchronizing process succeed']);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return response()->json(['Information'=>'Synchronizing process failed']);
         }
-
     }
 
-    static function completeSync()
+    public static function completeSync()
     {
         $quovoUsers = QuovoUser::all();
         /*$quovoUsers = QuovoUser::where('user_id','2')->get();*/
-        foreach($quovoUsers as $quovoUser){
+        foreach ($quovoUsers as $quovoUser) {
             $userPortfolios = self::getQuovo()->user()->portfolios($quovoUser->quovo_user_id);
-            foreach ($userPortfolios->portfolios as $userPortfolio){
+            foreach ($userPortfolios->portfolios as $userPortfolio) {
                 $transactions = array();
-                try{
+                try {
                     $transactions = self::getQuovo()->portfolio()->transactions($userPortfolio->id);
-                }catch(\Exception $e){
+                } catch (\Exception $e) {
                     echo "Error retrieving the transactions: ".$e->getMessage();
                 }
-                if(count($transactions)>0){
-                    foreach ($transactions->history as $transaction){
-                        self::processTransaction($quovoUser->user_id,$userPortfolio,$transaction);
+                if (count($transactions)>0) {
+                    foreach ($transactions->history as $transaction) {
+                        self::processTransaction($quovoUser->user_id, $userPortfolio, $transaction);
                     }
                 }
             }
         }
     }
 
-    static function processTransaction($user_id,$portfolio,$transaction)
+    public static function processTransaction($user_id, $portfolio, $transaction)
     {
-        switch ($portfolio->portfolio_category){
+        switch ($portfolio->portfolio_category) {
             case 'Loan':
-                return self::processLoanTransaction($user_id,$portfolio,$transaction);
+                return self::processLoanTransaction($user_id, $portfolio, $transaction);
                 break;
             case 'Banking':
-                if($portfolio->portfolio_type=='Credit Card'){
-                    return self::processLoanTransaction($user_id,$portfolio,$transaction);
-                }else{
-                    return self::processBankingTransaction($user_id,$portfolio,$transaction);
+                if ($portfolio->portfolio_type=='Credit Card') {
+                    return self::processLoanTransaction($user_id, $portfolio, $transaction);
+                } else {
+                    return self::processBankingTransaction($user_id, $portfolio, $transaction);
                 }
                 break;
         }
     }
 
-    static function processLoanTransaction($user_id,$portfolio,$transaction)
+    public static function processLoanTransaction($user_id, $portfolio, $transaction)
     {
-        $loan=self::processLoanPortfolio($portfolio,$user_id);
+        $loan=self::processLoanPortfolio($portfolio, $user_id);
         $db_transaction=null;
-        if($transaction->value<0) {
-            if(!property_exists($transaction,'expense_category') || $transaction->expense_category==null) {
+        if ($transaction->value<0) {
+            if (!property_exists($transaction, 'expense_category') || $transaction->expense_category==null) {
                 $expenseType = ExpenseType::firstOrCreate(['description'=>'Other']);
             } else {
                 $expenseType = ExpenseType::firstOrCreate(['description'=>$transaction->expense_category]);
@@ -236,7 +231,7 @@ class QuovoClientController extends Controller
             ]);
             $db_transaction->expense_types_id=$expenseType->id;
         } else {
-            if(!property_exists($transaction,'expense_category') || $transaction->expense_category==null) {
+            if (!property_exists($transaction, 'expense_category') || $transaction->expense_category==null) {
                 $incomeType = ExpenseType::firstOrCreate(['description'=>'Other']);
             } else {
                 $incomeType = ExpenseType::firstOrCreate(['description'=>$transaction->expense_category]);
@@ -252,12 +247,12 @@ class QuovoClientController extends Controller
         $db_transaction->save();
     }
 
-    static function processBankingTransaction($user_id,$portfolio,$transaction)
+    public static function processBankingTransaction($user_id, $portfolio, $transaction)
     {
-        $bankingAccount = self::processBankingPortfolio($portfolio,$user_id);
+        $bankingAccount = self::processBankingPortfolio($portfolio, $user_id);
         $db_transaction=null;
-        if($transaction->value<0){
-            if(!property_exists($transaction,'expense_category') || $transaction->expense_category==null) {
+        if ($transaction->value<0) {
+            if (!property_exists($transaction, 'expense_category') || $transaction->expense_category==null) {
                 $expenseType = ExpenseType::firstOrCreate(['description'=>'Other']);
             } else {
                 $expenseType = ExpenseType::firstOrCreate(['description'=>$transaction->expense_category]);
@@ -267,7 +262,6 @@ class QuovoClientController extends Controller
                 'quovo_transaction_id'=>$transaction->id,
             ]);
             $db_transaction->expense_types_id=$expenseType->id;
-
         } else {
             $incomeType = IncomeType::firstOrCreate(['description'=>$transaction->tran_category.'/'.$transaction->tran_type]);
             $db_transaction = Income::firstOrCreate(['users_id'=>$user_id,
