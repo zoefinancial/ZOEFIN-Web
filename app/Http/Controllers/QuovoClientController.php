@@ -6,6 +6,7 @@ use App\AccountType;
 use App\Bank;
 use App\BankingAccount;
 use App\Expense;
+use App\ExpenseSubtype;
 use App\ExpenseType;
 use App\Income;
 use App\IncomeType;
@@ -224,16 +225,22 @@ class QuovoClientController extends Controller
         $loan=self::processLoanPortfolio($portfolio, $user_id);
         $db_transaction=null;
         if ($transaction->value<0) {
-            if (!property_exists($transaction, 'expense_category') || $transaction->expense_category==null) {
-                $expenseType = ExpenseType::firstOrCreate(['description'=>'Other']);
-            } else {
-                $expenseType = ExpenseType::firstOrCreate(['description'=>$transaction->expense_category]);
-            }
             $db_transaction = Expense::firstOrCreate(['users_id'=>$user_id,
-            'loan_id'=>$loan->id,
-            'quovo_transaction_id'=>$transaction->id,
+                'loan_id'=>$loan->id,
+                'quovo_transaction_id'=>$transaction->id,
             ]);
-            $db_transaction->expense_types_id=$expenseType->id;
+            if($db_transaction->expense_type_id==null){
+                if (!property_exists($transaction, 'expense_category') || $transaction->expense_category==null) {
+                    $expenseType = ExpenseType::firstOrCreate(['description'=>'Other']);
+                } else {
+                    $expenseType = ExpenseType::firstOrCreate(['description'=>$transaction->expense_category]);
+                }
+                $db_transaction->expense_types_id=$expenseType->id;
+            }
+
+            if($db_transaction->expense_subtype_id==null){
+                $db_transaction->expense_subtype_id=ExpenseSubtype::firstOrCreate(['description'=>'Recurring Expense']);
+            }
         } else {
             if (!property_exists($transaction, 'expense_category') || $transaction->expense_category==null) {
                 $incomeType = ExpenseType::firstOrCreate(['description'=>'Other']);
@@ -256,16 +263,22 @@ class QuovoClientController extends Controller
         $bankingAccount = self::processBankingPortfolio($portfolio, $user_id);
         $db_transaction=null;
         if ($transaction->value<0) {
-            if (!property_exists($transaction, 'expense_category') || $transaction->expense_category==null) {
-                $expenseType = ExpenseType::firstOrCreate(['description'=>'Other']);
-            } else {
-                $expenseType = ExpenseType::firstOrCreate(['description'=>$transaction->expense_category]);
-            }
             $db_transaction = Expense::firstOrCreate(['users_id'=>$user_id,
                 'banking_account_id'=>$bankingAccount->id,
                 'quovo_transaction_id'=>$transaction->id,
             ]);
-            $db_transaction->expense_types_id=$expenseType->id;
+            if($db_transaction->expense_type_id==null){
+                if (!property_exists($transaction, 'expense_category') || $transaction->expense_category==null) {
+                    $expenseType = ExpenseType::firstOrCreate(['description'=>'Other']);
+                } else {
+                    $expenseType = ExpenseType::firstOrCreate(['description'=>$transaction->expense_category]);
+                }
+                $db_transaction->expense_types_id=$expenseType->id;
+            }
+
+            if($db_transaction->expense_subtype_id==null){
+                $db_transaction->expense_subtype_id=ExpenseSubtype::firstOrCreate(['description'=>'Recurring Expense']);
+            }
         } else {
             $incomeType = IncomeType::firstOrCreate(['description'=>$transaction->tran_category.'/'.$transaction->tran_type]);
             $db_transaction = Income::firstOrCreate(['users_id'=>$user_id,
@@ -273,6 +286,7 @@ class QuovoClientController extends Controller
                 'quovo_transaction_id'=>$transaction->id]);
             $db_transaction->income_types_id=$incomeType->id;
         }
+
         $db_transaction->date=$transaction->date;
         $db_transaction->value=$transaction->value;
         $db_transaction->description=$transaction->tran_category.'/'.$transaction->tran_type.' - '.$transaction->memo;

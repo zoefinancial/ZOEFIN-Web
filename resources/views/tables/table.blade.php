@@ -10,7 +10,7 @@
     </div>
     <div class="box-body">
         <div class="display">
-            <table id="{{ $canvas_id }}" class="tablesorter table table-striped table-hover" width="100%">
+            <table id="{{ $canvas_id }}" class="" width="100%">
             </table>
         </div>
     </div>

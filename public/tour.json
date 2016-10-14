@@ -36,7 +36,7 @@
     {
       "selector":"#insurance-header-item",
       "title":"4th Step",
-      "content":"Click on Insurance thumbnail and upload your insurance contract",
+      "content":"Click on Insurance thumbnail and upload your insurance contract (if you have one.)",
       "width":"400px",
       "placement":"bottom",
       "step":"4"

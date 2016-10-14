@@ -21,6 +21,7 @@ class CreateExpensesTable extends Migration
             $table->integer('fiscal_tax_periods_id')->index('fk_fiscal_tax_periods_fiscal_tax_periods_idx');
             $table->integer('banking_account_id')->index('fk_expenses_banking_account_id')->nullable(); //Banking account
             $table->integer('loan_id')->index('fk_expenses_loan_id')->nullable(); //Credit card
+            $table->integer('expense_subtype_id')->index('fk_expenses_expense_subtype_id')->nullable(); //Recurring expense, non recurring expense, non expense
             $table->date('date');
             $table->decimal('value',32,2);
             $table->string('description',128);

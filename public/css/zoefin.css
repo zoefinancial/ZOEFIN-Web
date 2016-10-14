@@ -73,3 +73,7 @@ a#taxes-header-item{
 a#insurance-header-item{
     background-color: rgba(255,155,155,0.1);
 }
+
+table.dataTable td, table.dataTable th{
+    vertical-align: top;
+}

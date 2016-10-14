@@ -3,27 +3,47 @@
         <script>
         var $dd_{{ str_replace('-','_',str_slug($selectColumn)) }} = $("#contextMenu_{{ str_replace('-','_',str_slug($selectColumn)) }}");
 
-        $('.actionButton_{{ str_replace('-','_',str_slug($selectColumn)) }}').on('click',function() {
+        //$('.actionButton_{{ str_replace('-','_',str_slug($selectColumn)) }}').click(function() {
+        $(document).on('click', '.actionButton_{{ str_replace('-','_',str_slug($selectColumn)) }}', function () {
 
             //get row ID
-            //var id = $(this).closest("tr").children().first().html();
+            var row = $("#transactionTable").DataTable().row($(this).closest("tr")[0]);
+            var id=row.data()[0];
 
             //move dropdown menu
             $(this).after($dd_{{ str_replace('-','_',str_slug($selectColumn)) }});
 
             //update links
-            //$dd_{{ str_replace('-','_',str_slug($selectColumn)) }}.find(".payLink").attr("href", "/transaction/pay?id="+id);
-            //$dd_{{ str_replace('-','_',str_slug($selectColumn)) }}.find(".delLink").attr("href", "/transaction/delete?id="+id);
+            @foreach($configuration['options'] as $option)
+                $dd_{{ str_replace('-','_',str_slug($selectColumn)) }}.find(".{{ str_replace('-','_',str_slug($option->description)).'_'.$option->id }}").on('click', changeAjax('{{ $configuration['url'] }}',id,'{{ $selectColumn }}',{{ $option->id }}));
+            @endforeach
 
             //show dropdown
             $(this).dropdown();
         });
+        function changeAjax(url,id,column,value){
+            try{
+                $.ajax({
+                    url: url,
+                    method: "post",
+                    data: [{'_token':'{{ csrf_token() }}'}]
+                }).then(function(ajaxData) {
+                    alert(ajaxData);
+                }).fail(function(response){
+                    alert(response.responseText);
+                })
+            }catch(e){
+                alert(e.message);
+            }
+
+        }
         </script>
     @endpush
     @push('modals')
-    <ul id="contextMenu_{{ str_replace('-','_',str_slug($selectColumn)) }}" class="dropdown-menu" role="menu" >
-        <li><a tabindex="-1" href="#" class="payLink">Pay</a></li>
-        <li><a tabindex="-1" href="#" class="delLink">Delete</a></li>
+    <ul id="contextMenu_{{ str_replace('-','_',str_slug($selectColumn)) }}" class="dropdown-menu" role="menu" style="position:relative;">
+        @foreach($configuration['options'] as $option)
+            <li><a tabindex="-1" href="#" class="{{ str_replace('-','_',str_slug($option->description)).'_'.$option->id }}">{{ $option->description }}</a></li>
+        @endforeach
     </ul>
     @endpush
 @endforeach
@@ -35,6 +55,12 @@
             url: url
         }).then(function(ajaxData) {
             $("#{{ $canvas_id }}_loading").get(0).className ="fa fa-spinner fa-pulse fa-fw";
+
+            if ( $.fn.dataTable.isDataTable("#{{ $canvas_id }}") ) {
+                var table = $("#{{ $canvas_id }}").DataTable();
+                table.destroy();
+            }
+
 
             var row_object;
 
@@ -63,24 +89,11 @@
             ];
             var slugColumnsName = [];
 
-
-
-
-
-
             @foreach($selectColumns as $selectColumn => $configuration)
                 selectColumns.push('{{ $selectColumn }}');
                 slugColumnsName['{{ $selectColumn }}']='{{ str_replace('-','_',str_slug($selectColumn)) }}'
                 options=new Array();
-                @foreach($configuration['options'] as $option)
-                        var optionDetails = new Array();
-                        optionDetails['description']='{{ $option->description }}';
-                        optionDetails['id']='{{ $option->id }}';
-                        optionDetails['urlEncode']='{{ hash('ripemd160',$configuration['url']) }}';
-                        options.push(optionDetails);
-                @endforeach
                 selectColumnsOptions['{{ $selectColumn }}']=options;
-
             @endforeach
 
             var nw='';
@@ -88,7 +101,6 @@
             var sc_close='';
             var td_class;
             var dropdown;
-            var colDefs=[];
             var hiddenColIndex=[];
 
 
@@ -114,11 +126,6 @@
                         //sc_close='<span class="caret"></span> </a>';
                         sc_open='<a class="btn btn-default actionButton_'+slugColumnsName[col]+'" data-toggle="dropdown" href="#">';
                         sc_close=' </a>';
-                        /*dropdown='<ul class="dropdown-menu">';
-                        for(var option in selectColumnsOptions[col]){
-                            dropdown+='<li><a href="#" onclick="sendForm_'+selectColumnsOptions[col]['urlEncode']+'("'+row['id']+'_'+col+'","'+row['id']+'_'+col+'","'+selectColumnsOptions[col][option]['id']+'")">'+selectColumnsOptions[col][option]['description']+'</a></li>';
-                        }
-                        dropdown+='</ul></div><form id="'+row_object['id']+'_'+col+'"><input type="hidden" name="id" value="'+row['id']+'"><input type="hidden" id="'+row['id']+'_'+col+'" name="'+col+'" value=""></form>';*/
                     }else{
                         sc_open='';
                         sc_close='';
@@ -162,15 +169,15 @@
             }
             if(total){
                 newLine='';
-                for(var col in totals){
-                    if(typeof col != "function"){
-                        if(isNaN(totals[col])){
+                for(var colTotal in totals){
+                    if(typeof colTotal != "function"){
+                        if(isNaN(totals[colTotal])){
                             newLine+='<td><b>TOTAL</b></td>';
                         }else{
-                            if(moneyFormat.contains(col)){
-                                newLine+='<td title="$'+tableMoneyFormat(totals[col],0)+'"><b>'+humanReadableMoney(totals[col])+'</b></td>';
+                            if(moneyFormat.contains(colTotal)){
+                                newLine+='<td title="$'+tableMoneyFormat(totals[colTotal],0)+'"><b>'+humanReadableMoney(totals[colTotal])+'</b></td>';
                             }else{
-                                newLine+='<td><b>'+totals[col]+'</b></td>';
+                                newLine+='<td><b>'+totals[colTotal]+'</b></td>';
                             }
                         }
                     }
@@ -178,26 +185,21 @@
                 $("#{{ $canvas_id }}").append('<tfoot><tr>'+newLine+'</tr></tfoot>');
             }
 
-            {{--$("#{{ $canvas_id }}")
-                    .tablesorter({widthFixed: true, widgets: ['zebra']})
-                    .tablesorterPager({container: $("#pager_{{ $canvas_id }}")});--}}
 
-
-            colDefs.push(
-                {
-
-                }
-            );
 
             $("#{{ $canvas_id }}").DataTable({
-                "searching": {{ $searching or 'false' }},
-                "paging": {{ $paging or 'false' }},
-                "info": {{ $info or 'false'}},
-                "columnDefs": [{"targets":  hiddenColIndex ,
-                "visible": false,
-                "searchable": false}],
+                "searching":{{ $searching or 'false' }},
+                "paging":{{ $paging or 'false' }},
+                "info":{{ $info or 'false'}},
+                retrieve: true,
+                "columnDefs": [
+                    {
+                        "targets":  hiddenColIndex ,
+                        "visible": false,
+                        "searchable": false,
+                    }
+                ]
             });
-
             $("#{{ $canvas_id }}_loading").get(0).className = "hidden";
         });
     }

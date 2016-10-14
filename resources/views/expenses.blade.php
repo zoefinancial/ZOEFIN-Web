@@ -34,15 +34,34 @@
 
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#home">Expenses time line by category</a></li>
+            <li class="active"><a data-toggle="tab" href="#menu4">Transactions</a></li>
+            <li><a data-toggle="tab" href="#home">Expenses time line by category</a></li>
             <li><a data-toggle="tab" href="#menu1">Expenses time line by account</a></li>
             <li><a data-toggle="tab" href="#menu2">Expenses by category</a></li>
             <li><a data-toggle="tab" href="#menu3">Expenses by account</a></li>
-            <li><a data-toggle="tab" href="#menu4">Transactions</a></li>
+
         </ul>
         <div class="row">
             <div class="tab-content">
-                <div id="home" class="tab-pane fade in active">
+                <div id="menu4" class="tab-pane fade in active">
+                    <div class="col-lg-12">
+                        @php
+                            $expenseTypes = \App\ExpenseType::select('id','description')->get();
+                            $expenseSubtypes = \App\ExpenseSubtype::select('id','description')->get();
+                        @endphp
+                        @include('tables.table',['box_title'=>'Transactions',
+                            'url'=>'/api/budgeting/expenses/',
+                            'canvas_id'=>'transactionTable',
+                            'total'=>'false',
+                            'nowrap'=>['Date','Account type'],
+                            'hiddenColumns'=>['id'],
+                            'selectColumns'=>[
+                                'Expense category'=>['options'=>$expenseTypes,'url'=>'/test/forms'],
+                                'Expense subtype'=>['options'=>$expenseSubtypes,'url'=>'/test/forms']
+                            ],/*'completeMoneyFormat'=>'Value',*/'overlay'=>'1','searching'=>'false','paging'=>'true','info'=>'true'])
+                    </div>
+                </div>
+                <div id="home" class="tab-pane fade">
                     <div class="col-lg-12">
                         <!-- Annual Expenses -->
                         @include('charts.bar_chart',['showTotal'=>'false','box_title'=>'Expenses time line by category','url'=>'/api/expenses/dates/','js'=>'charts.js.stackable_bar_chart_js','canvas_id'=>'ExpensesOverTime','overlay'=>'1'])
@@ -62,24 +81,6 @@
                 <div id="menu3" class="tab-pane fade">
                     <div class="col-lg-12">
                         @include('charts.pie_chart',['box_title'=>'Expenses by account','url'=>'/api/expenses/accounts/','canvas_id'=>'ExpensesPieByAccounts','overlay'=>'1'])
-                    </div>
-                </div>
-                <div id="menu4" class="tab-pane fade">
-                    <div class="col-lg-12">
-                        @php
-                            $expenseTypes = \App\ExpenseType::select('id','description')->get();
-                            $expenseSubtypes = \App\ExpenseSubtype::select('id','description')->get();
-                        @endphp
-                        @include('tables.table',['box_title'=>'Transactions',
-                            'url'=>'/api/budgeting/expenses/',
-                            'canvas_id'=>'transactionTable',
-                            'total'=>'false',
-                            'nowrap'=>['Date','Account type'],
-                            'hiddenColumns'=>['id'],
-                            'selectColumns'=>[
-                                'Expense category'=>['options'=>$expenseTypes,'url'=>'/test/forms'],
-                                'Expense subtype'=>['options'=>$expenseSubtypes,'url'=>'/test/forms']
-                            ],/*'completeMoneyFormat'=>'Value',*/'overlay'=>'1','searching'=>'false','paging'=>'true','info'=>'true'])
                     </div>
                 </div>
             </div>
