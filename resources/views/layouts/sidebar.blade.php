@@ -195,6 +195,7 @@
                                     </div>
                                 </div>
                             </li>
+                            {{-- Banking Account--}}
                             <li>
                                 <div class="box box-primary collapsed-box box-solid bg-transparent">
                                     <div class="box-header">
@@ -223,7 +224,7 @@
                                                 <span id="d_b_{{ $i }}" class="label label-danger" title="Delete"><i class="fa fa-trash"></i></span>
                                             </span>
                                                 <div class="info-box-content">
-                                                    <span class="info-box-text" title="{{ $bankingAccount->number }}">Banking account</span>
+                                                    <span class="info-box-text" title="{{ $bankingAccount->name }}">Banking account</span>
                                                     <span class="info-box-number" title="${{ titleMoney($bankingAccount->current_balance) }}">${{ formatMoney($bankingAccount->current_balance) }}</span>
                                                     <div class="progress">
                                                         <div class="progress-bar" style="width: 100%" ></div>
@@ -241,6 +242,7 @@
                                     </div>
                                 </div>
                             </li>
+                            {{-- End --}}
                             {{-- Investments--}}
                             <li>
                                 <div class="box box-primary collapsed-box box-solid bg-transparent">
@@ -291,6 +293,8 @@
                         {{-- End --}}
                         </ul>
                     </li>
+                    {{-- End Assets--}}
+                    {{-- Liabilities --}}
                     <li class="unstyled-list"><a title="What i owe">Liabilities</a>
                         <ul class="">
                             @foreach(\App\LoanType::all() as $loanType)
@@ -374,7 +378,7 @@
                                                 <span id="d_l_{{ $i }}" class="label label-danger" title="Delete"><i class="fa fa-trash"></i></span>
                                                 </span>
                                                     <div class="info-box-content">
-                                                        <span class="info-box-text" title="{{$loan->number}}">{{$loanType->description}}</span>
+                                                        <span class="info-box-text" title="{{$loan->name}}">{{$loanType->description}}</span>
                                                         <span class="info-box-number" title="${{ titleMoney($loan->amount) }}">${{ formatMoney($loan->amount) }}</span>
                                                         <div class="progress">
                                                             <div class="progress-bar" style="width: 100%" ></div>

@@ -22,12 +22,13 @@ class BankingAccountController extends Controller
 
     public function store(Request $request)
     {
+        //dd($request);
         $this->validate($request, [
             'banks_id'          => 'required',
             'account_types_id'  => 'required',
             'account_status_id' => 'required',
-            'name'            => 'required|max:4',
-            'current_balance'   => 'required|max:99999999999|numeric',
+            'name'              => 'required|max:4',
+            'current_balance'   => 'required|numeric',
         ]);
         try {
             $bankingAccount = new BankingAccount($request->all());

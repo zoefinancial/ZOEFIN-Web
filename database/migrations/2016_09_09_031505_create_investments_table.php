@@ -22,7 +22,7 @@ class CreateInvestmentsTable extends Migration {
             $table->integer('investment_companies_id')->index('fk_investments_investment_companies_idx');
             $table->integer('account_quovo_id')->nullable();
             $table->integer('quovo_id')->nullable();
-            $table->boolean('active')->nullable;
+            $table->boolean('active')->nullable();
             $table->string('employer', 255)->nullable();
             $table->string('name', 20)->nullable();
             $table->decimal('total_balance',16,4)->nullable();

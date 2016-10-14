@@ -101,10 +101,15 @@ class QuovoClientController extends Controller
     {
         $loanType = LoanType::firstOrCreate(['description' => $portfolio->portfolio_type]);
         $bank = self::getBank($portfolio);
-        $loan = Loan::firstOrCreate(['users_id'=>$user_id,
-            'number'        => $portfolio->portfolio_name,
+        $loan = Loan::firstOrCreate([
+            'users_id' => $user_id,
             'loan_types_id' => $loanType->id,
             'bank_id'       => $bank->id,
+            'name'          =>$portfolio->portfolio_name,
+            'account_quovo_id'  => $portfolio->account,
+            'quovo_id'          => $portfolio->id,
+            'active'            => !($portfolio->is_inactive),
+            'quovo_last_change' => $portfolio->last_change->timestamp,
         ]);
         return $loan;
     }
